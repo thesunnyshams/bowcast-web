@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rainbow forecast for Taipei: today's chance and best hour · Bowcast</title>
+  <meta name="description" content="Live rainbow probability for Taipei, Taiwan: today's chance, the best hour to look, and the 7-day outlook, computed from ensemble weather models." />
+  <link rel="canonical" href="https://bowcast.app/rainbow-forecast/taipei.html" />
+  <link rel="icon" href="../icon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../learn/learn.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"When do rainbows appear in Taipei?","acceptedAnswer":{"@type":"Answer","text":"Rainbows need sunlit rain with the sun lower than 42 degrees, so in Taipei the best windows are the hours after sunrise and before sunset on showery days. Around nine in ten rainbows appear in the hour right after rain stops."}},{"@type":"Question","name":"Where should I look for a rainbow in Taipei?","acceptedAnswer":{"@type":"Answer","text":"Always directly opposite the sun: put the sun at your back and look toward the retreating rain. In the evening that means looking east; in the morning, west."}},{"@type":"Question","name":"What is the rainbow chance in Taipei today?","acceptedAnswer":{"@type":"Answer","text":"Bowcast computes it live from ensemble weather models: about 40 forecast runs are checked for sunlit-rain conditions around Taipei, hour by hour, for the next 7 days. The live figure is on this page and on the map."}}]}</script>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-head">
+    <a class="site-brand" href="../">
+      <svg viewBox="0 0 26 20" aria-hidden="true"><path d="M3 16 A10 10 0 0 1 23 16" fill="none" stroke="#7a68d9" stroke-width="2.4" stroke-linecap="butt"/><path d="M6.5 16 A6.5 6.5 0 0 1 19.5 16" fill="none" stroke="#2f9e8f" stroke-width="2.4" stroke-linecap="butt"/><path d="M10 16 A3 3 0 0 1 16 16" fill="none" stroke="#dd9f2e" stroke-width="2.4" stroke-linecap="butt"/><line x1="1" y1="16" x2="25" y2="16" stroke="#232a35" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Bowcast
+    </a>
+    <nav class="site-nav">
+      <a href="../now/">Now</a>
+      <a class="cta" href="../map/">Live map</a>
+    </nav>
+  </header>
+
+  <h1>Rainbow forecast for Taipei</h1>
+  <p class="lede">Taipei, Taiwan: live rainbow odds for today, the best hour to look up, and the week ahead.</p>
+
+  <div class="live" id="live">
+    <div class="live-now"><span class="live-num" id="live-num">…</span><span class="live-word" id="live-word"></span></div>
+    <p class="live-sub" id="live-sub">Checking about 40 forecast models for sunlit rain near Taipei…</p>
+    <p class="live-geo" id="live-geo" hidden></p>
+    <div class="live-week" id="live-week"></div>
+    <a class="live-cta" href="../map/?lat=25.03&lon=121.57&label=Taipei">Open the live map for Taipei</a>
+  </div>
+
+  <h2>Rainbow weather in Taipei</h2>
+  <p>Taipei runs on convective rhythm: heat builds cumulus through the day, showers collapse out of them, and the sun returns fast. That quick alternation of downpour and sunshine, especially in the wet season, produces frequent late-afternoon bows once the sun drops below 42 degrees.</p>
+  <p>Wherever you are, the rules are the same: a rainbow forms opposite the sun, only while the sun is less than 42 degrees above the horizon, and most often in the minutes after a shower moves through. The gauge above runs those rules against live ensemble forecasts for the 12 km around Taipei.</p>
+
+  <h2>Rainbow questions, answered</h2>
+  <dl class="faq">
+    <dt>When do rainbows appear in Taipei?</dt>
+    <dd>Rainbows need sunlit rain with the sun lower than 42 degrees, so in Taipei the best windows are the hours after sunrise and before sunset on showery days. Around nine in ten rainbows appear in the hour right after rain stops.</dd>
+    <dt>Where should I look for a rainbow in Taipei?</dt>
+    <dd>Always directly opposite the sun: put the sun at your back and look toward the retreating rain. In the evening that means looking east; in the morning, west.</dd>
+    <dt>What is the rainbow chance in Taipei today?</dt>
+    <dd>Bowcast computes it live from ensemble weather models: about 40 forecast runs are checked for sunlit-rain conditions around Taipei, hour by hour, for the next 7 days. The live figure is on this page and on the map.</dd>
+  </dl>
+
+  <h2>More rainbow forecasts</h2>
+  <ul class="linkgrid">
+    <li><a href="san-jose-cr.html">San José <span class="sub">Costa Rica</span></a></li>
+    <li><a href="munich.html">Munich <span class="sub">Germany</span></a></li>
+    <li><a href="san-francisco.html">San Francisco <span class="sub">United States</span></a></li>
+    <li><a href="san-juan.html">San Juan <span class="sub">United States</span></a></li>
+    <li><a href="glasgow.html">Glasgow <span class="sub">United Kingdom</span></a></li>
+    <li><a href="stavanger.html">Stavanger <span class="sub">Norway</span></a></li>
+  </ul>
+  <footer class="foot">
+    <a href="../map/">Bowcast live map</a> · <a href="../science/">The science</a> · <a href="index.html">All cities</a> · <a href="../privacy.html">Privacy</a>
+  </footer>
+</div>
+
+<script type="module">
+  import { computeLikelihood } from '../core/likelihood.js';
+  import { pointsAround } from '../core/points.js';
+  const WORD = { none: 'unlikely', low: 'slim', moderate: 'fair', good: 'good', high: 'strong' };
+  try {
+    const data = await computeLikelihood(pointsAround(25.03, 121.57));
+    const best = data.locations.reduce((a, b) => ((b.probability ?? b.score) > (a.probability ?? a.score) ? b : a));
+    const val = best.probability ?? best.score;
+    const num = document.getElementById('live-num');
+    num.textContent = best.probability != null ? best.probability + '%' : String(best.score);
+    num.className = 'live-num lv-' + best.level;
+    const word = document.getElementById('live-word');
+    word.textContent = WORD[best.level] || best.level;
+    word.className = 'live-word lv-' + best.level;
+    // The reason already leads with "Best around 6 PM:", and the trailing
+    // "(score N/100)" would repeat the headline number right above it.
+    document.getElementById('live-sub').textContent =
+      (best.reason || '').replace(/\s*\(score \d+\/100\)\.?$/, '.');
+    if (best.bow) {
+      const geo = document.getElementById('live-geo');
+      geo.textContent = 'Look ' + best.bow.look
+        + ' · sun ' + best.bow.sunElevation + '° above the horizon'
+        + (best.bow.window ? ' · best ' + best.bow.window : '');
+      geo.hidden = false;
+    }
+    document.getElementById('live-week').innerHTML = best.days.map((d, i) =>
+      '<div class="live-day"><span>' + (i === 0 ? 'Today' : d.weekday) + '</span><b class="lv-' + d.level + '">' +
+      (d.probability != null ? d.probability + '%' : d.score) + '</b></div>').join('');
+  } catch (err) {
+    document.getElementById('live-sub').textContent = 'Live odds are loading slowly. Open the live map for the current forecast.';
+    console.warn(err);
+  }
+</script>
+</body>
+</html>

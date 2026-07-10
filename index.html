@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bowcast: the odds of a rainbow, anywhere on Earth</title>
+  <meta name="description" content="Bowcast reads live ensemble weather through the optics of how rainbows form and gives the hourly chance of seeing one around you, or shows where on Earth a rainbow is most likely right now." />
+  <meta property="og:title" content="Bowcast: a forecast for rainbows" />
+  <meta property="og:description" content="The hourly odds of a rainbow, anywhere on Earth, grounded in atmospheric optics." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://bowcast.app/icons/icon-512.webp" />
+  <meta name="theme-color" content="#f5f2ea" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="landing.css" />
+</head>
+<body>
+  <header class="lp-head">
+    <a class="brand" href="./" aria-label="Bowcast home">
+      <svg viewBox="0 0 26 20" aria-hidden="true"><path d="M3 16 A10 10 0 0 1 23 16" fill="none" stroke="#7a68d9" stroke-width="2.4" stroke-linecap="butt"/><path d="M6.5 16 A6.5 6.5 0 0 1 19.5 16" fill="none" stroke="#2f9e8f" stroke-width="2.4" stroke-linecap="butt"/><path d="M10 16 A3 3 0 0 1 16 16" fill="none" stroke="#dd9f2e" stroke-width="2.4" stroke-linecap="butt"/><line x1="1" y1="16" x2="25" y2="16" stroke="#232a35" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span>Bowcast</span>
+    </a>
+    <nav class="lp-nav">
+      <a href="map/">Map</a>
+      <a href="now/">Now</a>
+      <a href="science/">The science</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Worldwide rainbow forecast</p>
+        <h1>The odds of a <span class="spectral">rainbow</span>, anywhere on Earth, hour by hour.</h1>
+        <p class="lede">Bowcast reads ensemble weather through the physics-lens of how rainbows form, then it tells you the chances of seeing one around you & where on the planet there is a rainbow this very hour.</p>
+        <div class="hero-cta">
+          <a class="btn-primary" href="map/">Open the map <span aria-hidden="true">&rarr;</span></a>
+          <a class="btn-ghost" href="now/">Rainbows right now <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 420 232" class="bowgauge" role="img" aria-label="A rainbow arc rising over a horizon, the Bowcast mark.">
+          <path d="M52 210 A158 158 0 0 1 368 210" fill="none" stroke="#7a68d9" stroke-width="14" stroke-linecap="butt"/>
+          <path d="M78 210 A132 132 0 0 1 342 210" fill="none" stroke="#2f9e8f" stroke-width="14" stroke-linecap="butt"/>
+          <path d="M104 210 A106 106 0 0 1 316 210" fill="none" stroke="#dd9f2e" stroke-width="14" stroke-linecap="butt"/>
+          <line x1="24" y1="210" x2="396" y2="210" stroke="#232a35" stroke-width="3.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ONE BREATH -> SCIENCE -->
+    <section class="breath">
+      <div class="breath-inner">
+        <p class="breath-lead">A rainbow is geometry, physics, and meteorology.</p>
+        <p>Geometry fixes the rainbow at 42 degrees from the point opposite the sun. Weather then decides if sunlit rain is sitting on that patch of sky. Bowcast pulls this data through live ensemble forecasts from Open-Meteo and turns them into a probability through a Monte Carlo over forty members. Each threshold is drawn from published atmospheric-optics research: <a href="https://www.sciencedirect.com/science/article/pii/S095937802200142X" target="_blank" rel="noopener">Carlson et al. (2022)</a>, <a href="https://doi.org/10.1002/met.2131" target="_blank" rel="noopener">Liu et al. (2023)</a>, and <a href="https://doi.org/10.1175/BAMS-D-20-0101.1" target="_blank" rel="noopener">Businger (2021)</a>.</p>
+        <a class="link-arrow" href="science/">Read the physics, with the equations <span aria-hidden="true">&rarr;</span></a>
+      </div>
+    </section>
+
+    <!-- TWO SURFACES -->
+    <section class="surfaces">
+      <article class="surface">
+        <p class="surface-k">01</p>
+        <h2>Your sky</h2>
+        <p>The live map centres on you and scores the places on land around you where someone could actually be.</p>
+        <a class="link-arrow" href="map/">Open the map <span aria-hidden="true">&rarr;</span></a>
+      </article>
+      <article class="surface">
+        <p class="surface-k">02</p>
+        <h2>The whole planet</h2>
+        <p>Every one of the world's rainbow capitals is ranked by this hour's odds, with a live webcam pointed at the sky, showing weather where a rainbow is most likely right now.</p>
+        <a class="link-arrow" href="now/">See rainbows now <span aria-hidden="true">&rarr;</span></a>
+      </article>
+    </section>
+
+    <!-- CLOSING STRIP -->
+    <section class="closing">
+      <p>Your first-ever pocket forecast for the antisolar sky.</p>
+      <a class="btn-primary" href="map/">Open the map <span aria-hidden="true">&rarr;</span></a>
+    </section>
+  </main>
+
+  <footer class="lp-foot">
+    <div class="foot-links">
+      <a href="map/">Map</a><a href="now/">Now</a><a href="science/">The science</a><a href="privacy.html">Privacy</a>
+    </div>
+    <p class="colophon">Built by Shams.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,171 @@
+/* Bowcast content pages: same field-almanac language as the app. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --font: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: "Instrument Serif", Georgia, serif;
+  --paper: #f5f2ea; --paper-2: #ece7db; --plaque: #fbf9f4; --line: #d8d2c4;
+  --ink: #232a35; --muted: #5d6675; --accent: #6f5bd6;
+  --violet: #7a68d9; --teal: #2f9e8f; --amber: #dd9f2e; --coral: #d95f52;
+  --shadow-sm: 0 1px 3px rgba(35, 42, 53, .12), 0 1px 2px rgba(35, 42, 53, .06);
+}
+
+body {
+  font-family: var(--font);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.65;
+}
+
+.wrap { max-width: 760px; margin: 0 auto; padding: 8px 22px 96px; }
+
+/* Site header */
+.site-head {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 22px 0 14px; margin-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+.site-head a { text-decoration: none; color: var(--ink); }
+.site-brand { font-family: var(--display); font-size: 1.3rem; display: flex; align-items: center; gap: 8px; }
+.site-brand svg { width: 24px; height: 18px; }
+.site-nav { margin-left: auto; display: flex; gap: 16px; font-size: 0.85rem; }
+.site-nav a { color: var(--muted); }
+.site-nav a:hover { color: var(--ink); }
+.cta {
+  color: var(--plaque) !important; background: var(--ink);
+  padding: 4px 12px; border-radius: 999px;
+}
+
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(2.3rem, 6vw, 3.1rem); line-height: 1.12; margin-bottom: 12px; }
+.lede { font-size: 1.25rem; color: var(--muted); margin-bottom: 36px; line-height: 1.5; }
+h2 { font-family: var(--display); font-weight: 400; font-size: 1.85rem; margin: 44px 0 12px; }
+h3 { font-size: 1.18rem; margin: 28px 0 8px; }
+p, li { font-size: 1.08rem; margin-bottom: 16px; }
+ul, ol { padding-left: 26px; margin-bottom: 16px; }
+li { margin-bottom: 8px; }
+a { color: var(--accent); }
+strong { font-weight: 600; }
+
+.note {
+  background: var(--plaque); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 18px; margin: 20px 0; font-size: 0.9rem;
+}
+
+.gear {
+  background: var(--plaque); border: 1px solid var(--line); border-radius: 12px;
+  padding: 16px 18px; margin: 20px 0;
+}
+.gear h3 { margin-top: 0; }
+.gear p:last-child, .gear ul:last-child { margin-bottom: 0; }
+
+/* Live widget on city pages */
+.live {
+  background: var(--plaque); border: 1px solid var(--line); border-radius: 14px;
+  padding: 20px; margin: 24px 0;
+}
+.live-now { display: flex; align-items: baseline; gap: 10px; }
+.live-num { font-family: var(--display); font-size: 3rem; line-height: 1; }
+.live-word { font-size: 0.8rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+.live-sub { color: var(--muted); font-size: 0.88rem; margin-top: 6px; }
+.live-geo { color: var(--ink); font-size: 0.88rem; font-weight: 500; margin-top: 4px; }
+.live-week { display: flex; gap: 4px; margin-top: 14px; }
+.live-day {
+  flex: 1; text-align: center; border-radius: 8px; padding: 6px 2px;
+  background: var(--paper-2); font-size: 0.7rem;
+}
+.live-day b { display: block; font-family: var(--display); font-weight: 400; font-size: 0.95rem; }
+.live-cta { display: inline-block; margin-top: 16px; background: var(--ink); color: var(--plaque); text-decoration: none; padding: 9px 18px; border-radius: 999px; font-size: 0.9rem; }
+.lv-none { color: #6f6a5e; } .lv-low { color: #5b48c2; } .lv-moderate { color: #22766b; }
+.lv-good { color: #9c6d10; } .lv-high { color: #b0392e; }
+
+/* FAQ */
+.faq dt { font-weight: 600; margin-top: 18px; }
+.faq dd { margin: 6px 0 0; color: var(--ink); }
+
+/* Link grids */
+.linkgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin: 22px 0; padding: 0; list-style: none; }
+.linkgrid li { margin: 0; }
+.linkgrid a {
+  display: block; background: var(--plaque); border: 1px solid var(--line);
+  border-radius: 14px; padding: 18px 20px; text-decoration: none;
+  color: var(--ink); font-size: 1.12rem; transition: border-color 0.15s, transform 0.15s;
+}
+.linkgrid a:hover { border-color: var(--accent); transform: translateY(-1px); }
+.linkgrid .sub { display: block; color: var(--muted); font-size: 0.9rem; margin-top: 4px; line-height: 1.4; }
+
+.foot {
+  margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line);
+  font-size: 0.8rem; color: var(--muted);
+}
+.foot a { color: var(--muted); }
+
+/* ── View switch (Map / Now segmented slider) ─────────── */
+.view-switch {
+  position: relative;
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--plaque);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.view-switch::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: calc(100% / 2);
+  background: var(--ink);
+  border-radius: 999px;
+  transition: transform 0.2s ease;
+  z-index: 0;
+}
+
+.view-switch[data-active="now"]::before {
+  transform: translateX(100%);
+}
+
+.view-switch .seg {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 0;
+  min-width: 56px;
+  text-align: center;
+  padding: 7px 13px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+.view-switch .seg:hover {
+  color: var(--ink);
+}
+
+.view-switch .seg:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 999px;
+}
+
+.view-switch .seg[aria-current="page"] {
+  color: var(--paper);
+  cursor: default;
+}
+
+.view-switch .seg[aria-current="page"]:hover {
+  color: var(--paper);
+}
+
+/* Smooth cross-fade when switching between the Learn pages and the map
+   (progressive enhancement: ignored where the View Transitions API is absent). */
+@view-transition {
+  navigation: auto;
+}

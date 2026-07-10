@@ -1,0 +1,114 @@
+/* Bowcast landing: the front door. Editorial, paper/ink, spectral used only as
+   accent. Deliberately not a hero + three identical cards. */
+
+:root {
+  --paper: #f5f2ea; --paper-2: #ece7db; --plaque: #fbf9f4; --line: #d8d2c4;
+  --line-soft: #e6e0d3; --ink: #232a35; --muted: #5d6675; --accent: #6f5bd6;
+  --red: #d1495b; --amber: #e0922e; --teal: #2f9e8f; --violet: #7a68d9;
+  --display: 'Instrument Serif', Georgia, serif;
+  --sans: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--sans); font-size: 1.12rem; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+a { color: inherit; }
+.eyebrow { font-family: var(--mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); margin: 0 0 18px; }
+.spectral {
+  background: linear-gradient(95deg, var(--red) 6%, var(--amber) 34%, var(--teal) 64%, var(--violet) 94%);
+  -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.lp-head {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 68rem; margin: 0 auto; padding: 22px 30px;
+}
+.brand { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; }
+.brand svg { width: 28px; height: 21px; }
+.brand span { font-family: var(--display); font-size: 1.6rem; color: var(--ink); }
+.lp-nav { display: flex; gap: 26px; }
+.lp-nav a { color: var(--muted); text-decoration: none; font-size: 1rem; font-weight: 500; transition: color 0.15s; }
+.lp-nav a:hover { color: var(--ink); }
+.lp-nav a:last-child { color: var(--accent); }
+
+/* ── Buttons + link arrows ──────────────────────────────── */
+.btn-primary, .btn-ghost { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; border-radius: 999px; transition: transform 0.15s, border-color 0.15s; }
+.btn-primary { background: var(--ink); color: var(--paper); padding: 14px 28px; font-size: 1.05rem; }
+.btn-primary:hover { transform: translateY(-2px); }
+.btn-ghost { color: var(--ink); border: 1px solid var(--line); padding: 13px 24px; font-size: 1.05rem; }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+.link-arrow { color: var(--accent); text-decoration: none; font-weight: 600; display: inline-block; }
+.link-arrow span { transition: transform 0.15s; display: inline-block; }
+.link-arrow:hover span { transform: translateX(4px); }
+
+/* ── Hero ───────────────────────────────────────────────── */
+.hero {
+  max-width: 68rem; margin: 0 auto; padding: 44px 30px 72px;
+  display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: center;
+}
+.hero h1 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(2.6rem, 5.4vw, 4.3rem); line-height: 1.02; letter-spacing: -0.01em;
+  margin: 0 0 24px;
+}
+.hero .lede { font-size: 1.28rem; line-height: 1.5; color: var(--ink); margin: 0 0 32px; max-width: 34rem; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 14px; }
+.hero-art { display: flex; justify-content: center; }
+.bowgauge { width: 100%; max-width: 420px; height: auto; }
+
+/* ── Breath (science hook) ──────────────────────────────── */
+.breath { background: var(--paper-2); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+.breath-inner { max-width: 46rem; margin: 0 auto; padding: 64px 30px; }
+.breath-lead { font-family: var(--display); font-size: clamp(1.8rem, 3.6vw, 2.5rem); line-height: 1.14; margin: 0 0 18px; }
+.breath p { color: var(--muted); font-size: 1.14rem; margin: 0 0 22px; }
+.breath .link-arrow { font-size: 1.12rem; }
+
+/* ── Two surfaces (columns, not cards) ──────────────────── */
+.surfaces {
+  max-width: 58rem; margin: 0 auto; padding: 80px 30px;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 0;
+}
+.surface { padding: 4px 48px; border-left: 1px solid var(--line); }
+.surface:first-child { border-left: 0; padding-left: 0; }
+.surface-k { font-family: var(--mono); font-size: 0.82rem; color: var(--red); letter-spacing: 0.1em; margin: 0 0 14px; }
+.surface h2 { font-family: var(--display); font-weight: 400; font-size: 1.85rem; margin: 0 0 12px; line-height: 1.1; }
+.surface p { color: var(--muted); font-size: 1.04rem; margin: 0 0 18px; }
+
+/* ── Closing ────────────────────────────────────────────── */
+.closing {
+  max-width: 68rem; margin: 0 auto; padding: 40px 30px 90px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+}
+.closing p { font-family: var(--display); font-size: clamp(1.6rem, 3.2vw, 2.2rem); margin: 0; max-width: 30rem; }
+
+/* ── Footer ─────────────────────────────────────────────── */
+.lp-foot { border-top: 1px solid var(--line-soft); }
+.foot-links { max-width: 68rem; margin: 0 auto; padding: 30px 30px 6px; display: flex; flex-wrap: wrap; gap: 22px; }
+.foot-links a { color: var(--muted); text-decoration: none; font-size: 0.98rem; }
+.foot-links a:hover { color: var(--ink); }
+.colophon { max-width: 68rem; margin: 0 auto; padding: 0 30px 40px; color: var(--muted); font-size: 0.92rem; }
+
+@media (max-width: 820px) {
+  .hero { grid-template-columns: 1fr; gap: 30px; padding-top: 24px; }
+  .hero-art { order: -1; }
+  .bowgauge { max-width: 340px; }
+  .surfaces { grid-template-columns: 1fr; gap: 0; padding: 56px 30px; }
+  .surface { border-left: 0; border-top: 1px solid var(--line); padding: 26px 0; }
+  .surface:first-child { border-top: 0; padding-top: 0; }
+}
+@media (max-width: 520px) {
+  body { font-size: 1.06rem; }
+  .lp-head { padding: 18px 20px; }
+  .lp-nav { gap: 16px; }
+  .lp-nav a { font-size: 0.92rem; }
+  .hero { padding: 20px 20px 56px; }
+  .breath-inner { padding: 48px 20px; }
+  .surfaces, .closing { padding-left: 20px; padding-right: 20px; }
+  .foot-links, .colophon { padding-left: 20px; padding-right: 20px; }
+}

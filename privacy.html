@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5f2ea" />
+  <title>Privacy · Bowcast</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Instrument Sans", system-ui, sans-serif;
+      background: #f5f2ea;
+      color: #232a35;
+      line-height: 1.6;
+      padding: 48px 20px 80px;
+    }
+    main { max-width: 620px; margin: 0 auto; }
+    h1 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-weight: 400;
+      font-size: 2.2rem;
+      margin-bottom: 4px;
+    }
+    .updated { color: #5d6675; font-size: 0.85rem; margin-bottom: 32px; }
+    h2 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-weight: 400;
+      font-size: 1.35rem;
+      margin: 28px 0 8px;
+    }
+    p, li { font-size: 0.95rem; color: #232a35; }
+    ul { padding-left: 22px; margin: 8px 0; }
+    a { color: #5b48c2; }
+    .rule { border: none; border-top: 1px solid #d8d2c4; margin: 32px 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Bowcast privacy policy</h1>
+    <p class="updated">Effective July 5, 2026</p>
+
+    <p>Bowcast forecasts the chance of seeing a rainbow around you. It is built
+    to know as little about you as possible.</p>
+
+    <h2>Location</h2>
+    <p>Bowcast uses your approximate location to compute rainbow chances for
+    the area around you. Forecasts are computed on your device: your location
+    is sent only to the weather data provider (Open-Meteo) as forecast
+    coordinates, never with your name or any account identifier. If you deny
+    location access, you can search for a place instead, and only that place's
+    coordinates are used.</p>
+
+    <h2>Rainbow alerts</h2>
+    <p>If you turn on alerts, we store two things on our server: your device's
+    push token and the coordinates you registered with, so we can send alerts
+    for your area. Turning alerts off deletes the token from our server. We
+    send alerts through Google Firebase Cloud Messaging and Apple Push
+    Notification service, which process the delivery.</p>
+
+    <h2>What we do not do</h2>
+    <ul>
+      <li>No accounts, no names, no email addresses.</li>
+      <li>No analytics or tracking SDKs.</li>
+      <li>No sale or sharing of personal data with anyone.</li>
+    </ul>
+
+    <h2>Service providers</h2>
+    <ul>
+      <li><a href="https://open-meteo.com/">Open-Meteo</a>: weather forecast data (receives forecast coordinates).</li>
+      <li><a href="https://carto.com/">CARTO</a> and <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>: map imagery.</li>
+      <li>Google Firebase / Apple APNs: push notification delivery (only if alerts are on).</li>
+    </ul>
+
+    <h2>Advertising</h2>
+    <p>Bowcast currently shows no ads. If ads are added to a future version,
+    this policy will be updated first and the app will ask for any consent the
+    law requires.</p>
+
+    <h2>Data deletion and contact</h2>
+    <p>Turning off alerts removes your push registration. Everything else
+    lives only on your device and is deleted when you remove the app. For any
+    request or question, contact <a href="mailto:i@shamseddin.net">i@shamseddin.net</a>.</p>
+
+    <hr class="rule" />
+    <p><a href="./">Back to Bowcast</a></p>
+  </main>
+</body>
+</html>

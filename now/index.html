@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rainbows right now · Bowcast</title>
+  <meta name="description" content="Where a rainbow is most likely on Earth this hour: live radar and satellite flag bows probably up right now, over forecast odds ranked across the world's rainbow capitals." />
+  <meta property="og:title" content="Rainbows right now · Bowcast" />
+  <meta property="og:description" content="Where on Earth is a rainbow most likely this very hour? Live, ranked." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="../icon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../learn/learn.css" />
+  <style>
+    .now-head-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    #now-updated { font-size: 0.82rem; color: var(--muted); white-space: nowrap; }
+    #now-status {
+      background: var(--plaque); border: 1px solid var(--line); border-radius: 14px;
+      padding: 18px 20px; margin: 20px 0; font-size: 1.02rem; color: var(--muted);
+    }
+    #now-status.error { color: var(--coral); }
+    #now-status[hidden] { display: none; }
+
+    /* Hot-right-now hero */
+    #hot { margin: 8px 0 32px; display: grid; gap: 14px; }
+    #hot[hidden] { display: none; }
+    .hot-card {
+      border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
+      background: var(--plaque); box-shadow: 0 6px 22px rgba(35,42,53,.10);
+    }
+    .hot-cam { position: relative; aspect-ratio: 16 / 9; background: var(--paper-2); }
+    .hot-cam iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .hot-cam-none { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--muted); font-size: 0.9rem; text-align: center; padding: 20px; }
+    .hot-body { padding: 16px 20px 18px; }
+    .hot-eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 600; color: var(--muted); }
+    .hot-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+    .hot-name { font-family: var(--display); font-size: 1.9rem; line-height: 1.1; }
+    .hot-num { font-family: var(--display); font-size: 2.1rem; line-height: 1; }
+    .hot-word { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; }
+    .hot-meta { color: var(--muted); font-size: 0.92rem; margin-top: 6px; }
+    .hot-cam-credit { font-size: 0.72rem; color: var(--muted); padding: 6px 20px 0; }
+    .hot-links { margin-top: 12px; display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.9rem; }
+
+    /* Happening-now board: radar + satellite say a bow is probably up this minute */
+    #happening { margin: 4px 0 30px; display: grid; gap: 12px; }
+    #happening[hidden] { display: none; }
+    .live-card {
+      border: 1px solid var(--line); border-left: 4px solid var(--teal);
+      border-radius: 16px; background: var(--plaque); padding: 15px 20px;
+      box-shadow: 0 6px 22px rgba(35,42,53,.10);
+    }
+    .live-card.tier-confirmed { border-left-color: var(--coral); }
+    .live-eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 600; color: var(--teal); }
+    .live-card.tier-confirmed .live-eyebrow { color: var(--coral); }
+    .live-title { font-family: var(--display); font-size: 1.7rem; line-height: 1.1; margin: 3px 0 6px; }
+    .live-detail { color: var(--ink); font-size: 0.98rem; }
+    .live-detail b { font-weight: 600; }
+    .live-links { margin-top: 10px; display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.9rem; }
+
+    /* Ranked list */
+    .now-section-label { font-family: var(--display); font-size: 1.5rem; margin: 8px 0 4px; }
+    #now-list { list-style: none; padding: 0; margin: 8px 0 0; }
+    .now-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 13px 6px; border-bottom: 1px solid var(--line); text-decoration: none; color: var(--ink);
+      transition: background 0.12s;
+    }
+    .now-row:hover { background: var(--plaque); }
+    .now-rank { font-family: var(--display); font-size: 1.1rem; color: var(--muted); width: 26px; text-align: right; flex-shrink: 0; }
+    .now-city { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .now-name { font-weight: 600; font-size: 1.06rem; }
+    .now-sub { color: var(--muted); font-size: 0.85rem; margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .now-right { text-align: right; flex-shrink: 0; min-width: 92px; }
+    .now-num { font-family: var(--display); font-size: 1.5rem; line-height: 1; }
+    .now-word { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-top: 2px; }
+    .now-bar { height: 5px; background: var(--paper-2); border-radius: 3px; margin-top: 6px; overflow: hidden; }
+    .now-bar > span { display: block; height: 100%; border-radius: 3px; }
+    .now-peak { color: var(--muted); font-size: 0.8rem; margin-top: 3px; }
+
+    /* Level colors */
+    .lv-high    { color: var(--coral); }   .bg-high    { background: var(--coral); }
+    .lv-good    { color: var(--amber); }    .bg-good    { background: var(--amber); }
+    .lv-moderate{ color: var(--teal); }     .bg-moderate{ background: var(--teal); }
+    .lv-low     { color: var(--violet); }   .bg-low     { background: var(--violet); }
+    .lv-none    { color: var(--muted); }    .bg-none    { background: var(--muted); }
+
+    .now-daynight { font-size: 0.8rem; }
+    @media (max-width: 480px) {
+      .hot-name { font-size: 1.6rem; }
+      .now-right { min-width: 76px; }
+      .now-num { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="site-brand" href="../">
+      <svg viewBox="0 0 26 20" aria-hidden="true"><path d="M3 16 A10 10 0 0 1 23 16" fill="none" stroke="#7a68d9" stroke-width="2.4" stroke-linecap="butt"/><path d="M6.5 16 A6.5 6.5 0 0 1 19.5 16" fill="none" stroke="#2f9e8f" stroke-width="2.4" stroke-linecap="butt"/><path d="M10 16 A3 3 0 0 1 16 16" fill="none" stroke="#dd9f2e" stroke-width="2.4" stroke-linecap="butt"/><line x1="1" y1="16" x2="25" y2="16" stroke="#232a35" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Bowcast
+    </a>
+    <nav class="view-switch" data-active="now" aria-label="Switch section">
+      <a class="seg" href="../map/">Map</a>
+      <a class="seg" aria-current="page" href="./">Now</a>
+    </nav>
+  </header>
+
+  <div class="now-head-row">
+    <h1>Rainbows right now</h1>
+    <span id="now-updated"></span>
+  </div>
+  <p class="lede">Where on Earth is a rainbow most likely this hour? When live radar and satellite data line up with the sun's geometry, a rainbow that is likely up, anywhere in the world, is flagged at the top. Forecast odds below rank <span id="city-count">66</span> of the world's rainbow capitals.</p>
+
+  <div id="now-status">Reading the sky over 66 cities…</div>
+
+  <section id="happening" hidden></section>
+
+  <section id="hot" hidden></section>
+
+  <div id="now-main" hidden>
+    <div class="now-section-label">Ranked by this hour</div>
+    <ol id="now-list"></ol>
+  </div>
+
+  <footer class="foot">
+    <a href="../map/">Bowcast live map</a> · <a href="../science/">The science</a> · <a href="../rainbow-forecast/">All cities</a> · <a href="../privacy.html">Privacy</a>
+  </footer>
+</div>
+<script type="module" src="now-page.js"></script>
+</body>
+</html>

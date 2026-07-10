@@ -1,0 +1,1097 @@
+/* ============================================================
+   Bowcast: styles.css
+   Field almanac meets light meter: warm paper, blue-black ink,
+   Instrument Serif numbers, spectral color only where it means
+   something (the bow gauges).
+   ============================================================ */
+
+/* ── Reset & tokens ───────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --font: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: "Instrument Serif", Georgia, "Times New Roman", serif;
+
+  /* Paper and ink */
+  --paper:   #f5f2ea;
+  --paper-2: #ece7db;
+  --plaque:  #fbf9f4;
+  --line:    #d8d2c4;
+  --ink:     #232a35;
+  --muted:   #5d6675;
+
+  /* Probability crescendo (fills) */
+  --color-none:     #a9a294;
+  --color-low:      #7a68d9;
+  --color-moderate: #2f9e8f;
+  --color-good:     #dd9f2e;
+  --color-high:     #d95f52;
+
+  /* Darker variants for small text on paper */
+  --text-none:     #6f6a5e;
+  --text-low:      #5b48c2;
+  --text-moderate: #22766b;
+  --text-good:     #9c6d10;
+  --text-high:     #b0392e;
+
+  --accent: #6f5bd6; /* "you / today" marker violet */
+
+  --header-height: 56px;
+  --header-offset: calc(var(--header-height) + env(safe-area-inset-top, 0px));
+
+  --shadow-sm: 0 1px 3px rgba(35, 42, 53, .12), 0 1px 2px rgba(35, 42, 53, .06);
+  --shadow-md: 0 6px 18px rgba(35, 42, 53, .16);
+  --radius: 12px;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--paper);
+  overflow: hidden;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+#app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: var(--header-offset);
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: env(safe-area-inset-top, 0px) 16px 0;
+}
+
+#header-left {
+  min-width: 0;
+  flex: 1;
+}
+
+#app-title {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.35rem;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.brand-home {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+  border-radius: 4px;
+}
+
+.brand-home:hover {
+  opacity: 0.72;
+}
+
+.brand-home:focus-visible {
+  outline: 2px solid #7a68d9;
+  outline-offset: 2px;
+}
+
+.brand-glyph {
+  width: 25px;
+  height: 19px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.brand-name {
+  line-height: 1;
+}
+
+.brand-tag {
+  font-family: var(--font);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-left: 2px;
+}
+
+#header-right {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+#updated-text {
+  font-size: 0.75rem;
+  color: var(--muted);
+  white-space: nowrap;
+  padding-right: 3px;
+}
+
+#refresh-btn,
+#locate-btn,
+#search-btn,
+#notify-btn {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  cursor: pointer;
+  color: var(--ink);
+  line-height: 1;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  min-width: 34px;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#refresh-btn:hover,
+#locate-btn:hover,
+#search-btn:hover,
+#notify-btn:hover {
+  background: var(--paper-2);
+}
+
+#refresh-btn:focus-visible,
+#locate-btn:focus-visible,
+#search-btn:focus-visible,
+#notify-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+#refresh-btn.spinning svg {
+  animation: spin 0.8s linear infinite;
+}
+
+.locate-fallback {
+  border-color: var(--color-good);
+  color: var(--text-good);
+}
+
+#notify-btn:disabled {
+  cursor: not-allowed;
+  opacity: .4;
+}
+
+#notify-btn.notify-off {
+  color: var(--muted);
+}
+
+#notify-btn.notify-on {
+  color: var(--text-moderate);
+  border-color: var(--color-moderate);
+  background: color-mix(in srgb, var(--color-moderate) 10%, var(--plaque));
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Error banner ─────────────────────────────────────────── */
+#error-banner {
+  position: fixed;
+  top: var(--header-offset);
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: #f4e3de;
+  border-bottom: 1px solid #ddb0a5;
+  color: #8c2f22;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+#error-banner[hidden] {
+  display: none;
+}
+
+#error-message {
+  flex: 1;
+}
+
+#error-retry-btn,
+#error-close-btn {
+  background: none;
+  border: 1px solid #ddb0a5;
+  border-radius: 7px;
+  padding: 3px 9px;
+  font-size: 0.78rem;
+  font-family: var(--font);
+  cursor: pointer;
+  color: #8c2f22;
+}
+
+#error-retry-btn:hover,
+#error-close-btn:hover {
+  background: #eed3cc;
+}
+
+/* ── Outlook banner ───────────────────────────────────────── */
+#outlook-banner {
+  position: fixed;
+  top: var(--header-offset);
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: #e8ecf3;
+  border-bottom: 1px solid #c7d0dd;
+  color: #2b3a52;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+#outlook-banner[hidden] {
+  display: none;
+}
+
+#outlook-text {
+  flex: 1;
+}
+
+#outlook-banner[role="button"]:hover {
+  background: #dde4ee;
+  cursor: pointer;
+}
+
+#outlook-banner[role="button"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* ── Map container ────────────────────────────────────────── */
+#map-container {
+  position: fixed;
+  top: var(--header-offset);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--paper-2);
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  background: var(--paper-2);
+}
+
+/* Leaflet chrome tuned to the paper theme */
+.leaflet-control-zoom a {
+  background: var(--plaque) !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: var(--paper-2) !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(245, 242, 234, .85) !important;
+  color: var(--muted) !important;
+  font-size: 0.6rem;
+}
+
+.leaflet-control-attribution a {
+  color: var(--muted) !important;
+}
+
+/* ── Loading overlay ──────────────────────────────────────── */
+#loading-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 500;
+  background: rgba(245, 242, 234, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+#loading-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#loading-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--line);
+  border-top-color: var(--color-good);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ── The bow gauge (map badges) ───────────────────────────── */
+.gauge {
+  position: relative;
+  width: 46px;
+  height: 42px;
+  cursor: pointer;
+  filter: drop-shadow(0 2px 4px rgba(35, 42, 53, .22));
+  transition: transform 0.15s;
+}
+
+.gauge:hover {
+  transform: scale(1.08);
+}
+
+.gauge-plaque {
+  fill: var(--plaque);
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.gauge-track {
+  fill: none;
+  stroke: #e6e1d3;
+  stroke-width: 3;
+  stroke-linecap: butt;
+}
+
+.gauge-arc {
+  fill: none;
+  stroke-width: 3.5;
+  stroke-linecap: butt;
+}
+
+.gauge-horizon {
+  stroke: var(--line);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.gauge-val {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 17px;
+  text-align: center;
+  font-family: var(--display);
+  font-size: 0.82rem;
+  color: var(--ink);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.gauge-pct {
+  font-size: 0.74rem;
+  letter-spacing: -0.01em;
+}
+
+.gauge-home .gauge-plaque {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.gauge-high .gauge-arc {
+  filter: drop-shadow(0 0 3px rgba(217, 95, 82, .55));
+}
+
+/* Expanded plan inside the popup: window, direction, sun height, terrain */
+.popup-geo {
+  margin: 8px 0 2px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 3px;
+}
+
+.geo-row {
+  display: flex;
+  gap: 8px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.geo-k {
+  flex: 0 0 82px;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  padding-top: 2px;
+}
+
+.geo-v {
+  color: var(--ink);
+  font-weight: 500;
+  min-width: 0;
+}
+
+.geo-sub {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* ── Popup ────────────────────────────────────────────────── */
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius);
+  background: var(--plaque);
+  color: var(--ink);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--line);
+  padding: 0;
+  overflow: hidden;
+}
+
+.leaflet-popup-tip {
+  background: var(--plaque);
+  border: 1px solid var(--line);
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--muted);
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  width: 280px !important;
+  font-family: var(--font);
+}
+
+.popup-inner {
+  padding: 14px 16px;
+}
+
+.popup-town {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  color: var(--muted);
+}
+
+.popup-score-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.popup-score-num {
+  font-family: var(--display);
+  font-size: 2.6rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.popup-level-word {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+
+/* Score text colors use the darker on-paper variants */
+.score-none     { color: var(--text-none); }
+.score-low      { color: var(--text-low); }
+.score-moderate { color: var(--text-moderate); }
+.score-good     { color: var(--text-good); }
+.score-high     { color: var(--text-high); }
+
+.popup-quality {
+  font-size: 0.74rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.popup-best-hour {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.popup-best-hour strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.popup-reason {
+  font-size: 0.78rem;
+  color: var(--ink);
+  opacity: 0.85;
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+/* ── Mini bar chart ───────────────────────────────────────── */
+.popup-chart-label {
+  font-size: 0.66rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  margin-bottom: 4px;
+}
+
+.popup-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 52px;
+  border-bottom: 1px solid var(--line); /* the horizon */
+}
+
+.chart-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.chart-bar {
+  width: 100%;
+  border-radius: 2px 2px 0 0;
+  min-height: 2px;
+  cursor: default;
+  transition: opacity 0.1s;
+}
+
+.chart-bar:hover {
+  opacity: 0.75;
+}
+
+.bar-none     { background: var(--color-none); }
+.bar-low      { background: var(--color-low); }
+.bar-moderate { background: var(--color-moderate); }
+.bar-good     { background: var(--color-good); }
+.bar-high     { background: var(--color-high); }
+.bar-stub     { background: #ddd6c6; }
+
+.chart-x-labels {
+  display: flex;
+  gap: 2px;
+  margin-top: 3px;
+}
+
+.chart-x-label {
+  flex: 1;
+  font-size: 0.58rem;
+  color: var(--muted);
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* ── 7-day chip strip ─────────────────────────────────────── */
+.day-strip {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 4px;
+}
+
+.day-chip {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  padding: 4px 1px 3px;
+  cursor: default;
+  min-width: 0;
+  border: 1px solid transparent;
+}
+
+.day-chip-label {
+  font-size: 0.53rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  line-height: 1.2;
+  opacity: 0.75;
+}
+
+.day-chip-val {
+  font-family: var(--display);
+  font-size: 0.78rem;
+  line-height: 1.15;
+}
+
+.day-chip.chip-today {
+  border-color: var(--accent);
+}
+
+.day-chip.chip-selected {
+  border-color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+/* Chip tints: paper mixed with each level color */
+.chip-none     { background: #ebe7dc; color: var(--text-none); }
+.chip-low      { background: #e8e3f7; color: var(--text-low); }
+.chip-moderate { background: #ddece8; color: var(--text-moderate); }
+.chip-good     { background: #f5ead1; color: var(--text-good); }
+.chip-high     { background: #f6ded9; color: var(--text-high); }
+
+/* ── Legend control ───────────────────────────────────────── */
+#legend {
+  background: var(--plaque);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 10px 14px;
+  font-family: var(--font);
+  font-size: 0.74rem;
+  min-width: 152px;
+}
+
+#legend h3 {
+  font-size: 0.64rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 5px;
+}
+
+.legend-row:last-child {
+  margin-bottom: 0;
+}
+
+/* Swatches echo the gauge: a small arc over a horizon */
+.legend-swatch {
+  width: 15px;
+  height: 10px;
+  flex-shrink: 0;
+  border-radius: 8px 8px 1px 1px;
+  border-bottom: 2px solid var(--line);
+}
+
+.swatch-none     { background: var(--color-none); }
+.swatch-low      { background: var(--color-low); }
+.swatch-moderate { background: var(--color-moderate); }
+.swatch-good     { background: var(--color-good); }
+.swatch-high     { background: var(--color-high); }
+
+.legend-text {
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+/* ── Day bar ──────────────────────────────────────────────── */
+#day-bar {
+  position: fixed;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 800;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  background: var(--plaque);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: var(--shadow-sm);
+}
+
+#day-bar[hidden] {
+  display: none;
+}
+
+.day-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-height: 48px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  gap: 1px;
+  padding: 5px 4px;
+  position: relative;
+  transition: background 0.15s;
+  font-family: var(--font);
+}
+
+.day-tab:hover {
+  background: var(--paper-2);
+}
+
+.day-tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.day-tab-selected {
+  background: var(--ink);
+}
+
+.day-tab-selected:hover {
+  background: #333c4c;
+}
+
+.day-tab-selected .day-tab-weekday {
+  color: var(--paper);
+}
+
+/* Override the inline style color for the selected tab's value */
+.day-tab-selected .day-tab-val {
+  color: var(--paper) !important;
+}
+
+.day-tab-weekday {
+  font-size: 0.55rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+.day-tab-val {
+  font-family: var(--display);
+  font-size: 0.85rem;
+  line-height: 1.15;
+}
+
+.day-tab-today-dot {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ── Location panel ───────────────────────────────────────── */
+#location-panel {
+  position: fixed;
+  top: calc(var(--header-offset) + 8px);
+  right: 12px;
+  z-index: 1100;
+  width: min(320px, calc(100vw - 24px));
+  background: var(--plaque);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  padding: 12px;
+}
+
+#location-panel[hidden] {
+  display: none;
+}
+
+#location-hint {
+  font-size: .8rem;
+  color: var(--muted);
+  margin-bottom: 10px;
+  line-height: 1.45;
+}
+
+#location-hint[hidden] {
+  display: none;
+}
+
+#use-gps-btn {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 8px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: .85rem;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background 0.15s;
+}
+
+#use-gps-btn:hover {
+  background: var(--paper-2);
+}
+
+#use-gps-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+#location-search {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: .85rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+#location-search:focus {
+  border-color: var(--accent);
+}
+
+#location-results {
+  list-style: none;
+  margin-top: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+#location-results li {
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: .85rem;
+  transition: background 0.12s;
+}
+
+#location-results li:hover {
+  background: var(--paper-2);
+}
+
+#location-results li:focus {
+  background: var(--paper-2);
+  outline: none;
+}
+
+.location-result-secondary {
+  color: var(--muted);
+  font-size: .75rem;
+}
+
+.location-result-error {
+  color: var(--muted);
+  cursor: default !important;
+  font-size: .82rem;
+}
+
+.location-result-error:hover {
+  background: transparent !important;
+}
+
+/* ── Sighting button ──────────────────────────────────────── */
+.sight-btn {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 9px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--plaque);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: .85rem;
+  transition: background 0.15s;
+}
+
+.sight-btn:hover {
+  background: #333c4c;
+}
+
+.sight-btn:disabled {
+  opacity: .6;
+  cursor: default;
+}
+
+/* ── Responsive tweaks ────────────────────────────────────── */
+@media (max-width: 400px) {
+  #app-header {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  #app-title {
+    font-size: 1.15rem;
+  }
+
+  /* #app-header raises specificity above the base .view-switch .seg rule,
+     which is defined later in the file (equal specificity would otherwise win
+     by source order and this compaction would not apply). */
+  #app-header .view-switch .seg {
+    min-width: 44px;
+    padding: 6px 9px;
+    font-size: 0.72rem;
+  }
+
+  .leaflet-popup-content {
+    width: 240px !important;
+  }
+}
+
+/* Phones: glyph only, so the three-way nav and the controls always fit. */
+@media (max-width: 520px) {
+  #app-title .brand-name {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .leaflet-bottom {
+    margin-bottom: 76px;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Phone header: drop secondary chrome so brand and controls never collide. */
+  .brand-tag,
+  #updated-text,
+  #refresh-btn {
+    display: none;
+  }
+
+  #day-bar {
+    left: 10px;
+    right: 10px;
+    transform: none;
+    border-radius: 18px;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+}
+
+/* ── View switch (Map / Now segmented slider) ─────────── */
+.view-switch {
+  position: relative;
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--plaque);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.view-switch::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: calc(100% / 2);
+  background: var(--ink);
+  border-radius: 999px;
+  transition: transform 0.2s ease;
+  z-index: 0;
+}
+
+.view-switch[data-active="now"]::before {
+  transform: translateX(100%);
+}
+
+.view-switch .seg {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 0;
+  min-width: 56px;
+  text-align: center;
+  padding: 7px 13px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+.view-switch .seg:hover {
+  color: var(--ink);
+}
+
+.view-switch .seg:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 999px;
+}
+
+.view-switch .seg[aria-current="page"] {
+  color: var(--paper);
+  cursor: default;
+}
+
+.view-switch .seg[aria-current="page"]:hover {
+  color: var(--paper);
+}
+
+/* Smooth cross-fade when switching between the map and the Learn pages
+   (progressive enhancement: ignored where the View Transitions API is absent). */
+@view-transition {
+  navigation: auto;
+}
+
+/* ── Mobile smoothness ───────────────────────────────────── */
+button,
+.seg,
+.day-tab {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* iOS Safari: fixed bottom-anchored elements sit behind the URL bar, because
+   fixed positioning anchors to the largest viewport. Size against the dynamic
+   viewport (dvh) so the map edge and day bar track the visible area instead.
+   Browsers without dvh keep the previous behavior. */
+@supports (height: 100dvh) {
+  #map-container {
+    bottom: auto;
+    height: calc(100dvh - var(--header-offset));
+  }
+
+  #day-bar {
+    bottom: auto;
+    top: calc(100dvh - 14px - env(safe-area-inset-bottom, 0px));
+    transform: translate(-50%, -100%);
+  }
+
+  #location-panel {
+    max-height: calc(100dvh - var(--header-offset) - 20px);
+    overflow-y: auto;
+  }
+
+  @media (max-width: 640px) {
+    #day-bar {
+      transform: translateY(-100%);
+    }
+  }
+}
