@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brisbane rainbow forecast · Bowcast</title>
+  <meta name="description" content="Predict rainbows in Brisbane: today's strongest forecast, the best viewing interval, and a 7-day outlook, using ensemble guidance when available." />
+  <link rel="canonical" href="https://bowcast.app/rainbow-forecast/brisbane.html" />
+  <meta property="og:title" content="Brisbane rainbow forecast · Bowcast" />
+  <meta property="og:description" content="Predict rainbows in Brisbane: today's strongest forecast, the best viewing interval, and a 7-day outlook, using ensemble guidance when available." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bowcast.app/rainbow-forecast/brisbane.html" />
+  <meta property="og:site_name" content="Bowcast" />
+  <meta property="og:image" content="https://bowcast.app/icons/bowcast-social-1200x630.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Bowcast rainbow forecast" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="../icon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="../manifest.json" />
+  <script>(function(){try{var t=localStorage.getItem('bowcast-theme');if(t!=='dark'&&t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <link rel="preload" href="../fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="../fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="../fonts/fonts.css" />
+  <link rel="stylesheet" href="../learn/learn.css" />
+  <link rel="stylesheet" href="../theme.css?v=12" />
+  <script src="/install-prompt.js" defer></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"When do rainbows appear in Brisbane?","acceptedAnswer":{"@type":"Answer","text":"Rainbows need sunlit rain with the sun lower than about 42 degrees, so in Brisbane useful windows often occur after sunrise or before sunset on showery days. A study in ZhaoSu, China found that about nine in ten observed rainbows occurred during the hour after rainfall. Bowcast uses that regional finding as research guidance, not a universal rate."}},{"@type":"Question","name":"Where should I look for a rainbow in Brisbane?","acceptedAnswer":{"@type":"Answer","text":"Always directly opposite the sun: put the sun at your back and look toward the retreating rain. In the evening that means looking east; in the morning, west."}},{"@type":"Question","name":"What is today's rainbow forecast in Brisbane?","acceptedAnswer":{"@type":"Answer","text":"Bowcast checks sunlit-rain ingredients around Brisbane, hour by hour, for the next 7 days. When ensemble guidance is available, it shows an Estimated chance from about 40 model members, not a probability calibrated against observed rainbow frequencies. When ensemble guidance is unavailable, it shows a Conditions score /100 instead. This page shows the strongest actionable interval; the Now board shows the interval containing the current time."}},{"@type":"Question","name":"Can you predict a rainbow in Brisbane?","acceptedAnswer":{"@type":"Answer","text":"Not with certainty, but you can forecast the odds. Bowcast works as a rainbow predictor for Brisbane: it reads about 40 ensemble weather members for sunlit rain, checks that the sun sits lower than 42 degrees, and works out which way to face. Read it as an informed estimate of the chance, not a promise that a bow will appear."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Brisbane rainbow forecast · Bowcast","url":"https://bowcast.app/rainbow-forecast/brisbane.html","description":"Predict rainbows in Brisbane: today's strongest forecast, the best viewing interval, and a 7-day outlook, using ensemble guidance when available.","isPartOf":{"@id":"https://bowcast.app/#website"},"about":{"@type":"Place","name":"Brisbane, Queensland, Australia","geo":{"@type":"GeoCoordinates","latitude":-27.47,"longitude":153.03}},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bowcast","item":"https://bowcast.app/"},{"@type":"ListItem","position":2,"name":"City forecasts","item":"https://bowcast.app/rainbow-forecast/"},{"@type":"ListItem","position":3,"name":"Brisbane","item":"https://bowcast.app/rainbow-forecast/brisbane.html"}]}}</script>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-head">
+    <a class="site-brand" href="../">
+      <svg viewBox="-4 -3 48 32" aria-hidden="true"><path d="M3 22 H37" stroke="var(--ink)" stroke-width="1.6"/><path d="M5 22 A15 15 0 0 1 35 22" fill="none" stroke="var(--violet)" stroke-width="3" stroke-linecap="round"/><path d="M9 22 A11 11 0 0 1 31 22" fill="none" stroke="var(--teal)" stroke-width="3" stroke-linecap="round"/><path d="M13 22 A7 7 0 0 1 27 22" fill="none" stroke="var(--amber)" stroke-width="3" stroke-linecap="round"/></svg>
+      Bowcast
+    </a>
+    <nav class="site-nav">
+      <a href="../now/">Now</a>
+      <a class="cta" href="../map/">Live map</a>
+    </nav>
+    <button class="theme-mini" type="button" title="Toggle dark mode"></button>
+  </header>
+
+  <h1>Rainbow forecast for Brisbane</h1>
+  <p class="lede">Brisbane, Queensland, Australia: today's strongest rainbow forecast, the best interval to look up, and the week ahead.</p>
+
+  <div class="live" id="live">
+    <div class="live-now"><span class="live-num" id="live-num">…</span><span class="live-word" id="live-word"></span></div>
+    <p class="live-sub" id="live-sub">Checking about 40 forecast ensemble members for sunlit rain near Brisbane…</p>
+    <p class="live-geo" id="live-geo" hidden></p>
+    <div class="live-week" id="live-week"></div>
+    <a class="live-cta" href="../map/?lat=-27.47&lon=153.03&label=Brisbane">Open the live map for Brisbane</a>
+  </div>
+
+  <h2>Rainbow weather in Brisbane</h2>
+  <p>Brisbane runs on convective rhythm: heat builds cumulus through the day, showers collapse out of them, and the sun returns fast. That quick alternation of downpour and sunshine, especially in the wet season, produces frequent late-afternoon bows once the sun drops below 42 degrees.</p>
+  <p>At 27.5° south, Brisbane's useful viewing window shifts with the seasons. Local winter brings longer periods of low sun, while summer usually concentrates the geometry near sunrise and sunset.</p>
+  <p>Wherever you are, the geometry is the same: a primary rainbow forms opposite the sun while the sun is less than about 42 degrees above the horizon. Bowcast's research-informed heuristics give extra weight to clearing showers. The gauge above applies them to ensemble forecasts to predict the rainbow chance for the 12 km around Brisbane.</p>
+
+  <h2>Rainbow questions, answered</h2>
+  <dl class="faq">
+    <dt>When do rainbows appear in Brisbane?</dt>
+    <dd>Rainbows need sunlit rain with the sun lower than about 42 degrees, so in Brisbane useful windows often occur after sunrise or before sunset on showery days. A study in ZhaoSu, China found that about nine in ten observed rainbows occurred during the hour after rainfall. Bowcast uses that regional finding as research guidance, not a universal rate.</dd>
+    <dt>Where should I look for a rainbow in Brisbane?</dt>
+    <dd>Always directly opposite the sun: put the sun at your back and look toward the retreating rain. In the evening that means looking east; in the morning, west.</dd>
+    <dt>What is today's rainbow forecast in Brisbane?</dt>
+    <dd>Bowcast checks sunlit-rain ingredients around Brisbane, hour by hour, for the next 7 days. When ensemble guidance is available, it shows an Estimated chance from about 40 model members, not a probability calibrated against observed rainbow frequencies. When ensemble guidance is unavailable, it shows a Conditions score /100 instead. This page shows the strongest actionable interval; the Now board shows the interval containing the current time.</dd>
+    <dt>Can you predict a rainbow in Brisbane?</dt>
+    <dd>Not with certainty, but you can forecast the odds. Bowcast works as a rainbow predictor for Brisbane: it reads about 40 ensemble weather members for sunlit rain, checks that the sun sits lower than 42 degrees, and works out which way to face. Read it as an informed estimate of the chance, not a promise that a bow will appear.</dd>
+  </dl>
+
+  <h2>More rainbow forecasts</h2>
+  <ul class="linkgrid">
+    <li><a href="nairobi.html">Nairobi <span class="sub">Kenya</span></a></li>
+    <li><a href="amsterdam.html">Amsterdam <span class="sub">Netherlands</span></a></li>
+    <li><a href="montreal.html">Montréal <span class="sub">Canada</span></a></li>
+    <li><a href="nadi.html">Nadi <span class="sub">Fiji</span></a></li>
+    <li><a href="fort-william.html">Fort William <span class="sub">United Kingdom</span></a></li>
+    <li><a href="victoria-bc.html">Victoria <span class="sub">Canada</span></a></li>
+  </ul>
+  <footer class="foot">
+    <a href="../map/">Bowcast live map</a> · <a href="../science/">The science</a> · <a href="index.html">All cities</a> · <a href="../privacy.html">Privacy</a><br />
+    Forecast data: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>; estimates modified by Bowcast
+  </footer>
+</div>
+
+<script type="module">
+  import { computeLikelihood } from '../core/likelihood.js';
+  import { pointsAround } from '../core/points.js';
+  import { FORECAST_INTERVAL_SCHEMA_VERSION } from '../core/forecast-time.js';
+  import { selectBestForecast } from '../core/presentation.js';
+  const WORD = { none: 'unlikely', low: 'slim', moderate: 'fair', good: 'good', high: 'strong' };
+  try {
+    let data;
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      try {
+        const response = await fetch('../api/likelihood?lat=-27.47&lon=153.03', {
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error('Cached forecast request failed');
+        data = await response.json();
+        if (!Array.isArray(data.locations) || data.locations.length === 0) {
+          throw new Error('Cached forecast response was incomplete');
+        }
+        if (data.intervalSchemaVersion !== FORECAST_INTERVAL_SCHEMA_VERSION) {
+          throw new Error('Cached forecast used an old interval schema');
+        }
+      } finally {
+        clearTimeout(timeout);
+      }
+    } catch (apiError) {
+      console.warn('Cached forecast unavailable, using the local forecast core.', apiError);
+      data = await computeLikelihood(pointsAround(-27.47, 153.03));
+    }
+    const best = selectBestForecast(data.locations);
+    if (!best) throw new Error('Forecast response had no usable values');
+    // Today's peak is retrospective: when its interval has already ended,
+    // qualify it as such (validTo bound is in the payload; compute now here).
+    const nowSec = Date.now() / 1000;
+    const peaked = best.bestIntervalEndEpoch != null && best.bestIntervalEndEpoch <= nowSec;
+    const forward = peaked ? selectBestForecast(data.locations.map((location) =>
+      location.nextPeak ? { ...location.nextPeak, name: location.name } : null)) : null;
+    const display = forward || best;
+    const hasEstimate = display.probability != null;
+    const num = document.getElementById('live-num');
+    num.textContent = hasEstimate ? display.probability + '%' : display.score + '/100';
+    num.className = 'live-num lv-' + display.level;
+    const word = document.getElementById('live-word');
+    const timeLabel = forward ? 'next' : "today's peak";
+    word.textContent = timeLabel + ' ' + (hasEstimate ? 'estimated chance' : 'conditions score')
+      + (!forward && peaked ? ' · peaked earlier' : '') + ' · ' + (WORD[display.level] || display.level);
+    word.className = 'live-word lv-' + display.level;
+    // The reason already leads with "Best during 5-6 PM:", and the trailing
+    // conditions score would repeat the headline number right above it.
+    let subText = forward
+      ? 'Next useful window during ' + (forward.interval || 'the interval shown') + '.'
+      : (best.reason || '').replace(/\s*\(conditions score \d+\/100\)\.?$/, '.');
+    if (display.name && display.name !== 'Your spot') subText = 'Best nearby at ' + display.name + '. ' + subText;
+    document.getElementById('live-sub').textContent = subText;
+    if (display.bow) {
+      const geo = document.getElementById('live-geo');
+      geo.textContent = 'Look ' + display.bow.look
+        + ' · sun ' + display.bow.sunElevation + '° above the horizon'
+        + (display.bow.window ? ' · best ' + display.bow.window : '');
+      geo.hidden = false;
+    }
+    document.getElementById('live-week').innerHTML = best.days.map((d, i) =>
+      '<div class="live-day"><span>' + (i === 0 ? 'Today' : d.weekday) + '</span><b class="lv-' + d.level + '">' +
+      (d.probability != null ? d.probability + '%' : d.score + '/100') + '</b></div>').join('');
+  } catch (err) {
+    document.getElementById('live-sub').textContent = "Today's peak forecast is loading slowly. Open the map for the current forecast.";
+    console.warn(err);
+  }
+</script>
+<script type="module">import { initThemeToggles } from '../theme.js'; initThemeToggles();</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="../manifest.json" />
+  <title>Rainbow conditions right now · Bowcast</title>
+  <meta name="description" content="See where rainbow ingredients align this hour, with observed radar and satellite evidence separated from worldwide forecast estimates." />
+  <link rel="canonical" href="https://bowcast.app/now/" />
+  <meta property="og:title" content="Rainbow conditions right now · Bowcast" />
+  <meta property="og:description" content="Observed ingredients and estimated rainbow chances, ranked worldwide for this hour." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bowcast.app/now/" />
+  <meta property="og:site_name" content="Bowcast" />
+  <meta property="og:image" content="https://bowcast.app/icons/bowcast-social-1200x630.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Bowcast rainbow forecast" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="../icon.svg" type="image/svg+xml" />
+  <script>(function(){try{var t=localStorage.getItem('bowcast-theme');if(t!=='dark'&&t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <link rel="preload" href="../fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="../fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="../fonts/fonts.css" />
+  <link rel="stylesheet" href="../learn/learn.css" />
+  <link rel="stylesheet" href="../theme.css?v=12" />
+  <style>
+    .now-head-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    #now-updated { font-size: 0.82rem; color: var(--muted); white-space: nowrap; }
+    #now-status {
+      background: var(--plaque); border: 1px solid var(--line); border-radius: 14px;
+      padding: 18px 20px; margin: 20px 0; font-size: 1.02rem; color: var(--muted);
+    }
+    #now-status.error { color: var(--coral); }
+    #now-status.saved { color: var(--text-moderate); }
+    #now-status[hidden] { display: none; }
+
+    /* Forecast leader with an optional nearby camera */
+    #hot { margin: 8px 0 32px; display: grid; gap: 14px; }
+    #hot[hidden] { display: none; }
+    .hot-card {
+      border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+      background: var(--plaque);
+    }
+    .hot-cam { position: relative; aspect-ratio: 16 / 9; background: var(--paper-2); }
+    .hot-cam iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .hot-cam-none { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--muted); font-size: 0.9rem; text-align: center; padding: 20px; }
+    .hot-body { padding: 16px 20px 18px; }
+    .hot-eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 600; color: var(--muted); }
+    .hot-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+    .hot-name { font-family: var(--display); font-size: 1.9rem; line-height: 1.1; font-weight: 400; margin: 0; }
+    .hot-num { font-family: var(--display); font-size: 2.1rem; line-height: 1; }
+    .hot-word { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; }
+    .hot-meta { color: var(--muted); font-size: 0.92rem; margin-top: 6px; }
+    .hot-cam-credit { font-size: 0.72rem; color: var(--muted); padding: 6px 20px 0; }
+    .hot-links { margin-top: 12px; display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.9rem; }
+
+    /* Observed and forecast-supported ingredient checks */
+    #happening { margin: 4px 0 30px; display: grid; gap: 12px; }
+    #happening[hidden] { display: none; }
+    .live-card {
+      border-top: 1px solid var(--line); background: transparent; padding: 16px 4px;
+    }
+    .live-eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 600; color: var(--teal); }
+    .live-card.tier-confirmed .live-eyebrow { color: var(--coral); }
+    .live-title { font-family: var(--display); font-weight: 400; font-size: 1.7rem; line-height: 1.1; margin: 3px 0 6px; }
+    .live-detail { color: var(--ink); font-size: 0.98rem; }
+    .live-detail b { font-weight: 600; }
+    .live-links { margin-top: 10px; display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.9rem; }
+
+    /* Ranked list */
+    .now-section-label { font-family: var(--display); font-size: 1.5rem; margin: 8px 0 4px; }
+    #now-list { list-style: none; padding: 0; margin: 8px 0 0; }
+    #now-list > li { margin: 0; }
+    .now-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 13px 6px; border-bottom: 1px solid var(--line); text-decoration: none; color: var(--ink);
+      transition: background 0.12s;
+    }
+    .now-row:hover { background: var(--plaque); }
+    .now-rank { font-family: var(--display); font-size: 1.1rem; color: var(--muted); width: 26px; text-align: right; flex-shrink: 0; }
+    .now-city { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .now-name { font-weight: 600; font-size: 1.06rem; }
+    .now-sub { color: var(--muted); font-size: 0.85rem; margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .now-right { text-align: right; flex-shrink: 0; min-width: 92px; }
+    .now-num { font-family: var(--display); font-size: 1.5rem; line-height: 1; }
+    .now-word { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-top: 2px; }
+    .now-bar { height: 5px; background: var(--paper-2); border-radius: 3px; margin-top: 6px; overflow: hidden; }
+    .now-bar > span { display: block; height: 100%; border-radius: 3px; }
+    .now-peak { color: var(--muted); font-size: 0.8rem; margin-top: 3px; }
+    #now-show-all {
+      min-height: 44px; margin: 20px auto 0; padding: 9px 18px; display: block;
+      border: 1px solid var(--line); border-radius: 999px; background: transparent;
+      color: var(--ink); font: 600 0.9rem var(--font); cursor: pointer;
+    }
+    #now-show-all:hover { background: var(--plaque); }
+    #now-show-all:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
+    #now-show-all[hidden] { display: none; }
+
+    /* Level colors */
+    .lv-high    { color: var(--text-high); }     .bg-high    { background: var(--color-high); }
+    .lv-good    { color: var(--text-good); }     .bg-good    { background: var(--color-good); }
+    .lv-moderate{ color: var(--text-moderate); } .bg-moderate{ background: var(--color-moderate); }
+    .lv-low     { color: var(--text-low); }       .bg-low     { background: var(--color-low); }
+    .lv-none    { color: var(--text-none); }      .bg-none    { background: var(--color-none); }
+
+    .now-daynight { font-size: 0.8rem; }
+    @media (max-width: 480px) {
+      .hot-name { font-size: 1.6rem; }
+      .now-right { min-width: 76px; }
+      .now-num { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="site-brand" href="../">
+      <svg viewBox="-4 -3 48 32" aria-hidden="true"><path d="M3 22 H37" stroke="var(--ink)" stroke-width="1.6"/><path d="M5 22 A15 15 0 0 1 35 22" fill="none" stroke="var(--violet)" stroke-width="3" stroke-linecap="round"/><path d="M9 22 A11 11 0 0 1 31 22" fill="none" stroke="var(--teal)" stroke-width="3" stroke-linecap="round"/><path d="M13 22 A7 7 0 0 1 27 22" fill="none" stroke="var(--amber)" stroke-width="3" stroke-linecap="round"/></svg>
+      Bowcast
+    </a>
+    <nav class="view-switch" data-active="now" aria-label="Switch section">
+      <a class="seg" href="../map/">Map</a>
+      <a class="seg" aria-current="page" href="./">Now</a>
+    </nav>
+    <button class="theme-mini" type="button" title="Toggle dark mode"></button>
+  </header>
+
+  <div class="now-head-row">
+    <h1>Rainbows right now</h1>
+    <span id="now-updated"></span>
+  </div>
+  <p class="lede">See where rain, sunlight, and rainbow geometry align this hour. Observation-backed ingredients are separated from forecast-supported conditions, followed by estimated chances across <span id="city-count">66</span> worldwide cities. Aligned ingredients do not confirm that a rainbow is visible.</p>
+
+  <div id="now-status" role="status" aria-live="polite">Loading the shared worldwide forecast…</div>
+
+  <section id="happening" hidden></section>
+
+  <section id="hot" hidden></section>
+
+  <div id="now-main" hidden>
+    <h2 class="now-section-label" id="now-ranking-title">Ranked by this hour</h2>
+    <ol id="now-list"></ol>
+    <button id="now-show-all" type="button" aria-controls="now-list" aria-expanded="false" hidden>Show all cities</button>
+  </div>
+
+  <footer class="foot">
+    <a href="../map/">Bowcast live map</a> · <a href="../science/">The science</a> · <a href="../rainbow-forecast/">All cities</a> · <a href="../privacy.html">Privacy</a><br />
+    Forecast data: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>; estimates modified by Bowcast · Radar source: <a href="https://www.rainviewer.com/" target="_blank" rel="noopener">RainViewer</a>
+  </footer>
+</div>
+<script type="module" src="now-page.js?v=16"></script>
+<script src="/install-prompt.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rainbow forecast and predictor, worldwide · Bowcast</title>
+  <meta name="description" content="Bowcast predicts hourly rainbow conditions anywhere on Earth: it estimates when and where sunlit rain may align for a rainbow, and ranks the cities most likely to see one now." />
+  <link rel="canonical" href="https://bowcast.app/" />
+  <meta property="og:title" content="Bowcast: a forecast for rainbows" />
+  <meta property="og:description" content="The estimated hourly chance of a rainbow, anywhere on Earth, informed by atmospheric optics." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bowcast.app/" />
+  <meta property="og:site_name" content="Bowcast" />
+  <meta property="og:image" content="https://bowcast.app/icons/bowcast-social-1200x630.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Bowcast rainbow forecast" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#12151b" />
+  <script>(function(){try{var t=localStorage.getItem('bowcast-theme');if(t!=='dark'&&t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preload" href="fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/instrument-serif-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="fonts/fonts.css" />
+  <link rel="stylesheet" href="landing.css" />
+  <link rel="stylesheet" href="theme.css" />
+  <script src="/install-prompt.js" defer></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://bowcast.app/#organization","name":"Bowcast","url":"https://bowcast.app/","logo":{"@type":"ImageObject","url":"https://bowcast.app/icons/icon-512.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://bowcast.app/#website","url":"https://bowcast.app/","name":"Bowcast","description":"A worldwide hourly rainbow forecast and predictor.","publisher":{"@id":"https://bowcast.app/#organization"}},{"@type":"WebApplication","@id":"https://bowcast.app/#app","name":"Bowcast","url":"https://bowcast.app/","applicationCategory":"WeatherApplication","operatingSystem":"Web","description":"Bowcast predicts when and where sunlit rain may align for a rainbow.","publisher":{"@id":"https://bowcast.app/#organization"}}]}</script>
+</head>
+<body>
+  <header class="lp-head">
+    <a class="brand" href="./" aria-label="Bowcast home">
+      <svg viewBox="-4 -3 48 32" aria-hidden="true"><path d="M3 22 H37" stroke="var(--ink)" stroke-width="1.6"/><path d="M5 22 A15 15 0 0 1 35 22" fill="none" stroke="var(--violet)" stroke-width="3" stroke-linecap="round"/><path d="M9 22 A11 11 0 0 1 31 22" fill="none" stroke="var(--teal)" stroke-width="3" stroke-linecap="round"/><path d="M13 22 A7 7 0 0 1 27 22" fill="none" stroke="var(--amber)" stroke-width="3" stroke-linecap="round"/></svg>
+      <span>Bowcast</span>
+    </a>
+    <div class="head-right">
+      <nav class="lp-nav">
+        <a href="map/">Map</a>
+        <a href="now/">Now</a>
+        <a href="rainbow-forecast/">Forecasts</a>
+        <a href="science/">Science</a>
+      </nav>
+      <button class="theme-toggle" type="button" title="Toggle dark mode"></button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <p class="eyebrow">Worldwide rainbow forecast</p>
+        <h1>Know when the light will bend.</h1>
+        <p class="lede">Bowcast reads a 40 member weather ensemble through the optics of how rainbows actually form: sunlit rain, with the sun below 42 degrees, seen from the right angle. It predicts the chance of a rainbow, hour by hour, seven days out, anywhere on Earth.</p>
+        <div class="hero-cta">
+          <a class="btn-primary" href="map/">Open the map <span aria-hidden="true">&rarr;</span></a>
+          <a class="btn-ghost" href="science/">How it works</a>
+        </div>
+        <div class="hero-stats">
+          <div><div class="num">66</div><div class="cap">cities tracked live</div></div>
+          <div><div class="num">7 days</div><div class="cap">hourly outlook</div></div>
+          <div><div class="num">0</div><div class="cap">trackers, accounts</div></div>
+        </div>
+      </div>
+      <div class="reading-plaque">
+        <div class="rp-head">
+          <span class="rp-place">Example reading</span>
+          <span class="chip good">good</span>
+        </div>
+        <div class="rp-gauge" data-gauge data-value="38" data-size="220"></div>
+        <div class="rp-foot">
+          <span class="rp-dot"></span>
+          A reading shows the estimated chance, when it peaks, and which way to face.
+        </div>
+      </div>
+    </section>
+
+    <!-- INGREDIENTS -->
+    <section class="section wrap">
+      <p class="eyebrow">The physics, honestly</p>
+      <h2 style="max-width:20ch;">A rainbow needs three things to line up at once.</h2>
+      <div class="ingredients-grid">
+        <div class="ingredient">
+          <div class="art" aria-hidden="true">
+            <svg viewBox="0 0 90 72" width="90" height="72"><g fill="var(--color-low)" opacity=".85"><path transform="translate(24,20)" d="M0 -7 C4 -1 5 2 5 4 A5 5 0 0 1 -5 4 C-5 2 -4 -1 0 -7 Z"/><path transform="translate(44,14)" d="M0 -7 C4 -1 5 2 5 4 A5 5 0 0 1 -5 4 C-5 2 -4 -1 0 -7 Z"/><path transform="translate(64,24)" d="M0 -7 C4 -1 5 2 5 4 A5 5 0 0 1 -5 4 C-5 2 -4 -1 0 -7 Z"/><path transform="translate(34,40)" d="M0 -7 C4 -1 5 2 5 4 A5 5 0 0 1 -5 4 C-5 2 -4 -1 0 -7 Z"/><path transform="translate(58,46)" d="M0 -7 C4 -1 5 2 5 4 A5 5 0 0 1 -5 4 C-5 2 -4 -1 0 -7 Z"/><path transform="translate(72,40)" d="M0 -7 C4 -1 5 2 5 4 A5 5 0 0 1 -5 4 C-5 2 -4 -1 0 -7 Z"/></g><path d="M6 62 L84 62" stroke="var(--line)" stroke-width="1.5"/><circle cx="78" cy="16" r="6" fill="var(--color-good)"/></svg>
+          </div>
+          <div class="tag">Sunlit rain</div>
+          <h3>Rain in front, sun behind</h3>
+          <p>There has to be falling rain in one part of the sky and clear sun in the other. Bowcast checks both across the ensemble.</p>
+        </div>
+        <div class="ingredient">
+          <div class="art" aria-hidden="true">
+            <svg viewBox="0 0 90 72" width="90" height="72"><line x1="8" y1="64" x2="82" y2="64" stroke="var(--line)" stroke-width="1.5"/><circle cx="20" cy="52" r="7" fill="none" stroke="var(--color-good)" stroke-width="2"/><path d="M20 52 L74 26" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M20 52 L74 52" stroke="var(--line)" stroke-width="1.5"/><path d="M44 52 A24 24 0 0 0 44 40" fill="none" stroke="var(--text-moderate)" stroke-width="1.5"/><text x="47" y="49" font-size="9" fill="var(--text-moderate)" font-family="var(--mono)">42&#176;</text></svg>
+          </div>
+          <div class="tag">Sun below 42&#176;</div>
+          <h3>The geometry of the bow</h3>
+          <p>A rainbow only forms when the sun sits lower than 42 degrees above the horizon, so timing near sunrise and sunset matters most.</p>
+        </div>
+        <div class="ingredient">
+          <div class="art" aria-hidden="true">
+            <svg viewBox="0 0 60 40" width="60" height="40"><path d="M6 33 A24 24 0 0 1 54 33" fill="none" stroke="var(--violet)" stroke-width="4" stroke-linecap="round"/><path d="M13 33 A17 17 0 0 1 47 33" fill="none" stroke="var(--teal)" stroke-width="4" stroke-linecap="round"/><path d="M20 33 A10 10 0 0 1 40 33" fill="none" stroke="var(--amber)" stroke-width="4" stroke-linecap="round"/></svg>
+          </div>
+          <div class="tag">The right angle</div>
+          <h3>Looking the right way</h3>
+          <p>The bow appears opposite the sun, centered on your antisolar point. Bowcast tells you which way to face.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSTRUMENT PREVIEW -->
+    <section class="section wrap">
+      <div class="preview-grid">
+        <div class="preview-copy">
+          <h2>The app is the almanac, made live.</h2>
+          <p>The same reading you see here is the reading on the map, on the live board, and on every city page. Glance to learn whether, where, and when to look. Reveal the model when you want the evidence.</p>
+          <div class="preview-steps">
+            <div class="preview-step"><span class="k">01</span><div class="body"><strong>A ring of gauges around you</strong> on the map, sampling nearby land in every direction, so you see where to look, not just a single number.</div></div>
+            <div class="preview-step"><span class="k">02</span><div class="body"><strong>A ranked live board</strong> of the best chances on Earth this hour, with webcams.</div></div>
+            <div class="preview-step"><span class="k">03</span><div class="body"><strong>Optional alerts</strong> at 25% or higher Estimated chance. Website alerts need the map tab open; Android background alerts are in pre-release testing.</div></div>
+          </div>
+        </div>
+        <div class="map-mock">
+          <svg class="basemap" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" aria-hidden="true">
+            <rect width="400" height="300" fill="var(--map-water)"/>
+            <path d="M-20 150 Q60 105 130 125 T280 105 Q345 95 420 125 L420 320 L-20 320 Z" fill="var(--map-land)"/>
+            <path d="M52 -10 Q66 80 50 160 Q40 220 58 320" fill="none" stroke="var(--map-water)" stroke-width="17" opacity=".9"/>
+            <ellipse cx="332" cy="58" rx="34" ry="20" fill="var(--map-land)"/>
+            <g stroke="var(--map-road)" stroke-width="2.4" fill="none" opacity=".9">
+              <path d="M-20 195 Q140 178 420 200"/>
+              <path d="M112 320 Q136 210 158 128 Q175 70 190 -10"/>
+              <path d="M250 320 Q272 230 292 155"/>
+            </g>
+            <g stroke="var(--line)" stroke-width="1" opacity=".25">
+              <line x1="0" y1="75" x2="400" y2="75"/><line x1="0" y1="150" x2="400" y2="150"/><line x1="0" y1="225" x2="400" y2="225"/>
+              <line x1="100" y1="0" x2="100" y2="300"/><line x1="200" y1="0" x2="200" y2="300"/><line x1="300" y1="0" x2="300" y2="300"/>
+            </g>
+          </svg>
+          <div class="youhere"><span class="dot"></span>You are here</div>
+          <!-- Gauges sit on land only; over water there is nowhere to stand,
+               so the ring size varies with the coastline. -->
+          <div class="g" style="left:50%; top:56%; transform:translate(-50%,-50%);" data-gauge data-value="38" data-size="120" data-readout="false"></div>
+          <div class="g" style="left:24%; top:60%;" data-gauge data-value="14" data-size="74" data-readout="false"></div>
+          <div class="g" style="right:12%; top:16%;" data-gauge data-value="6" data-size="66" data-readout="false"></div>
+          <div class="g" style="right:18%; bottom:14%;" data-gauge data-value="24" data-size="80" data-readout="false"></div>
+          <div class="g" style="left:14%; bottom:10%;" data-gauge data-value="9" data-size="64" data-readout="false"></div>
+          <div class="map-attr">Illustration of the live map</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORLDWIDE NOW TEASER -->
+    <section class="section wrap">
+      <div class="section-head">
+        <div>
+          <h2>Where the ingredients are aligning.</h2>
+        </div>
+        <a class="link-arrow" href="now/">See the live board <span aria-hidden="true">&rarr;</span></a>
+      </div>
+      <div class="city-grid" id="city-grid"></div>
+      <p class="teaser-note" id="now-teaser-note" role="status"></p>
+    </section>
+
+    <!-- CITIZEN SCIENCE -->
+    <section class="section wrap">
+      <div class="calibrate-panel">
+        <div>
+          <h2>Help calibrate Bowcast.</h2>
+          <p>When you look up, tell Bowcast what you saw. Every report, positive or negative, sharpens the model for everyone. No account, no tracking, nothing tied to you: just an anonymous data point, the way a weather observer files a reading.</p>
+        </div>
+        <div class="calibrate-card">
+          <div class="cc-lead">After you look up, the map asks:</div>
+          <div class="calibrate-actions" aria-hidden="true">
+            <span class="sight-demo">I saw one</span>
+            <span class="sight-demo">I looked, no rainbow</span>
+          </div>
+          <div class="calibrate-status">Reporting lives on the map, because a report is only useful with the forecast you saw and your coarse location (about 1 km) attached. Anonymous, no account.</div>
+          <a class="btn-primary calibrate-cta" href="map/">Report from the map <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORT -->
+    <section class="section support-section wrap" aria-labelledby="support-title">
+      <div class="support-copy">
+        <p class="eyebrow">Support the next step</p>
+        <h2 id="support-title">Help finish Bowcast for mobile.</h2>
+        <p>Bowcast is public on the web. Its iOS and Android builds are not in app stores yet. Android background alerts are connected for pre-release testing; iOS push and store release work are still pending.</p>
+      </div>
+      <div class="support-action">
+        <svg class="support-bow" viewBox="0 0 180 92" role="img" aria-label="Bowcast spectral bow above a horizon line">
+          <path d="M8 82H172" stroke="var(--line)" stroke-width="2"/>
+          <path d="M20 82A70 70 0 0 1 160 82" fill="none" stroke="var(--violet)" stroke-width="10"/>
+          <path d="M40 82A50 50 0 0 1 140 82" fill="none" stroke="var(--teal)" stroke-width="10"/>
+          <path d="M60 82A30 30 0 0 1 120 82" fill="none" stroke="var(--amber)" stroke-width="10"/>
+        </svg>
+        <a class="kofi-link" href="https://ko-fi.com/shamseddinalsheikh/goal?g=0" target="_blank" rel="noopener noreferrer" aria-label="Support Bowcast on Ko-fi (opens in a new tab)">Support Bowcast on Ko-fi <span aria-hidden="true">&nearr;</span></a>
+        <p>Support is optional and does not affect access to Bowcast or unlock features.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lp-foot wrap">
+    <div class="foot-top">
+      <div class="foot-about">
+        <a class="brand" href="./" aria-label="Bowcast home">
+          <svg viewBox="-4 -3 48 32" aria-hidden="true"><path d="M5 22 A15 15 0 0 1 35 22" fill="none" stroke="var(--violet)" stroke-width="3"/><path d="M9 22 A11 11 0 0 1 31 22" fill="none" stroke="var(--teal)" stroke-width="3"/><path d="M13 22 A7 7 0 0 1 27 22" fill="none" stroke="var(--amber)" stroke-width="3"/></svg>
+          <span>Bowcast</span>
+        </a>
+        <p>A rainbow forecast instrument. Estimates are drawn from ensemble weather and rainbow geometry. They are not calibrated probabilities, and observed ingredients do not confirm a visible rainbow.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <div class="h">Product</div>
+          <a href="map/">Map</a><a href="now/">Now</a><a href="rainbow-forecast/">Forecasts</a>
+        </div>
+        <div class="foot-col">
+          <div class="h">More</div>
+          <a href="science/">Science</a><a href="privacy.html">Privacy</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>No trackers. No accounts. Anonymous calibration.</span>
+      <span class="app">bowcast.app</span>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { bowGaugeSVG, bowGaugeLevel } from './bowgauge.js';
+    import { initThemeToggles } from './theme.js';
+    import { FORECAST_INTERVAL_SCHEMA_VERSION } from './core/forecast-time.js';
+
+    // Render every gauge placeholder.
+    document.querySelectorAll('[data-gauge]').forEach((el) => {
+      el.innerHTML = bowGaugeSVG({
+        value: Number(el.dataset.value),
+        display: el.dataset.display || 'chance',
+        size: Number(el.dataset.size || 160),
+        showReadout: el.dataset.readout !== 'false',
+      });
+    });
+
+    // Worldwide-now teaser: live values from the shared board, never fixed
+    // numbers dressed up as current readings.
+    const TEXT_VAR = { unlikely: '--text-none', slim: '--text-low', fair: '--text-moderate', good: '--text-good', strong: '--text-high' };
+    const esc = (s) => String(s).replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+    const renderTeaser = (rows) => {
+      document.getElementById('city-grid').innerHTML = rows.map((c, i) => {
+        const mode = c.isProb ? 'chance' : 'score';
+        const level = bowGaugeLevel(c.value, mode);
+        const tc = `var(${TEXT_VAR[level]})`;
+        const valueText = c.isProb ? `${c.value}%` : `${c.value}/100`;
+        return `<div class="city-card">
+          <div class="cc-top"><span class="cc-rank">#${i + 1}</span><span class="cc-level" style="color:${tc}">${level}</span></div>
+          <div class="cc-gauge">${bowGaugeSVG({ value: c.value, display: mode, size: 104, showReadout: false })}</div>
+          <div class="cc-body">
+            <div class="cc-pct" style="color:${tc}">${valueText}</div>
+            <div class="cc-name">${esc(c.name)}</div>
+            <div class="cc-country">${esc(c.country)}</div>
+          </div>
+        </div>`;
+      }).join('');
+    };
+
+    (async () => {
+      const note = document.getElementById('now-teaser-note');
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
+        const res = await fetch('api/now', { signal: controller.signal }).finally(() => clearTimeout(timeout));
+        if (!res.ok) throw new Error('unavailable');
+        const data = await res.json();
+        if (data.intervalSchemaVersion !== FORECAST_INTERVAL_SCHEMA_VERSION) throw new Error('old schema');
+        if (!Array.isArray(data.cities) || data.cities.length === 0) throw new Error('empty');
+        const rows = data.cities.slice(0, 4).map((c) => ({
+          name: c.name,
+          country: [c.region, c.country].filter(Boolean).join(', '),
+          value: Math.round(c.headline ?? 0),
+          isProb: !!c.nowIsProb,
+        }));
+        renderTeaser(rows);
+        const updated = new Date(data.generatedAt || Date.now());
+        note.textContent = `Live from the board, updated ${updated.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}.`
+          + (rows.every((r) => r.isProb) ? '' : ' Values marked /100 are conditions scores (ensemble unavailable there).');
+      } catch (_) {
+        // Honest fallback: examples, clearly labeled as examples.
+        note.textContent = 'The live board is unreachable right now; these four are illustrative examples, not current values.';
+        renderTeaser([
+          { name: 'Hilo', country: 'Hawaii, US', value: 52, isProb: true },
+          { name: 'Bergen', country: 'Norway', value: 38, isProb: true },
+          { name: 'Galway', country: 'Ireland', value: 29, isProb: true },
+          { name: 'Cape Town', country: 'South Africa', value: 21, isProb: true },
+        ]);
+      }
+    })();
+
+    initThemeToggles();
+  </script>
+</body>
+</html>

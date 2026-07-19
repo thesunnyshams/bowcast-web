@@ -1,0 +1,177 @@
+/* Science page: an editorial long-read. Deliberately not the app's card UI.
+   Spectral color appears only inside the rainbow diagrams, never as chrome. */
+
+:root {
+  --paper: #f5f2ea;
+  --paper-2: #ece7db;
+  --plaque: #fbf9f4;
+  --line: #d8d2c4;
+  --line-soft: #e6e0d3;
+  --ink: #232a35;
+  --ink-soft: #3b4250;
+  --muted: #5d6675;
+  --accent: #6f5bd6;
+  --red: #d1495b;
+  --amber: #e0922e;
+  --teal: #2f9e8f;
+  --violet: #7a68d9;
+  --display: 'Instrument Serif', Georgia, serif;
+  --sans: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+  --mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+  --measure: 40rem;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1.15rem;
+  line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.sci-head {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 62rem; margin: 0 auto; padding: 18px 24px;
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: saturate(1.1) blur(8px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.site-brand {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--display); font-size: 1.5rem; color: var(--ink); text-decoration: none;
+}
+.site-brand svg { width: 26px; height: 20px; }
+.sci-nav { display: flex; gap: 22px; }
+.sci-nav a { color: var(--muted); text-decoration: none; font-size: 0.98rem; font-weight: 500; }
+.sci-nav a:hover { color: var(--ink); }
+
+.sci-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 30; background: transparent; }
+.sci-progress span {
+  display: block; height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--red), var(--amber), var(--teal), var(--violet));
+}
+
+/* ── Article shell ──────────────────────────────────────── */
+.sci { max-width: 62rem; margin: 0 auto; padding: 0 24px 120px; }
+.sci > * { margin-left: auto; margin-right: auto; }
+
+.sci p, .sci h2, .sci h3, .sci ul, .sci .eq, .sec-num, .standfirst, .byline { max-width: var(--measure); }
+
+.sci p { margin: 0 0 1.25em; }
+.sci em { font-style: italic; }
+.sci strong { font-weight: 600; }
+.sci code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 0.1em 0.4em; border-radius: 5px; }
+.sci a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+
+/* ── Hero ───────────────────────────────────────────────── */
+.sci-hero { padding: 72px 0 40px; }
+.eyebrow { font-family: var(--mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); margin: 0 0 18px; }
+.sci-hero h1 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(2.9rem, 8vw, 5rem); line-height: 1.02; letter-spacing: -0.01em;
+  margin: 0 0 28px;
+}
+.spectral-text {
+  background: linear-gradient(95deg, var(--red) 8%, var(--amber) 34%, var(--teal) 62%, var(--violet) 92%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  font-style: italic;
+}
+.standfirst { font-size: 1.4rem; line-height: 1.5; color: var(--ink); margin: 0 0 22px; }
+.byline { font-size: 0.98rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
+
+/* ── Sections ───────────────────────────────────────────── */
+.sci-sec { padding: 56px 0; border-top: 1px solid var(--line-soft); }
+.sec-num { font-family: var(--mono); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--red); margin: 0 0 14px; }
+.sci h2 { font-family: var(--display); font-weight: 400; font-size: clamp(2rem, 4.5vw, 2.9rem); line-height: 1.08; margin: 0 0 24px; letter-spacing: -0.01em; }
+.sci h3 { font-family: var(--sans); font-weight: 600; font-size: 1.28rem; line-height: 1.3; margin: 40px 0 12px; }
+
+/* Equations */
+.eq { margin: 1.4em auto; text-align: center; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+.eq .katex { font-size: 1.12em; }
+.sci .eq-big { max-width: 100%; margin: 1.8em auto; }
+.eq-big .katex { font-size: clamp(0.92rem, 2vw, 1.08rem); }
+.katex-display { margin: 0; }
+
+/* ── Figures ────────────────────────────────────────────── */
+.sci-fig { max-width: 54rem; margin: 48px auto; }
+.sci-fig-wide { max-width: 60rem; }
+.fig-holder {
+  background: var(--plaque); border: 1px solid var(--line); border-radius: 16px;
+  padding: 22px; box-shadow: 0 10px 40px -24px rgba(35,42,53,0.4);
+}
+.fig-holder svg { width: 100%; height: auto; display: block; }
+.sci-fig figcaption { font-size: 0.96rem; color: var(--muted); margin-top: 14px; line-height: 1.5; padding: 0 4px; max-width: var(--measure); margin-left: auto; margin-right: auto; }
+.fig-t { font-family: var(--sans); font-size: 12px; fill: var(--muted); }
+
+/* Small factor figures: a centred block under their explanation (floating
+   them stranded the chart in an empty right column when the prose was short). */
+.sci-inline-fig { width: 100%; max-width: 360px; margin: 24px auto 10px; }
+.sci-inline-fig svg { width: 100%; height: auto; background: var(--plaque); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.sci-inline-fig figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 8px; text-align: center; }
+
+.sci-factor { margin: 8px 0 12px; overflow: hidden; }
+.sci-factor .katex { font-size: 1.02em; }
+
+/* Interactive elevation control */
+.fig-control { width: min(100%, 36rem); margin: 20px auto 0; text-align: center; }
+.fig-control label { display: flex; justify-content: space-between; font-weight: 600; font-size: 0.98rem; margin-bottom: 8px; }
+.fig-control output { font-family: var(--mono); color: var(--accent); }
+.fig-control input[type=range] { width: 100%; accent-color: var(--accent); height: 24px; }
+.fig-note { max-width: 32rem; font-size: 0.94rem; color: var(--muted); margin: 10px auto 0; min-height: 1.5em; text-align: center; }
+.fig-note.gone { color: var(--red); font-weight: 500; }
+#fig-cone figcaption { max-width: 36rem; text-align: center; }
+
+/* Gates: an inset panel, not a card */
+.sci-gates { margin: 40px auto; max-width: var(--measure); border-left: 3px solid var(--red); padding: 4px 0 4px 22px; }
+.sci-gates h3 { margin-top: 6px; }
+.sci-gates ul { list-style: none; padding: 0; margin: 0; }
+.sci-gates li { margin: 0 0 12px; padding-left: 18px; position: relative; }
+.sci-gates li::before { content: "→ 0"; position: absolute; left: -4px; top: 0; font-family: var(--mono); font-size: 0.7rem; color: var(--red); display: none; }
+.gate-label,
+.term-label { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.16em; }
+
+.sci-limits { list-style: none; padding: 0; margin: 0 auto; max-width: var(--measure); }
+.sci-limits li { margin: 0 0 20px; padding-left: 24px; position: relative; }
+.sci-limits li::before { content: ""; position: absolute; left: 0; top: 0.7em; width: 10px; height: 2px; background: var(--muted); }
+
+/* ── Close ──────────────────────────────────────────────── */
+.sci-close { padding: 64px 0 20px; border-top: 1px solid var(--line); text-align: center; }
+.sci-close h2 { font-family: var(--display); font-weight: 400; font-size: 2.4rem; margin: 0 auto 14px; }
+.sci-close p { margin-left: auto; margin-right: auto; }
+.sci-cta { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin: 28px 0; }
+.sci-cta a { text-decoration: none; }
+.cta-primary {
+  background: var(--ink); color: var(--paper); text-decoration: none;
+  padding: 13px 26px; border-radius: 999px; font-weight: 600; font-size: 1.05rem;
+  transition: transform 0.15s;
+}
+.cta-primary:hover { transform: translateY(-2px); color: var(--paper); }
+.cta-ghost { color: var(--ink); text-decoration: none; padding: 13px 20px; border-radius: 999px; border: 1px solid var(--line); font-weight: 500; }
+.cta-ghost:hover { border-color: var(--accent); color: var(--accent); }
+.sci-colophon { font-size: 0.94rem; color: var(--muted); margin-top: 26px; }
+
+/* Reveal on scroll */
+.sci-sec, .sci-fig { opacity: 1; }
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+@media (max-width: 620px) {
+  body { font-size: 1.06rem; }
+  .sci { padding: 0 18px 90px; }
+  .sci-head { padding: 14px 18px; }
+  .sci-nav { gap: 15px; }
+  .sci-nav a { font-size: 0.9rem; }
+  .standfirst { font-size: 1.2rem; }
+  .sci-inline-fig { float: none; width: 100%; margin: 18px 0; }
+  .eq .katex { font-size: 1em; }
+  .eq-big .katex { font-size: 0.9rem; }
+}

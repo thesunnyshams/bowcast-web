@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Bowcast worldwide rainbow forecast</title>
+  <desc id="desc">Know when the light will bend in your antisolar sky. A dark forecast card with Bowcast's three-arc mark and an example 38 percent reading.</desc>
+  <rect width="1200" height="630" fill="#12151b"/>
+  <g stroke="#2f3644" stroke-width="1" opacity="0.55">
+    <path d="M0 126H1200M0 252H1200M0 378H1200M0 504H1200"/>
+    <path d="M200 0V630M400 0V630M600 0V630M800 0V630M1000 0V630"/>
+  </g>
+  <rect x="36" y="36" width="1128" height="558" rx="26" fill="#12151b" stroke="#2f3644" stroke-width="2"/>
+
+  <g transform="translate(76 65)">
+    <path d="M2 33H70" stroke="#ece7db" stroke-width="3"/>
+    <path d="M6 33A30 30 0 0 1 66 33" fill="none" stroke="#9585ee" stroke-width="7"/>
+    <path d="M14 33A22 22 0 0 1 58 33" fill="none" stroke="#46b8a6" stroke-width="7"/>
+    <path d="M22 33A14 14 0 0 1 50 33" fill="none" stroke="#edb350" stroke-width="7"/>
+  </g>
+  <text x="166" y="97" fill="#ece7db" font-family="Helvetica, Arial, sans-serif" font-size="32" font-weight="700" letter-spacing="0.2">Bowcast</text>
+
+  <text x="76" y="194" fill="#98a1b2" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="3.2">WORLDWIDE RAINBOW FORECAST</text>
+  <text x="76" y="266" fill="#ece7db" font-family="Georgia, 'Times New Roman', serif" font-size="57">Know when the</text>
+  <text x="76" y="329" fill="#ece7db" font-family="Georgia, 'Times New Roman', serif" font-size="57">light will bend in</text>
+  <text x="76" y="392" fill="#ece7db" font-family="Georgia, 'Times New Roman', serif" font-size="57">your antisolar sky.</text>
+  <text x="76" y="437" fill="#cfc9bd" font-family="Helvetica, Arial, sans-serif" font-size="20">Hourly estimated chances of seeing a rainbow,</text>
+  <text x="76" y="469" fill="#cfc9bd" font-family="Helvetica, Arial, sans-serif" font-size="20">seven days out and from anywhere on earth.</text>
+  <text x="76" y="548" fill="#9585ee" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700">bowcast.app</text>
+
+  <g transform="translate(714 105)">
+    <rect width="396" height="420" rx="24" fill="#1d222d" stroke="#2f3644" stroke-width="2"/>
+    <text x="34" y="48" fill="#98a1b2" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="2">EXAMPLE READING</text>
+    <rect x="302" y="23" width="66" height="30" rx="15" fill="#332d20"/>
+    <text x="335" y="44" text-anchor="middle" fill="#f2c06e" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1">GOOD</text>
+    <g transform="translate(198 160)">
+      <path d="M-126 66H126" stroke="#ece7db" stroke-width="3"/>
+      <path d="M-112 66A112 112 0 0 1 112 66" fill="none" stroke="#9585ee" stroke-width="15"/>
+      <path d="M-82 66A82 82 0 0 1 82 66" fill="none" stroke="#46b8a6" stroke-width="15"/>
+      <path d="M-52 66A52 52 0 0 1 52 66" fill="none" stroke="#edb350" stroke-width="15"/>
+    </g>
+    <g fill="#ece7db" font-family="Georgia, 'Times New Roman', serif">
+      <text x="188" y="306" text-anchor="middle" font-size="76">38</text>
+      <text x="237" y="278" font-size="36">%</text>
+    </g>
+    <text x="198" y="331" text-anchor="middle" fill="#98a1b2" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1.5">ESTIMATED CHANCE</text>
+    <path d="M34 349H362" stroke="#2f3644"/>
+    <text x="34" y="383" fill="#cfc9bd" font-family="Helvetica, Arial, sans-serif" font-size="18">40 member weather ensemble</text>
+    <text x="34" y="410" fill="#98a1b2" font-family="Helvetica, Arial, sans-serif" font-size="15">Best interval, viewing direction, live evidence</text>
+  </g>
+</svg>
