@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#12151b" />
+  <title>Privacy · Bowcast</title>
+  <meta name="description" content="How Bowcast handles location, push tokens, account-free sighting reports, local storage, and third-party weather requests." />
+  <link rel="canonical" href="https://bowcast.app/privacy.html" />
+  <meta property="og:title" content="Privacy · Bowcast" />
+  <meta property="og:description" content="How Bowcast handles location, push tokens, account-free reports, local storage, and weather requests." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bowcast.app/privacy.html" />
+  <meta property="og:site_name" content="Bowcast" />
+  <meta property="og:image" content="https://bowcast.app/icons/bowcast-social-1200x630.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Bowcast rainbow forecast" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="preload" href="fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="fonts/fonts.css" />
+  <script>(function(){try{var t=localStorage.getItem('bowcast-theme');if(t!=='dark'&&t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --paper: #f5f2ea; --paper-2: #ece7db; --plaque: #fbf9f4; --line: #d8d2c4;
+      --ink: #232a35; --muted: #5d6675; --accent: #6f5bd6; --text-low: #5b48c2;
+      --violet: #7a68d9; --teal: #2f9e8f; --amber: #dd9f2e;
+    }
+    body {
+      font-family: "Instrument Sans", system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      padding: 48px 20px 80px;
+    }
+    main { max-width: 620px; margin: 0 auto; }
+    h1 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-weight: 400;
+      font-size: 2.2rem;
+      margin-bottom: 4px;
+    }
+    .updated { color: var(--muted); font-size: 0.85rem; margin-bottom: 32px; }
+    h2 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-weight: 400;
+      font-size: 1.35rem;
+      margin: 28px 0 8px;
+    }
+    p, li { font-size: 0.95rem; color: var(--ink); }
+    ul { padding-left: 22px; margin: 8px 0; }
+    a { color: var(--text-low); }
+    .rule { border: none; border-top: 1px solid var(--line); margin: 32px 0; }
+  </style>
+  <link rel="stylesheet" href="theme.css?v=20" />
+  <script src="/analytics.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>Bowcast privacy policy</h1>
+    <p class="updated">Effective August 15, 2026</p>
+
+    <p>Bowcast estimates the chance of seeing a rainbow around you. It is built
+    to know as little about you as possible.</p>
+
+    <h2>Location</h2>
+    <p>Bowcast uses your approximate location to compute estimated rainbow chances for
+    the area around you. On the website and in the packaged apps, coordinates
+    rounded to about 1 km go to Bowcast's shared forecast API. Bowcast then
+    requests weather data for those coordinates from the providers listed
+    below, without your name or an account identifier. If you deny location
+    access, you can search for a place instead. The search text goes through
+    Bowcast's place-search API to the geocoding provider, and only the selected
+    place's coordinates are used for its forecast.</p>
+
+    <h2>Rainbow alerts</h2>
+    <p>If you turn on alerts, we store two things on our server: your device's
+    push token and coordinates rounded to two decimal places, so we can send
+    alerts for your area. Turning alerts off requests deletion from our server.
+    The app confirms the disabled state only after that request succeeds. We
+    send alerts through Google Firebase Cloud Messaging and Apple Push
+    Notification service, which process the delivery. Registrations that have
+    not refreshed for 180 days are removed automatically.</p>
+
+    <h2>Optional account-free rainbow reports</h2>
+    <p>If you choose to report whether you saw a rainbow, Bowcast sends the
+    yes or no result, the observation time, relevant forecast values, and a
+    coarse location to our server. Coordinates are rounded to two decimal
+    places before transmission and storage. The stored report contains no name, email address,
+    push token, advertising identifier, raw IP address, or exact location.</p>
+    <p>We keep these de-identified, account-free reports so we can study forecast performance and
+    periodically calibrate the estimated chance. Coarse coordinates may be
+    used to balance reports from different areas, group reports from the same
+    weather event, and test the calibration on held-out regions. Location is
+    not used as a predictive model input and is not included in published model
+    files. Each report has a random report ID so a network retry does not create
+    a duplicate. The report service uses the request address to form a
+    short-lived, salted rate-limit bucket. Bowcast does not add the raw address
+    to the report or application log fields. Hosting providers may process
+    network metadata under their own terms.</p>
+    <p>Reports do not change the forecast immediately. Bowcast trains candidates
+    in batches. Automated evaluation cannot publish a model: adoption requires
+    explicit review in addition to minimum data-coverage and held-out
+    performance checks. Sending a report is optional.</p>
+    <p>If you choose to share a sighting, Bowcast generates the share card on
+    your device. Native apps keep it in a temporary cache only while the system
+    share sheet is open, then delete it. The app you select receives the card,
+    share text, and Bowcast link under that app's own privacy terms.</p>
+
+    <h2>Anonymous website measurements</h2>
+    <p>The website and installed web app count five product events so we can understand whether the core
+    forecast flow is useful: forecast loaded, forecast window opened, alert
+    enabled, share started, and sighting reported. Each event can be counted at
+    most once per open page. The React Native app does not currently send these
+    product measurements.</p>
+    <p>The measurement contains only the event name and a broad surface label:
+    web, installed web app, iOS, Android, or unknown. It does not contain a
+    coordinate, place name, URL, referrer, account, device identifier, user
+    agent, advertising identifier, or persistent analytics cookie. Bowcast
+    stores daily aggregate counters for 90 days. Global Privacy Control and Do
+    Not Track disable these measurements.</p>
+
+    <h2>Website traffic counts</h2>
+    <p>The bowcast.app website uses Vercel Web Analytics to count page views.
+    It is served from bowcast.app itself, sets no cookie, and writes nothing to
+    your browser's storage. It records the page path, referring site, country,
+    device type, and browser. It does not record your IP address, and it does
+    not build a profile or follow you to other sites.</p>
+    <p>To count a repeat view without an identifier, Vercel derives a hash from
+    the incoming request and re-salts it every 24 hours, so the value cannot
+    connect your visits from one day to the next. Global Privacy Control and Do
+    Not Track disable these counts, the same as the product measurements above.
+    The packaged iOS and Android apps do not load this script at all.</p>
+
+    <h2>What we do not do</h2>
+    <ul>
+      <li>No accounts, and no names or email addresses in forecast, alert, or sighting records.</li>
+      <li>No advertising, cross-site tracking, or marketing SDKs.</li>
+      <li>No analytics identifier that survives the day, and no behavioral profiles.</li>
+      <li>No sale of personal data and no sharing for advertising or cross-context tracking.</li>
+    </ul>
+
+    <h2>Service providers</h2>
+    <ul>
+      <li><a href="https://open-meteo.com/">Open-Meteo</a>: weather forecast data (receives forecast coordinates). Bowcast modifies the source data into its own estimates and scores.</li>
+      <li><a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>: underlying map data for the website and native apps.</li>
+      <li><a href="https://openfreemap.org/">OpenFreeMap</a>: vector map delivery for the native apps. Requests may be processed by its delivery provider, Cloudflare.</li>
+      <li><a href="https://openmaptiles.org/">OpenMapTiles</a>: vector tile schema for the native apps.</li>
+      <li><a href="https://www.rainviewer.com/">RainViewer</a>: recent radar data for the optional Now evidence check (receives sampled map-tile coordinates).</li>
+      <li><a href="https://www.windy.com/">Windy Webcams</a>: live webcam embeds on the Now page.</li>
+      <li><a href="https://vercel.com/">Vercel</a>: website hosting and the cookieless page-view counts described above.</li>
+      <li>Google Firebase / Apple APNs: push notification delivery (only if alerts are on).</li>
+      <li>Google Firebase Firestore: storage for optional account-free rainbow reports, push registrations, and daily aggregate product counters when configured.</li>
+      <li>Vercel and Render: website, forecast API, and notification-relay hosting. These providers may process ordinary network metadata under their own terms.</li>
+    </ul>
+
+    <h2>Advertising</h2>
+    <p>Bowcast shows no ads, and no advertising, consent-management or
+    ad-measurement code is loaded by any page. Bowcast is supported by optional
+    donations through a single link, so there is no advertising business to
+    disclose. If that ever changes, this policy is updated before any ad code
+    ships.</p>
+
+    <h2>Data deletion and contact</h2>
+    <p>A successful alert-disable request removes your push registration. A
+    failed request leaves alerts visibly enabled so you can retry; stale
+    registrations expire after 180 days. Local settings and
+    unsent reports are deleted when you remove the app. Reports contain no
+    direct account or device identifier. You can ask us to delete a report if
+    you kept its report ID. A deleted report is excluded when the next model
+    candidate is trained; an already published aggregate calibration is
+    replaced only after a new candidate passes the safety checks. For any
+    request or question, contact
+    <a href="mailto:i@shamseddin.net">i@shamseddin.net</a>. If you email us,
+    your mail provider and ours process your address and message for support;
+    they are not added to forecast, alert, or sighting records.</p>
+
+    <hr class="rule" />
+    <p><a href="./">Back to Bowcast</a></p>
+  </main>
+</body>
+</html>

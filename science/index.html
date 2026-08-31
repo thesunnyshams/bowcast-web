@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How Bowcast forecasts rainbows</title>
+  <meta name="description" content="Explore the optics, ensemble weather model, research-informed heuristics, historical checks, and limits behind Bowcast's rainbow forecast." />
+  <link rel="canonical" href="https://bowcast.app/science/" />
+  <meta property="og:title" content="The physics of a rainbow forecast" />
+  <meta property="og:description" content="The optics, research, heuristics, ensemble calculation, and limitations behind Bowcast." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://bowcast.app/science/" />
+  <meta property="og:site_name" content="Bowcast" />
+  <meta property="og:image" content="https://bowcast.app/icons/bowcast-social-1200x630.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Bowcast rainbow forecast" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="../icon.svg" type="image/svg+xml" />
+  <script>(function(){try{var t=localStorage.getItem('bowcast-theme');if(t!=='dark'&&t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <link rel="preload" href="../fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="../fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="../fonts/instrument-serif-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="../fonts/fonts.css" />
+  <link rel="stylesheet" href="science.css" />
+  <link rel="stylesheet" href="../theme.css?v=20" />
+  <script src="/analytics.js" defer></script>
+</head>
+<body>
+  <header class="sci-chrome">
+    <div class="chrome-wrap">
+      <a class="site-brand" href="../">
+        <img src="../icons/bowcast-mark.png" alt="" aria-hidden="true" />
+        <span>Bowcast</span>
+      </a>
+      <div class="chrome-right">
+        <nav class="sci-nav">
+          <a href="../map/">Map</a>
+          <a href="../now/">Now</a>
+        </nav>
+        <button class="theme-mini" type="button" title="Toggle dark mode"></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sci-progress" aria-hidden="true"><span id="sci-bar"></span></div>
+
+  <main>
+  <article class="sci">
+
+    <!-- HERO. The spectral rule below it is the page's horizon: everything
+         after it is the document proper. -->
+    <header class="sci-hero">
+      <p class="eyebrow">How Bowcast works</p>
+      <h1>The physics of a<br /><span class="spectral-text">rainbow forecast</span></h1>
+      <p class="standfirst">A rainbow is geometry, physics, and meteorology. This is how Bowcast turns numerical weather forecasts into an estimated hourly chance that the ingredients will align.</p>
+      <p class="byline">Roughly a 12-minute read. Everything below is the actual math behind the map.</p>
+    </header>
+
+    <hr class="spectral-rule" />
+
+    <!-- THE DOCUMENT. Three columns: a sticky contents rail, the measure, and
+         a margin column for the constants panel. Figures break out of the
+         measure to the right, across the margin column. -->
+    <div class="sci-doc">
+
+      <nav class="sci-rail" id="sci-rail" aria-label="Contents">
+        <p class="rail-label">Contents</p>
+        <ol class="rail-list" id="rail-list"></ol>
+      </nav>
+
+      <!-- The constants every figure and equation below refers back to. -->
+      <aside class="sci-constants">
+        <p class="panel-label">Constants</p>
+        <dl>
+          <div><dt>Refractive index, water</dt><dd><var>n</var> 1.333</dd></div>
+          <div><dt>Minimum-deviation entry</dt><dd><var>i</var> 59.4&#176;</dd></div>
+          <div><dt>Minimum deviation</dt><dd><var>D</var> 138&#176;</dd></div>
+          <div><dt>Primary bow radius</dt><dd>42&#176;</dd></div>
+          <div><dt>Violet caustic</dt><dd>40.6&#176;</dd></div>
+          <div><dt>Red caustic</dt><dd>42.4&#176;</dd></div>
+          <div><dt>Alexander's dark band</dt><dd>42.4 to 51&#176;</dd></div>
+        </dl>
+      </aside>
+
+      <!-- SECTION 1: GEOMETRY -->
+      <section class="sci-sec" id="s-geometry">
+        <p class="sec-num">01 · Optics</p>
+        <h2>Why a rainbow is always 42 degrees</h2>
+        <p class="lead">A rainbow isn't an object, but a direction. It is the set of angles at which drops of rain throw sunlight back at you most brightly.</p>
+
+        <p>A ray of sunlight enters a spherical drop, then refracts and reflects once off the inner wall, and refracts again on the way out. If it enters at an angle of incidence \(i\), the total angle it is turned through is</p>
+
+        <div class="eq">
+          <span class="eq-run"><var>D</var>(<var>i</var>) = 180&#176; + 2<var>i</var> &minus; 4<var>r</var>,</span>
+          <span class="eq-gap" aria-hidden="true"></span>
+          <span class="eq-run"><span class="mtx">sin</span>&#8202;<var>i</var> = <var>n</var>&#8202;<span class="mtx">sin</span>&#8202;<var>r</var></span>
+        </div>
+
+        <p>where \(r\) is the refraction angle inside the drop and the refractive index of water, \(n\), is \(1.333\). Rays strike the drop at every incident angle from 0 to 90 degrees, so they leave across a spread of deviations. Rainbows appear where that spread bunches up.</p>
+
+        <figure class="sci-fig" id="fig-drop">
+          <div class="fig-panel">
+            <svg viewBox="0 0 940 300" role="img" aria-label="A light ray refracting into a water drop, reflecting once off the far wall, and refracting out at the rainbow angle.">
+              <circle cx="470" cy="150" r="98" fill="var(--s3, #84898f)" stroke="var(--line, #84898f)" stroke-width="1.5" />
+              <circle cx="470" cy="150" r="98" fill="none" stroke="var(--teal, #3aab9d)" stroke-width="1" opacity=".35" />
+              <line x1="120" y1="66" x2="387" y2="102" stroke="var(--ink, currentColor)" stroke-width="2" />
+              <path d="M381 96 L392 102.5 L380 108" fill="none" stroke="var(--ink, currentColor)" stroke-width="2" />
+              <path d="M387 102 L470 246 L553 102" fill="none" stroke="var(--red, #de6363)" stroke-width="2" />
+              <line x1="553" y1="102" x2="828" y2="66" stroke="var(--red, #de6363)" stroke-width="2" />
+              <path d="M816 60 L830 65.6 L818 72" fill="none" stroke="var(--red, #de6363)" stroke-width="2" />
+              <circle cx="387" cy="102" r="3.5" fill="var(--ink, currentColor)" />
+              <circle cx="470" cy="246" r="3.5" fill="var(--red, #de6363)" />
+              <circle cx="553" cy="102" r="3.5" fill="var(--red, #de6363)" />
+              <text class="fig-label" x="120" y="50">Sunlight in</text>
+              <text class="fig-label" x="828" y="50" text-anchor="end" fill="var(--text-high, #d1665c)">Back to you</text>
+              <text class="fig-label" x="470" y="286" text-anchor="middle">One internal reflection</text>
+            </svg>
+          </div>
+          <figcaption>One internal reflection. The primary bow is light that took this path.</figcaption>
+        </figure>
+
+        <p>"Bunching up" is precise: light intensity piles up where the deviation angle \(D\) is stationary, meaning many rays leave almost parallel. Setting the derivative of the deviation with respect to the incident angle to 0, then using high-school physics, Snell's law, gives the entry angle of the minimum-deviation ray,</p>
+
+        <div class="eq">
+          <span class="eq-run">
+            <span class="frac"><span class="num"><var>dD</var></span><span class="den"><var>di</var></span></span>
+            = 2 &minus; 4
+            <span class="frac"><span class="num"><var>dr</var></span><span class="den"><var>di</var></span></span>
+            = 0
+          </span>
+          <span class="eq-implies" aria-hidden="true">&#10233;</span>
+          <span class="eq-run">
+            <span class="mtx">cos</span><sup>2</sup>&#8202;<var>i</var> =
+            <span class="frac"><span class="num"><var>n</var><sup>2</sup> &minus; 1</span><span class="den">3</span></span>
+          </span>
+        </div>
+
+        <p>which for water is \(i \approx 59.4^\circ\), giving a minimum deviation of \(138^\circ\). When looking at it, though, we look back along the incoming sunlight, so the bright ring sits at</p>
+
+        <div class="eq eq-hero"><span class="eq-run">180&#176; &minus; 138&#176; = <span class="eq-answer">42&#176;</span></span></div>
+
+        <p>from the point directly opposite the sun. This is a caustic. Think of it this way: imagine rolling marbles down a slope. Normally they scatter at the bottom with little pattern. Now put a hole at the bottom and they pile in. The same physics gathers these twice-refracted rays together into a rainbow instead of scattering them apart.</p>
+
+        <figure class="sci-fig" id="fig-deviation">
+          <div class="fig-panel"><svg viewBox="0 0 940 380" id="deviation-plot" role="img" aria-label="Deviation angle versus angle of incidence, showing a minimum near 138 degrees at i equals 59 degrees."></svg></div>
+          <figcaption>The deviation \(D(i)\). It is flat at the bottom near \(i = 59^\circ\), so a broad band of incoming rays all exit near \(138^\circ\). That flatness is the rainbow.</figcaption>
+        </figure>
+
+        <p>Different colors appear for a related reason. Water bends violet more than red, with \(n\) larger for violet (\(1.343\)) than red (\(1.331\)), so the caustic lands at \(40.6^\circ\) for violet and \(42.4^\circ\) for red. Red rides the outer rim, and the whole bow is under two degrees thick. A second, dimmer bow at \(51^\circ\) comes from two internal reflections, with the colors reversed. Between the two lies Alexander's dark band, spanning \(42.4^\circ\) to \(51^\circ\). Bowcast scores the primary bow, not the secondary.</p>
+
+        <h3>The consequence the forecast actually uses</h3>
+        <p>Because the bright ring is \(42^\circ\) from the antisolar point, and the antisolar point sits exactly opposite the sun at elevation \(-h_\odot\), the top of the bow is at elevation \(42^\circ - h_\odot\). Raise the sun and the bow sinks. When the sun climbs above \(42^\circ\), the entire arc is below the horizon and there is nothing to see.</p>
+
+        <figure class="sci-fig" id="fig-cone">
+          <div class="fig-panel fig-split">
+            <svg viewBox="0 0 640 320" id="bow-elevation" role="img" aria-label="A horizon with a rainbow arc whose height depends on the sun's elevation."></svg>
+            <div class="fig-control">
+              <p class="panel-label">Sun elevation</p>
+              <output class="control-value num" id="sun-out" for="sun-slider">20&#176;</output>
+              <input type="range" id="sun-slider" min="0" max="55" value="20" step="1" aria-label="Sun elevation in degrees" />
+              <div class="control-scale"><span>0&#176;</span><span>42&#176;</span><span>55&#176;</span></div>
+              <p class="fig-note" id="bow-note"></p>
+            </div>
+          </div>
+          <figcaption>Drag the sun. Above 42&deg;, the rainbow is gone.</figcaption>
+        </figure>
+
+        <p>The first thing Bowcast computes for every hour is the sun's elevation and azimuth from the NOAA solar position algorithm. If the sun is down or above \(42^\circ\), the hour scores exactly zero before any weather is even considered, meaning geometry is a hard gate. That leads to the next part.</p>
+      </section>
+
+      <!-- SECTION 2: THE MODEL -->
+      <section class="sci-sec" id="s-model">
+        <p class="sec-num">02 · The model</p>
+        <h2>From geometry to a number</h2>
+        <p class="lead">Geometry says whether a rainbow is possible, but weather decides if the ingredients are present in that patch of sky at that moment. Bowcast scores each necessary condition between 0 and 1, then multiplies them. If any one of those conditions is zero, the score is zero.</p>
+
+        <!-- The eight-factor product reads better as a labelled diagram than as
+             the underbraced equation it replaces: the necessary three are
+             tinted, the five modifiers are not. -->
+        <div class="factor-panel">
+          <div class="factor-row">
+            <span class="factor-lead"><span class="mtx">score</span> = 100</span>
+            <span class="factor need"><span class="times" aria-hidden="true">&times;</span><span class="sym"><var>f</var><sub>sun</sub></span><span class="cap">direct light</span></span>
+            <span class="factor need"><span class="times" aria-hidden="true">&times;</span><span class="sym"><var>f</var><sub>rain</sub></span><span class="cap">drops present</span></span>
+            <span class="factor need"><span class="times" aria-hidden="true">&times;</span><span class="sym"><var>f</var><sub>elev</sub></span><span class="cap">bow above ground</span></span>
+            <span class="factor"><span class="times" aria-hidden="true">&times;</span><span class="sym"><var>f</var><sub>conv</sub></span><span class="cap">convection</span></span>
+            <span class="factor"><span class="times" aria-hidden="true">&times;</span><span class="sym"><var>f</var><sub>align</sub></span><span class="cap">alignment</span></span>
+            <span class="factor"><span class="times" aria-hidden="true">&times;</span><span class="sym"><var>f</var><sub>wind</sub></span><span class="cap">wind</span></span>
+            <span class="factor"><span class="times" aria-hidden="true">&times;</span><span class="sym"><var>f</var><sub>temp</sub></span><span class="cap">temperature</span></span>
+            <span class="factor"><span class="times" aria-hidden="true">&times;</span><span class="sym"><var>f</var><sub>conf</sub></span><span class="cap">confidence</span></span>
+          </div>
+          <p class="factor-key">
+            <span><span class="swatch need" aria-hidden="true"></span>necessary</span>
+            <span><span class="swatch" aria-hidden="true"></span>modifier</span>
+          </p>
+        </div>
+
+        <p>The Conditions score /100 measures how closely one forecast matches a rainbow-producing pattern. It is not a percentage or an observed frequency. The first three factors represent direct light, liquid drops, and geometry. The remaining modifiers adjust for convection, alignment, wind, temperature, and forecast confidence.</p>
+        <p>Published studies inform which ingredients matter and their broad relationship to rainbow occurrence. For example, <a href="https://doi.org/10.1002/met.2131" target="_blank" rel="noopener">Liu et al. (2023)</a> found that about 90% of observed rainbows in ZhaoSu, China, occurred during the hour after rainfall. The model has not yet been calibrated against a large, international, representative set of positive and negative observations. That is why Bowcast invites anonymous yes-or-no sighting reports: to build the evidence needed for future calibration.</p>
+
+        <h3>\(f_{\text{sun}}\): is the disc actually shining on the drops</h3>
+        <p>From the forecast's direct-beam sunshine duration, the fraction of the hour with real sun, raised to a concave power:</p>
+        <div class="eq">
+          <span class="eq-run">
+            <var>f</var><sub class="mtx">sun</sub> =
+            <span class="paren" aria-hidden="true">(</span>
+            <span class="frac"><span class="num"><span class="mtx">sunshine seconds</span></span><span class="den">3600</span></span>
+            <span class="paren" aria-hidden="true">)</span><sup class="pow">0.4</sup>
+          </span>
+        </div>
+        <p>The exponent is a Bowcast heuristic reflecting a simple idea: a rainbow needs a sunlit moment, not a fully sunny hour. Ten minutes of sunlight is \(0.17\) of an hour and produces \(f_{\text{sun}} = 0.49\). When sunshine duration is missing, a heuristic layered-cloud fallback stands in, \(1 - 0.9\,c_{\text{low}} - 0.5\,c_{\text{mid}} - 0.15\,c_{\text{high}}\). Low cloud is weighted more heavily because it is more likely to block the solar disc at the forecast point.</p>
+
+        <h3>\(f_{\text{rain}}\): liquid drops in the antisolar sky, just after the rain</h3>
+        <p>In the ZhaoSu, China observations studied by <a href="https://doi.org/10.1002/met.2131" target="_blank" rel="noopener">Liu et al. (2023)</a>, about 90% of observed rainbows occurred during the hour after rainfall. That regional result supports giving clearing showers extra attention, but it is not a universal rate. Bowcast expresses the idea with a temporal maximum:</p>
+        <div class="eq">
+          <span class="eq-run">
+            <var>f</var><sub class="mtx">rain</sub> = <span class="mtx">max</span>&#8202;(&#8202;1.0&#8202;<var>q</var><sub>&minus;1</sub>,&nbsp; 0.9&#8202;<var>q</var><sub>0</sub>,&nbsp; 0.6&#8202;<var>q</var><sub>+1</sub>&#8202;)
+          </span>
+        </div>
+        <p>Here \(q_{-1}\) is the previous hour clearing out, \(q_0\) is the current hour, and \(q_{+1}\) is the next hour approaching, all relative to the hour being scored by Bowcast. Each \(q\) scores the rain in a forecast hour using two things. How much rain falls in mm/h and what type of rain it is. Bowcast's drop-quality curve favours light-to-moderate rain, while the type weighting favours convective showers over steady rain and drizzle (following the physical patterns discussed by <a href="https://doi.org/10.1175/BAMS-D-20-0101.1" target="_blank" rel="noopener">Businger 2021</a>). The exact cutoffs, plateau, and type weights are Bowcast heuristics, not thresholds validated by those papers.</p>
+
+        <figure class="sci-fig" id="fig-curves">
+          <div class="fig-panel fig-two-up">
+            <div class="curve">
+              <p class="panel-label">\(f_{\text{sun}}\), the sunlit fraction</p>
+              <svg viewBox="0 0 420 250" id="plot-sun" role="img" aria-label="The sunshine fraction raised to the 0.4 power, a concave curve."></svg>
+              <p class="curve-note">Concave: brief sun still counts.</p>
+            </div>
+            <div class="curve">
+              <p class="panel-label">\(f_{\text{rain}}\), the drop-quality curve</p>
+              <svg viewBox="0 0 420 250" id="plot-drop" role="img" aria-label="Drop-quality versus rain rate: zero when dry, a plateau near one from 0.5 to 4 millimeters per hour, then falling."></svg>
+              <p class="curve-note">dropQuality(mm/h): light-to-moderate rain is ideal.</p>
+            </div>
+          </div>
+          <figcaption>The two curves the score turns on, drawn from the production functions. The 0.17 mark is the ten-minute case above; the plateau is 0.5 to 4 mm/h.</figcaption>
+        </figure>
+
+        <h3>\(f_{\text{elev}}\) and the small refinements</h3>
+        <p>Lower sun means a more elevated arc standing above the horizon, so Bowcast uses \(f_{\text{elev}} = 0.6 + 0.4(1 - h_\odot/42)\). It then applies the following modifiers: convective energy, wind alignment, precipitation confidence, strong wind, near-freezing rain, and sub-hour timing. The physical rationale is research-informed, but values such as \(1.15\), \(0.12\), and the taper shapes are model choices that require calibration.</p>
+
+        <div class="gates">
+          <h3 class="gates-head">Hard gates &rarr; 0 score</h3>
+          <div class="gate-grid">
+            <div class="gate">
+              <p class="gate-title">Not daylight, or the sun is outside \((0^\circ, 42^\circ]\).</p>
+              <p class="gate-note">The geometry cannot place an arc above the horizon.</p>
+            </div>
+            <div class="gate">
+              <p class="gate-title">Frozen precipitation.</p>
+              <p class="gate-note">Ice crystals do not produce bows.</p>
+            </div>
+            <div class="gate">
+              <p class="gate-title">Total cloud cover &gt; 96%, and no direct sun reported.</p>
+              <p class="gate-note">Informed by the global photographed-rainbow analysis in <a href="https://www.sciencedirect.com/science/article/pii/S095937802200142X" target="_blank" rel="noopener">Carlson et al. (2022)</a>. Treating the study's relationship as an operational cutoff is an unvalidated model choice. Since scoring 3.8 it vetoes the interval only when cloud cover is the only solar signal available: where the same interval reports sunshine duration or direct normal irradiance, the two fields contradict each other, the beam is taken as the more direct physical statement, and the conflict costs half weight instead of the whole interval.</p>
+            </div>
+            <div class="gate">
+              <p class="gate-title">No rain signal at all.</p>
+              <p class="gate-note">Nothing for the light to pass through.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: PROBABILITY -->
+      <section class="sci-sec" id="s-prob">
+        <p class="sec-num">03 · Uncertainty</p>
+        <h2>From a score to an ensemble estimate</h2>
+        <p class="lead">The Conditions score /100 asks how well a forecast matches the pattern, while the headline Estimated chance summarizes uncertainty across an ensemble. It is a weighted model estimate that is not yet a probability calibrated against observed rainbow frequencies. If ensemble feeds are unavailable, Bowcast shows the deterministic Conditions score /100 instead.</p>
+
+        <p>The ICON ensemble provides 40 variations of the same forecast. Each one is called a member and represents a possible weather outcome, with Bowcast checking whether the sun is low enough, precipitation appears in or near the hour, the sky is not almost entirely overcast, and direct sunlight is forecast or inferred. Each member then contributes a value between 0 and 1: 0 when a required ingredient is missing, and up to 1 as direct sunlight strengthens. Bowcast averages those values to produce the Estimated chance:</p>
+
+        <div class="eq">
+          <span class="eq-run">
+            <var>p&#770;</var><sub><var>i</var></sub>(%) =
+            <span class="frac"><span class="num">100</span><span class="den"><var>N</var></span></span>
+            <span class="sum" aria-hidden="true"><span class="lim"><var>N</var></span><span class="sigma">&Sigma;</span><span class="lim"><var>m</var>=1</span></span>
+            <var>w</var><sub><var>m</var>,<var>i</var></sub>
+          </span>
+          <span class="eq-where">where</span>
+          <span class="eq-run">
+            <var>w</var><sub><var>m</var>,<var>i</var></sub> = <span class="mtx ind">1</span>[<span class="mtx">rain</span><sub><var>m</var>,<var>i</var></sub>] &middot; <var>s</var><sub><var>m</var>,<var>i</var></sub>
+          </span>
+        </div>
+
+        <p><span class="term-label">Per member, rather than multiplied marginals.</span> The quantity we want is \(E[\mathbb{1}_{\text{rain}}\,s_{\text{sun}}]\) over the joint distribution. Each member carries its own internal rain&ndash;sun correlation, so averaging the product within each member estimates it directly. Multiplying the ensemble mean \(P(\text{rain})\cdot P(\text{sun})\) instead is biased whenever rainfall and sunshine correlate. They correlate strongly because the same clearing shower can bring both the raindrops and the sunbreak. \(E[XY] \neq E[X]\,E[Y]\) unless \(X\) and \(Y\) are independent, which they are not here.</p>
+        <p><span class="term-label">Occurrence ingredients rather than rain intensity.</span> The member weight \(w\) is the sunlight term gated on rain, rather than a product of rain rate and sunlight. This prevents heavier rain from automatically producing a higher Estimated chance. Rain intensity still contributes to the separate Conditions score /100 through \(f_{\text{rain}}\).</p>
+
+        <p>The sun term uses each member's <span class="term-label">direct normal irradiance</span>, the forecast solar beam in W/m&sup2;, with Bowcast's heuristic ramp \(s = \mathrm{clamp}\!\big((\text{DNI} - 80)/240,\,0,\,1\big)\). Direct irradiance represents a sunbreak more directly than total cloud fraction. In a 2024 reanalysis comparison, this change raised estimates for Honolulu (in Hawai&#699;i, which <a href="https://doi.org/10.1175/BAMS-D-20-0101.1" target="_blank" rel="noopener">Businger (2021)</a> describes as the rainbow capital of the world) much more than for Phoenix:</p>
+
+        <figure class="sci-fig" id="fig-dni">
+          <div class="fig-panel"><svg viewBox="0 0 940 300" id="dni-chart" role="img" aria-label="DNI sensitivity comparison generated from versioned historical data."></svg></div>
+          <figcaption id="dni-caption">DNI sensitivity comparison generated from versioned historical data.</figcaption>
+        </figure>
+      </section>
+
+      <!-- SECTION 4: VALIDATION -->
+      <section class="sci-sec" id="s-validation">
+        <p class="sec-num">04 · Historical checks</p>
+        <h2>Tests against recorded weather</h2>
+        <p class="lead">Bowcast runs a production scoring function over Open-Meteo's historical archive, a reconstruction of past atmospheric conditions. The archive does not have precipitation probability nor rain-versus-showers split, so the checks for those use the production score's default confidence assumption and infer showers from weather codes and CAPE(Convective Available Potential Energy). These checks show whether Bowcast responds sensibly to historical weather or not, but do not establish forecast accuracy because the archive does not record whether a rainbow was actually seen. They are, however, supplemented with retrospective cases of well-documented rainbow events such as the following:</p>
+
+        <h3>The London double rainbow, 8 September 2022</h3>
+        <p>The famous double rainbow over Buckingham Palace appeared the evening the Queen died. Run the model over that whole week in London and ask which date it would have ranked most strongly. Its daily-peak scores:</p>
+        <figure class="sci-fig" id="fig-london">
+          <div class="fig-panel"><svg viewBox="0 0 940 300" id="london-chart" role="img" aria-label="London historical comparison generated from versioned data."></svg></div>
+          <figcaption id="london-caption">London historical comparison generated from versioned data.</figcaption>
+        </figure>
+
+        <h3>A climatology sanity check</h3>
+        <p>A full year of Honolulu reanalysis shows when Bowcast's ingredients often align. The expected late-day and wet-season pattern is a useful check, but not a count of observed rainbows.</p>
+        <figure class="sci-fig" id="fig-clim">
+          <div class="fig-panel fig-two-up">
+            <div class="curve">
+              <p class="panel-label">Qualifying hours by local hour</p>
+              <svg viewBox="0 0 420 200" id="clim-hours" role="img" aria-label="Qualifying rainbow hours in Honolulu 2024 by hour of day, peaking at 5 to 6 PM."></svg>
+            </div>
+            <div class="curve">
+              <p class="panel-label">By month</p>
+              <svg viewBox="0 0 420 200" id="clim-months" role="img" aria-label="Qualifying rainbow hours in Honolulu 2024 by month, peaking in winter and spring."></svg>
+            </div>
+          </div>
+          <figcaption>Honolulu 2024. Model-qualifying hours cluster at 5 to 6 PM and in the winter to spring wet season.</figcaption>
+        </figure>
+        <p id="climatology-result">Honolulu and Phoenix comparison generated from versioned historical data.</p>
+      </section>
+
+      <!-- SECTION 5: RIGHT NOW -->
+      <section class="sci-sec" id="s-nowcast">
+        <p class="sec-num">05 · Right now</p>
+        <h2>From forecast to observation</h2>
+        <p class="lead">Everything so far is a forecast. For the current hour, Bowcast can add recent observational evidence from two free, keyless feeds. Their timestamps and resolutions differ, so this layer is not an instantaneous measurement. It sits on top of the score and is never folded into it, which keeps the backtests above separate from the observation layer.</p>
+
+        <div class="feeds">
+          <div class="feed">
+            <p class="feed-label amber">Satellite.</p>
+            <p>Geostationary satellites (EUMETSAT over Europe, Africa, and South America; Himawari over Asia and Oceania) report direct normal irradiance, the solar beam in W/m&sup2;. Open-Meteo exposes this as a preceding-hour mean that can arrive after source-processing delays. Bowcast accepts readings up to 90 minutes old and displays their age. NASA's GOES feed is not integrated upstream yet, so North America and the central Pacific, Hawaii included, fall back to the forecast's sun.</p>
+          </div>
+          <div class="feed">
+            <p class="feed-label teal">Radar.</p>
+            <p>A global radar mosaic is sampled along the antisolar bearing, the exact direction opposite the sun where the arc would stand. An echo one to fifteen kilometres out means real rain is sitting where the bow would form, the thing a point DNI value cannot place.</p>
+          </div>
+        </div>
+
+        <p>When geometry, recent satellite sunlight, and recent antisolar radar precipitation align, the <a href="../now/">live board</a> marks the ingredients as recently observed, displays the evidence age, and tells you which way to face. That is a prompt to look, not confirmation that a rainbow is visible.</p>
+      </section>
+
+      <!-- SECTION 6: LIMITS -->
+      <section class="sci-sec" id="s-limits">
+        <p class="sec-num">06 · Honesty</p>
+        <h2>What it deliberately does not do</h2>
+        <div class="limits">
+          <div class="limit">
+            <p class="limit-title">Sunlight is a point signal.</p>
+            <p class="limit-body">The score uses forecast sunshine duration with cloud layers as a fallback. The ensemble estimates use each member's forecast DNI, and the live nowcast uses observed DNI where coverage exists. None ray-traces sunlight toward the specific antisolar rain shaft. The radar nowcast narrows the gap by checking the antisolar direction for real rain.</p>
+          </div>
+          <div class="limit">
+            <p class="limit-title">No drop-size distribution.</p>
+            <p class="limit-body">Numerical weather gives rain rate but does not give droplet radii, so shower-versus-drizzle is proxied from weather codes, as drop size is what separates a vivid bow from a washed-out cloudbow.</p>
+          </div>
+          <div class="limit">
+            <p class="limit-title">Only the primary bow is accounted for.</p>
+            <p class="limit-body">Secondary bows, supernumeraries, fogbows, and reflection bows are ignored.</p>
+          </div>
+          <div class="limit">
+            <p class="limit-title">The model is not calibrated at scale internationally.</p>
+            <p class="limit-body">Research informs the ingredients, but Bowcast's weights, curves, and bands have not yet been validated against large, representative sets of positive and negative sighting outcomes. Until then, read the percentage as an Estimated chance from model agreement rather than a proven frequency.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CLOSE -->
+      <section class="sci-close">
+        <h2>See it run</h2>
+        <p>Everything above is live. A shared hosted function runs the forecast and ensemble scoring engine, then caches the result for 15 minutes. The website can fall back to the browser-safe deterministic core if that function is unavailable. The current React Native mobile apps call the hosted likelihood API and may show a cached response when a fresh request fails; they do not run the full scoring engine on-device.</p>
+        <div class="sci-cta">
+          <a class="cta-primary" href="../map/">Open the map &rarr;</a>
+          <a class="cta-ghost" href="../now/">Where it is raining sunlight right now &rarr;</a>
+        </div>
+        <p class="sci-colophon">Bowcast is built by Shams. The model is informed by <a href="https://www.sciencedirect.com/science/article/pii/S095937802200142X" target="_blank" rel="noopener">Carlson et al. 2022</a>, <a href="https://doi.org/10.1002/met.2131" target="_blank" rel="noopener">Liu et al. 2023</a>, and <a href="https://doi.org/10.1175/BAMS-D-20-0101.1" target="_blank" rel="noopener">Businger 2021</a>.</p>
+      </section>
+
+    </div>
+  </article>
+  </main>
+
+  <script type="module" src="science.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page not found · Bowcast</title>
+  <meta name="robots" content="noindex" />
+  <script>(function(){try{var t=localStorage.getItem('bowcast-theme');if(t!=='dark'&&t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <link rel="preload" href="/fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/fonts/fonts.css" />
+  <link rel="stylesheet" href="/landing.css" />
+  <link rel="stylesheet" href="/theme.css?v=20" />
+  <style>
+    .nf { max-width: var(--measure); margin: 0 auto; padding: clamp(72px, 12cqw, 152px) var(--gutter) clamp(84px, 12cqw, 136px); }
+    .nf h1 { font-size: var(--t-2); line-height: 1.02; margin: var(--sp-4) 0 0; max-width: 18ch; }
+    .nf p { font-size: var(--t-body-lg); line-height: 1.6; color: var(--muted); margin: var(--sp-5) 0 0; max-width: 56ch; }
+    .nf-links { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-6); }
+    .nf-links a {
+      display: inline-flex; align-items: center; min-height: 44px; padding: 12px 22px;
+      border-radius: var(--lp-r-chip); box-shadow: inset 0 0 0 1px var(--line);
+      color: var(--ink); font-size: var(--t-body); font-weight: 500;
+    }
+    .nf-links a:first-child { background: var(--ink); color: var(--paper); box-shadow: none; }
+    .nf-links a:hover { box-shadow: inset 0 0 0 1px var(--accent); }
+    .nf-links a:first-child:hover { color: var(--paper); box-shadow: none; opacity: .9; }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header class="lp-head">
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="Bowcast home">
+        <img src="/icons/bowcast-mark.png" alt="" aria-hidden="true" />
+        <span>Bowcast</span>
+      </a>
+      <div class="head-right">
+        <nav class="lp-nav">
+          <a href="/map/">Map</a>
+          <a href="/now/">Now</a>
+          <a href="/rainbow-forecast/">Forecasts</a>
+          <a href="/science/">Science</a>
+        </nav>
+        <button class="theme-toggle" type="button" title="Toggle dark mode"></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="nf">
+    <p class="eyebrow violet">404</p>
+    <h1>There is no forecast at this address.</h1>
+    <p>The page you asked for does not exist, or it was retired. Bowcast dropped its translated pages and its climate article in August 2026, so links to those are gone for good. Everything the forecast can tell you is one of these away.</p>
+    <div class="nf-links">
+      <a href="/map/">Open the map <span aria-hidden="true">&rarr;</span></a>
+      <a href="/now/">Rainbows right now</a>
+      <a href="/rainbow-forecast/">City forecasts</a>
+      <a href="/science/">How it works</a>
+    </div>
+  </main>
+</div>
+<script type="module">import { initThemeToggles } from '/theme.js'; initThemeToggles();</script>
+</body>
+</html>

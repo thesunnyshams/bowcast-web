@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="../manifest.json" />
+  <title>Rainbow conditions right now · Bowcast</title>
+  <meta name="description" content="See where rainbow ingredients align this hour, with observed radar and satellite evidence separated from worldwide forecast estimates." />
+  <link rel="canonical" href="https://bowcast.app/now/" />
+  <meta property="og:title" content="Rainbow conditions right now · Bowcast" />
+  <meta property="og:description" content="Observed ingredients and estimated rainbow chances, ranked worldwide for this hour." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bowcast.app/now/" />
+  <meta property="og:site_name" content="Bowcast" />
+  <meta property="og:image" content="https://bowcast.app/icons/bowcast-social-1200x630.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Bowcast rainbow forecast" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="../icon.svg" type="image/svg+xml" />
+  <script>(function(){try{var t=localStorage.getItem('bowcast-theme');if(t!=='dark'&&t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <link rel="preload" href="../fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="../fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="../fonts/fonts.css" />
+  <link rel="stylesheet" href="../content.css" />
+  <link rel="stylesheet" href="../theme.css?v=20" />
+  <style>
+    /* Bowcast Now, redesigned as two tiers. The whole hierarchy is the split:
+       a recessed watch band that carries only OBSERVED evidence, then the
+       model's own board below a spectral rule. */
+    body { background: var(--paper); color: var(--ink); }
+    .now-page { container-type: inline-size; padding-bottom: 76px; }
+    .now-measure { max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 3.2cqw, 40px); }
+    .mono {
+      font-family: var(--mono); letter-spacing: .13em; text-transform: uppercase;
+    }
+
+    /* ── Chrome ─────────────────────────────────────────── */
+    .now-head {
+      background: var(--s0); box-shadow: inset 0 -1px 0 var(--hair);
+    }
+    .now-head .now-measure {
+      min-height: 62px; display: flex; align-items: center;
+      justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    }
+
+    /* learn.css paints every link in --accent and the browser underlines them.
+       On this page links are chrome, not prose, so they are quiet by default. */
+    .now-page a { text-decoration: none; }
+    .now-page a:hover { color: var(--ink); }
+    .now-head .site-brand { color: var(--ink); font-size: 23px; }
+    .now-head .site-brand img { width: 34px; height: 22px; object-fit: contain; }
+
+    .now-head-right { display: flex; align-items: center; gap: clamp(12px, 2cqw, 20px); }
+    .now-head-link {
+      font-size: 10px; color: var(--muted);
+      min-height: 44px; display: inline-flex; align-items: center; padding-inline: 8px;
+    }
+    .now-head-link:hover { color: var(--ink); }
+    .now-head .site-brand { padding: 12px 0; }
+
+    /* ── The watch band ─────────────────────────────────────
+       Recessed, and it does NOT collapse when nothing is confirmed: an empty
+       band is the ordinary state of the world, so it is designed rather than
+       hidden. */
+    .watch-band { background: var(--s0); box-shadow: inset 0 -1px 0 var(--hair); }
+    .watch-band .now-measure {
+      padding-top: clamp(34px, 4.4cqw, 52px); padding-bottom: clamp(30px, 3.8cqw, 46px);
+    }
+    .now-h1 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 4.2cqw, 50px); line-height: 1.04; margin: 0 0 18px; }
+    .now-lede { max-width: 74ch; color: var(--muted); font-size: 16px; line-height: 1.6; margin: 0 0 clamp(28px, 3.4cqw, 40px); text-wrap: pretty; }
+    .board-head h2 { font-family: var(--display); font-weight: 400; font-size: clamp(31px, 3.6cqw, 44px); line-height: 1.04; margin: 0; }
+
+    .watch-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 28px; flex-wrap: wrap;
+    }
+    .watch-state { display: flex; align-items: center; gap: 10px; }
+    .watch-state .live-dot { width: 8px; height: 8px; box-shadow: none; }
+    .watch-state.quiet .live-dot { animation: none; background: var(--line); }
+    .watch-state .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--text-moderate); }
+    .watch-state.quiet .lbl { color: var(--muted); }
+    .watch-stamp { font-family: var(--mono); font-size: 10.5px; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); }
+
+    /* At most two side by side, divided by a hairline rather than boxed. */
+    .watch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 34px; }
+    @container (max-width: 760px) { .watch-grid { grid-template-columns: 1fr; } }
+    .watch-cell { min-width: 0; padding: 0 clamp(20px, 3cqw, 44px) 0 0; }
+    .watch-cell + .watch-cell {
+      padding: 0 0 0 clamp(20px, 3cqw, 44px);
+      box-shadow: inset 1px 0 0 var(--line-soft);
+    }
+    @container (max-width: 760px) {
+      .watch-cell { padding: 0; }
+      .watch-cell + .watch-cell {
+        padding: 30px 0 0; margin-top: 30px;
+        box-shadow: inset 0 1px 0 var(--line-soft);
+      }
+    }
+    .watch-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+    .watch-name { font-family: var(--display); font-weight: 400; font-size: clamp(31px, 3.6cqw, 44px); line-height: 1.04; margin: 0; }
+    .watch-where { font-size: 13.5px; color: var(--muted); margin: 7px 0 0; }
+    .watch-read { text-align: right; flex: none; }
+    .watch-value { font-family: var(--display); font-size: clamp(31px, 3.6cqw, 44px); line-height: 1; font-variant-numeric: tabular-nums; }
+    .watch-word { font-family: var(--mono); font-size: 9.5px; letter-spacing: .13em; text-transform: uppercase; margin-top: 7px; }
+    .watch-kind { font-family: var(--mono); font-size: 9.5px; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); margin: 6px 0 0; }
+
+    /* Each entry DRAWS its evidence rather than stating it. */
+    .watch-fact { display: flex; align-items: center; gap: 20px; margin-top: 24px; }
+    .watch-fact svg { flex: none; }
+    .watch-fact-k { font-family: var(--mono); font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .watch-fact-v { font-size: 14.5px; line-height: 1.55; color: var(--ink); margin: 5px 0 0; }
+    .watch-fact-v.big { font-family: var(--display); font-size: 26px; line-height: 1.15; margin-top: 3px; }
+    .watch-block { margin-top: 22px; }
+    .watch-links { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 24px; font-size: 14px; }
+    .watch-note { max-width: 78ch; color: var(--muted); font-size: 14px; line-height: 1.6; margin: 38px 0 0; }
+
+    /* The designed empty state. */
+    .watch-empty { margin-top: 30px; display: flex; gap: clamp(28px, 4cqw, 56px); align-items: flex-start; flex-wrap: wrap; }
+    .watch-empty-copy { flex: 1.2 1 420px; min-width: 0; }
+    .watch-empty-copy h2 { font-family: var(--display); font-weight: 400; font-size: clamp(31px, 3.6cqw, 44px); line-height: 1.06; margin: 0; max-width: 22ch; }
+    .watch-empty-copy p { max-width: 60ch; font-size: 16px; line-height: 1.62; color: var(--muted); margin: 18px 0 0; text-wrap: pretty; }
+    /* No last-confirmed card yet: the copy is the whole band, so it stops
+       holding the measure of a missing second column. The headline gets enough
+       room to keep "right now" on its own line rather than orphaning "now". */
+    .watch-empty.is-solo .watch-empty-copy { flex-basis: 100%; }
+    .watch-empty.is-solo .watch-empty-copy h2 { max-width: 30ch; }
+    .watch-empty.is-solo .watch-empty-copy p { max-width: 68ch; }
+    .watch-last {
+      flex: 0 1 320px; min-width: 0; padding: 22px 26px;
+      background: var(--s1); border-radius: 12px; box-shadow: var(--sh-1);
+    }
+    .watch-last .k { font-family: var(--mono); font-size: 9.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+    .watch-last .v { font-family: var(--display); font-size: 31px; line-height: 1.1; margin-top: 9px; }
+    .watch-last .n { font-size: 13.5px; color: var(--muted); line-height: 1.55; margin-top: 7px; }
+
+    /* The spectral rule closes the band. */
+    .band-rule {
+      height: 3px; border: 0; margin: 0;
+      background: linear-gradient(90deg, var(--violet), var(--teal) 34%, var(--amber) 66%, var(--red));
+    }
+
+    /* ── The forecast board ─────────────────────────────── */
+    .board-head { display: flex; align-items: baseline; justify-content: space-between; gap: 28px; flex-wrap: wrap; padding-top: clamp(36px, 4.6cqw, 54px); }
+    .board-head h1 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 4.2cqw, 50px); line-height: 1.04; margin: 0; }
+    .board-lede { max-width: 74ch; color: var(--muted); font-size: 16px; line-height: 1.6; margin: 20px 0 0; text-wrap: pretty; }
+
+    .board-cols, .board-row {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) 92px 132px 150px 108px;
+      gap: 20px;
+    }
+    .board-cols {
+      margin: 40px 0 0; padding-bottom: 11px;
+      box-shadow: inset 0 -1px 0 var(--line);
+      font-family: var(--mono); font-size: 9.5px; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .board-cols .r { text-align: right; }
+    #now-list { list-style: none; margin: 0; padding: 0; }
+    .board-row {
+      align-items: center; padding: 14px 0;
+      box-shadow: inset 0 -1px 0 var(--line-soft);
+      color: inherit; text-decoration: none;
+    }
+    /* Rows the sun rules out keep their true rank and drop back, so ranking by
+       chance alone stops being quietly misleading. */
+    .board-row.ruled-out { opacity: .45; }
+    .board-row:hover { background: var(--s1); }
+    .board-rank { font-family: var(--mono); font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    /* These are spans inside an anchor, so each needs to be told it is a block
+       or the name and its region render on one line. */
+    .board-place { min-width: 0; display: block; }
+    .board-name { display: block; font-size: 16.5px; font-weight: 500; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .board-where { display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .board-local { display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 10.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .board-local .dot { width: 5px; height: 5px; border-radius: 50%; flex: none; }
+    .board-sun { display: flex; align-items: center; gap: 10px; }
+    /* 0 to 70 degrees, with the tick at 60% of the width, which is 42. */
+    .sun-bar { position: relative; width: 62px; height: 5px; background: var(--s1); border-radius: 3px; overflow: hidden; flex: none; }
+    .sun-bar .ceiling { position: absolute; left: 60%; top: 0; bottom: 0; width: 1px; background: var(--amber); opacity: .8; }
+    .sun-bar .fill { height: 100%; border-radius: 3px; }
+    .board-sun .deg { font-family: var(--mono); font-size: 10.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .board-geo { font-family: var(--mono); font-size: 10px; letter-spacing: .11em; text-transform: uppercase; }
+    .board-read { text-align: right; display: block; }
+    .board-value { display: block; font-family: var(--display); font-size: 23px; line-height: 1; font-variant-numeric: tabular-nums; }
+    .board-word { display: block; font-family: var(--mono); font-size: 9px; letter-spacing: .11em; text-transform: uppercase; margin-top: 5px; }
+
+    /* The table collapses to stacked records rather than a squeezed grid. */
+    @container (max-width: 860px) {
+      .board-cols { display: none; }
+      .board-row {
+        grid-template-columns: 30px minmax(0, 1fr) auto;
+        grid-template-areas: "rank place read" ". local read" ". sun read" ". geo read";
+        row-gap: 6px; align-items: start;
+      }
+      .board-rank { grid-area: rank; }
+      .board-place { grid-area: place; }
+      .board-local { grid-area: local; }
+      .board-sun { grid-area: sun; }
+      .board-geo { grid-area: geo; }
+      .board-read { grid-area: read; align-self: center; }
+    }
+
+    .board-foot { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding-top: 30px; }
+    #now-show-all {
+      appearance: none; border: 0; cursor: pointer;
+      background: var(--s2); box-shadow: var(--sh-1); color: var(--ink);
+      font-family: var(--font); font-size: 14px; font-weight: 500;
+      border-radius: 999px; padding: 13px 22px; min-height: 44px;
+    }
+    #now-show-all[hidden] { display: none; }
+    .board-foot p { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0; }
+
+    #now-status {
+      background: var(--s1); border-radius: 12px; box-shadow: var(--sh-1);
+      padding: 18px 20px; margin: 24px 0; font-size: 1.02rem; color: var(--muted);
+    }
+    #now-status.error { color: var(--text-high); }
+    #now-status.saved { color: var(--text-moderate); }
+    #now-status[hidden] { display: none; }
+
+    /* The status and its control share a row so the remedy sits with the bad
+       news. The row collapses to a column on a phone, where a button beside a
+       three-line sentence would be squeezed to nothing. */
+    .now-status-row { display: flex; align-items: center; gap: 14px; }
+    .now-status-row #now-status { flex: 1; }
+    #now-retry-btn {
+      flex: none; background: none; border: 1px solid var(--line);
+      border-radius: 9px; padding: 9px 15px; min-height: 44px;
+      font-family: var(--font); font-size: 0.92rem; color: var(--ink); cursor: pointer;
+    }
+    #now-retry-btn[hidden] { display: none; }
+    #now-retry-btn:hover { background: var(--s2); }
+    #now-retry-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    #now-retry-btn[disabled] { opacity: .55; cursor: default; }
+    @media (max-width: 560px) {
+      .now-status-row { align-items: stretch; flex-direction: column; gap: 0; }
+      .now-status-row #now-status { margin-bottom: 14px; }
+      #now-retry-btn { margin-bottom: 24px; }
+    }
+
+    /* The nearby webcam keeps its place between the band and the board: it is
+       observed evidence too, and Windy's credit is a licence requirement. */
+    #hot { margin: 28px 0 0; display: grid; gap: 14px; }
+    #hot[hidden] { display: none; }
+    .hot-card { border-radius: 12px; overflow: hidden; background: var(--s1); box-shadow: var(--sh-1); }
+    .hot-cam { position: relative; aspect-ratio: 16 / 9; background: var(--s0); }
+    .hot-cam iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .hot-body { padding: 16px 20px 18px; }
+    .hot-eyebrow { font-family: var(--mono); font-size: 9.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+    .hot-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+    .hot-name { font-family: var(--display); font-size: 31px; line-height: 1.1; font-weight: 400; margin: 0; }
+    .hot-num { font-family: var(--display); font-size: 31px; line-height: 1; font-variant-numeric: tabular-nums; }
+    .hot-word { font-family: var(--mono); font-size: 9.5px; letter-spacing: .13em; text-transform: uppercase; }
+    .hot-meta { color: var(--muted); font-size: 14px; line-height: 1.55; margin-top: 8px; }
+    .hot-cam-credit { font-size: 11.5px; color: var(--muted); padding: 8px 20px 0; }
+    /* Standalone actions, not links inside a sentence, so they carry the full
+       target. The gap gives back what the padding takes. */
+    .hot-links { margin-top: 1px; display: flex; gap: 0; flex-wrap: wrap; font-size: 14px; }
+    .hot-links a { min-height: 44px; display: inline-flex; align-items: center; padding-inline: 8px; }
+    .hot-links a:first-child { padding-inline-start: 0; }
+
+    /* Level colors, keyed by this app's internal level ids. */
+    .lv-high    { color: var(--text-high); }     .bg-high    { background: var(--color-high); }
+    .lv-good    { color: var(--text-good); }     .bg-good    { background: var(--color-good); }
+    .lv-moderate{ color: var(--text-moderate); } .bg-moderate{ background: var(--color-moderate); }
+    .lv-low     { color: var(--text-low); }       .bg-low     { background: var(--color-low); }
+    .lv-none    { color: var(--text-none); }      .bg-none    { background: var(--color-none); }
+
+    .now-foot {
+      display: flex; gap: 30px; flex-wrap: wrap; justify-content: space-between;
+      margin-top: 66px; padding-top: 26px; box-shadow: inset 0 1px 0 var(--line);
+      font-size: 13.5px; color: var(--muted);
+    }
+    /* The row's 18px gap gives back what the links' padding takes, so the
+       words sit where they did while each target reaches 44px. */
+    .now-foot .links { display: flex; gap: 2px; flex-wrap: wrap; }
+    .now-foot .links a { padding: 13px 8px; }
+  </style>
+  <script src="/analytics.js" defer></script></head>
+<body>
+<div class="now-page">
+
+  <header class="now-head">
+    <div class="now-measure">
+      <a class="site-brand" href="../">
+        <img src="../icons/bowcast-mark.png" alt="" aria-hidden="true" />
+        Bowcast
+      </a>
+      <div class="now-head-right">
+        <a class="mono now-head-link" href="../science/">Science</a>
+        <nav class="view-switch" data-active="now" aria-label="Switch section">
+          <a class="seg" href="../map/">Map</a>
+          <a class="seg" aria-current="page" href="./">Now</a>
+        </nav>
+        <button class="theme-mini" type="button" title="Toggle dark mode"></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+  <!-- TIER ONE: the watch band. Only places with observed radar and satellite
+       evidence appear here, at most two. It never collapses: nothing confirmed
+       is the ordinary state, so the empty state is designed. -->
+  <section class="watch-band" aria-labelledby="watch-label">
+    <div class="now-measure">
+      <h1 class="now-h1">Rainbows right now</h1>
+      <p class="now-lede">See where rain, sunlight, and rainbow geometry align this hour. Observation-backed ingredients are separated from forecast-supported conditions, followed by estimated chances across <span id="city-count">66</span> worldwide cities. Aligned ingredients do not confirm that a rainbow is visible.</p>
+
+      <div class="watch-head">
+        <div class="watch-state quiet" id="watch-state">
+          <span class="live-dot"></span>
+          <!-- Written by now-page.js, which owns this string with an English
+               fallback, so it needs no dictionary key of its own. -->
+          <span class="lbl" id="watch-label">Nothing confirmed &middot; watching</span>
+        </div>
+        <div class="watch-stamp" id="watch-stamp"></div>
+      </div>
+
+      <div class="watch-grid" id="happening" hidden></div>
+
+      <div class="watch-empty" id="watch-empty">
+        <div class="watch-empty-copy">
+          <h2>Nothing is confirmed right now</h2>
+          <p>No place currently has both recent antisolar radar precipitation and recent satellite sunlight. That is the ordinary state of the world, not a failure of the feeds. The board below is the model's view until something clears.</p>
+        </div>
+        <div class="watch-last" id="watch-last" hidden></div>
+      </div>
+
+      <p class="watch-note">These are recent observations of the ingredients, not of a rainbow. Each accepted radar and satellite reading shows its age.</p>
+    </div>
+  </section>
+
+  <hr class="band-rule" />
+
+  <!-- TIER TWO: the model's own board. -->
+  <div class="now-measure">
+    <div class="board-head">
+      <h2>Ranked by this hour</h2>
+      <div class="watch-stamp" id="now-updated"></div>
+    </div>
+    <p class="board-lede">Everywhere else, ranked by the model alone. Chance is only half the physics, so the geometry column reports the sun as well: rows are dimmed where the sun rules a bow out this hour whatever the rain does.</p>
+
+    <div class="now-status-row">
+      <div id="now-status" role="status" aria-live="polite">Loading the shared worldwide forecast…</div>
+      <!-- The status copy has said "try again" since this page shipped, with
+           nothing to press. This is that control. -->
+      <button id="now-retry-btn" type="button" hidden>Try again</button>
+    </div>
+
+    <section id="hot" hidden></section>
+
+    <div id="now-main" hidden>
+      <div class="board-cols" aria-hidden="true">
+        <div></div>
+        <div>Place</div>
+        <div>Local</div>
+        <div>Sun</div>
+        <div>Geometry</div>
+        <div class="r">Chance</div>
+      </div>
+      <ol id="now-list"></ol>
+      <div class="board-foot">
+        <button id="now-show-all" type="button" aria-controls="now-list" aria-expanded="false" hidden>Show all cities</button>
+        <p>The tick on each sun bar is the 42 degree ceiling · /100 values are conditions scores</p>
+      </div>
+    </div>
+  </div>
+  </main>
+
+  <div class="now-measure">
+    <footer class="now-foot">
+      <div class="links">
+        <a href="../map/">Bowcast live map</a>
+        <a href="../science/">The science</a>
+        <a href="../rainbow-forecast/">All cities</a>
+        <a href="../privacy.html">Privacy</a>
+      </div>
+      <div>Forecast data: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>; estimates modified by Bowcast · Radar source: <a href="https://www.rainviewer.com/" target="_blank" rel="noopener">RainViewer</a></div>
+    </footer>
+  </div>
+</div>
+<script type="module" src="now-page.js?v=20"></script>
+<script src="/install-prompt.js" defer></script>
+</body>
+</html>

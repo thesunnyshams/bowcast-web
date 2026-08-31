@@ -1,0 +1,562 @@
+/* Bowcast science: a scientific document, not an article template.
+ *
+ * Three columns at desktop: a 176px sticky contents rail, a 620px measure, and
+ * a margin column holding the constants panel. Figures break out of the measure
+ * across the margin column, so a chart gets 892px while the prose keeps its
+ * measure. The breakout is logical (margin-inline-end), so the Arabic copy
+ * mirrors it instead of running figures under the rail.
+ *
+ * Equations are set in HTML: Instrument Serif italic carries the variables,
+ * fractions are a two-row flex column with a rule between them. There is no
+ * KaTeX and no CDN on the critical path, so the page paints immediately. The
+ * inline maths inside translated prose is converted by inline-math.js.
+ *
+ * Dark first in intent, light first in structure: the token values here are the
+ * light temperature and theme.css swaps them, which is how every other surface
+ * in this redesign works.
+ *
+ * Captions sit under their figure rather than in the rail column, which is
+ * where the design bundle put them: the contents rail is sticky for the whole
+ * document here, so that column is never free.
+ */
+
+:root {
+  --font: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+  --sans: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+  --display: 'Instrument Serif', Georgia, serif;
+  --mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+
+  --paper: #f5f2ea; --paper-2: #ece7db; --plaque: #fbf9f4;
+  --line: #d8d2c4; --line-soft: #e6e0d3; --ink: #232a35; --muted: #5d6675;
+
+  --color-none: #a9a294; --color-low: #7a68d9; --color-moderate: #2f9e8f;
+  --color-good: #dd9f2e; --color-high: #d95f52;
+  --text-none: #69645a; --text-low: #5b48c2; --text-moderate: #1f6d63;
+  --text-good: #8a6008; --text-high: #b0392e;
+
+  --violet: #7a68d9; --teal: #2f9e8f; --amber: #e0922e; --red: #d1495b;
+  --accent: #6f5bd6;
+  --shadow-sm: 0 1px 3px rgba(35, 42, 53, .12), 0 1px 2px rgba(35, 42, 53, .06);
+
+  /* The document's own measures. Fixed tracks, centred: leftover width goes
+     outside the grid rather than stretching the measure. */
+  --rail: 176px;
+  --gap: 52px;
+  --measure: 620px;
+  --margin-col: 220px;
+  --page: 1200px;
+  --pad: 40px;
+
+  /* Type. The display sizes are fluid so the document survives a laptop at
+     1024 without a second layout. */
+  --t-hero: clamp(44px, 7.4vw, 92px);
+  --t-h2: clamp(31px, 3.8vw, 47px);
+  --t-h3: clamp(25px, 2.4vw, 31px);
+  --t-stand: clamp(18px, 1.7vw, 20px);
+  --t-body: 17px;
+  --t-small: 13.5px;
+  --t-label: 10.5px;
+  --t-eq: clamp(19px, 2.2vw, 27px);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--t-body);
+  line-height: 1.68;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 { font-family: var(--display); font-weight: 400; }
+.num, .sci-constants dd, .control-value { font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ── Shared marks ───────────────────────────────────────── */
+.panel-label, .rail-label, .sec-num, .eyebrow, .byline, .factor-key, .control-scale {
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-size: var(--t-label);
+  color: var(--muted);
+}
+
+/* The spectral rule: closes the hero, and acts as the document's horizon. */
+.spectral-rule {
+  height: 3px; border: 0; margin: 64px 0 0;
+  background: linear-gradient(90deg, var(--violet), var(--teal) 34%, var(--amber) 66%, var(--red));
+}
+:root:not([data-theme="dark"]) .spectral-rule { opacity: .85; }
+
+/* ── Chrome ─────────────────────────────────────────────── */
+.sci-chrome { background: var(--s0); box-shadow: inset 0 -1px 0 var(--hair); }
+.chrome-wrap {
+  max-width: var(--page); margin: 0 auto; padding: 0 var(--pad);
+  height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.site-brand {
+  display: inline-flex; align-items: center; gap: 11px;
+  font-family: var(--display); font-size: 23px; line-height: 1;
+  color: var(--ink); text-decoration: none;
+  /* 23px of type is not a target. Negative margins keep the mark where it was
+     drawn while the hit area reaches 44px. */
+  padding: 11px 10px; margin: -11px -10px;
+}
+.site-brand img { width: 34px; height: 22px; object-fit: contain; }
+.chrome-right { display: flex; align-items: center; gap: 20px; }
+/* 10px uppercase words are 22px wide, under the 24px floor on that axis. The
+   gap gives back exactly what the padding takes, so the spacing is unchanged. */
+.sci-nav { display: flex; gap: 6px; }
+.sci-nav a {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; border: 0;
+  min-height: 44px; display: inline-flex; align-items: center; padding-inline: 8px;
+}
+.sci-nav a:hover { color: var(--ink); }
+.theme-mini { border-color: var(--hair); }
+
+.sci-progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 30; }
+/* Full width, scaled from the left, rather than a width set each frame: the
+   reading position updates on every scroll frame, and width goes through
+   layout while a transform does not. */
+.sci-progress span {
+  display: block; height: 100%; width: 100%;
+  transform: scaleX(0); transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--violet), var(--teal) 34%, var(--amber) 66%, var(--red));
+}
+
+/* ── Shell ──────────────────────────────────────────────── */
+.sci { max-width: var(--page); margin: 0 auto; padding: 0 var(--pad) 96px; }
+
+.sci-hero { padding: 86px 0 0; max-width: 900px; }
+.sci-hero h1 {
+  font-size: var(--t-hero); line-height: 1; letter-spacing: -.01em; margin: 22px 0 0;
+}
+.spectral-text {
+  background: linear-gradient(90deg, var(--violet), var(--teal) 36%, var(--amber) 68%, var(--red));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+/* Without these the h1 reads "The physics of a" in forced-colors and in print,
+   because a transparent word depends on a background that neither one paints. */
+@media (forced-colors: active) {
+  .spectral-text { background: none; color: CanvasText; forced-color-adjust: none; }
+}
+@media print {
+  .spectral-text { background: none; color: #232a35; }
+}
+.standfirst {
+  max-width: 58ch; font-size: var(--t-stand); line-height: 1.55;
+  color: var(--ink); margin: 34px 0 0; text-wrap: pretty;
+}
+.byline { letter-spacing: .13em; margin: 26px 0 0; }
+.eyebrow { margin: 0; }
+
+/* ── The three-column document ──────────────────────────── */
+.sci-doc {
+  display: grid;
+  grid-template-columns: var(--rail) var(--measure) var(--margin-col);
+  column-gap: var(--gap);
+  justify-content: center;
+  align-items: start;
+  margin-top: 56px;
+}
+.sci-doc > .sci-sec, .sci-doc > .sci-close { grid-column: 2; min-width: 0; }
+
+.sci-rail {
+  grid-column: 1; grid-row: 1 / -1;
+  position: sticky; top: 24px; align-self: start;
+}
+.rail-label { margin: 0 0 16px; }
+.rail-list { list-style: none; margin: 0; padding: 0; }
+.rail-list a {
+  display: flex; align-items: baseline; gap: 12px; padding: 11px 0;
+  /* The rows sit directly against each other, so height is the whole target:
+     11px of padding on 16px of text left it at 38px. */
+  min-height: 44px; box-sizing: border-box;
+  box-shadow: inset 0 -1px 0 var(--line-soft);
+  color: var(--muted); text-decoration: none; border: 0;
+  font-size: var(--t-small); line-height: 1.35;
+}
+.rail-list a:hover { color: var(--ink); }
+.rail-list a.here { color: var(--ink); }
+.rail-list .n { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; }
+
+.sci-constants {
+  grid-column: 3; grid-row: 1; align-self: start;
+  padding: 22px 24px; background: var(--s1);
+  border-radius: var(--r-panel); box-shadow: var(--sh-1);
+}
+.sci-constants .panel-label { margin: 0 0 4px; }
+.sci-constants dl { margin: 0; }
+.sci-constants dl > div {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
+  padding: 10px 0; box-shadow: inset 0 -1px 0 var(--line-soft);
+}
+.sci-constants dt { font-size: 13px; line-height: 1.4; color: var(--muted); min-width: 0; }
+.sci-constants dd {
+  margin: 0; font-family: var(--mono); font-size: 12px; color: var(--ink); white-space: nowrap;
+}
+
+/* ── Sections and prose ─────────────────────────────────── */
+.sci-sec { padding: 0 0 52px; }
+.sci-sec + .sci-sec { padding-top: 44px; }
+#s-prob, #s-validation, #s-nowcast, #s-limits { padding-top: 96px; }
+.sec-num { color: var(--text-moderate); margin: 0; }
+.sci-sec h2 { font-size: var(--t-h2); line-height: 1.06; margin: 14px 0 0; }
+.sci-sec h3 { font-size: var(--t-h3); line-height: 1.14; margin: 44px 0 0; }
+.sci-sec p { margin: 20px 0 0; color: var(--muted); text-wrap: pretty; }
+.sci-sec h2 + p, .sci-sec h3 + p { margin-top: 26px; }
+.sci-sec p.lead { color: var(--ink); }
+.sci-sec a {
+  color: var(--text-low); text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-low) 35%, transparent);
+}
+.sci-sec a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+.term-label {
+  color: var(--ink); font-weight: 600;
+}
+
+/* ── Maths ──────────────────────────────────────────────── */
+var {
+  font-family: var(--display); font-style: italic;
+  font-size: 1.08em; letter-spacing: .01em;
+}
+/* \text and \mathrm: upright, and a shade smaller than the italics. */
+.mtx { font-family: var(--sans); font-style: normal; font-size: .84em; letter-spacing: .01em; }
+/* Maths reads left to right in every locale, and isolating it keeps the Arabic
+   copy from bidi-reordering a formula's own terms. */
+.m {
+  white-space: nowrap; font-variant-numeric: tabular-nums; text-transform: none;
+  direction: ltr; unicode-bidi: isolate;
+}
+.m sub, .m sup, .eq sub, .eq sup { font-family: var(--sans); font-style: normal; }
+.m sub, .m sup { font-size: .62em; }
+
+/* Inline layout inside an equation, never flex: sub and sup rely on
+   vertical-align, and a flex container would strip it and centre them. Each
+   run is an inline-block that will not break mid-formula; the space between
+   runs is real whitespace from the markup. */
+.eq {
+  margin: 28px 0 0; padding: 26px 30px;
+  background: var(--s1); border-radius: 10px; box-shadow: var(--sh-1);
+  font-family: var(--display); font-size: var(--t-eq); line-height: 1.5;
+  text-align: center; font-variant-numeric: tabular-nums;
+  overflow-x: auto;
+  /* An equation reads left to right in every locale: without this the Arabic
+     copy lays the runs out backwards, so 180 minus 138 equals 42 arrives as
+     42 equals 138 minus 180. */
+  direction: ltr;
+}
+.eq sub, .eq sup { font-size: .5em; }
+.eq-run { display: inline-block; white-space: nowrap; margin: 0 5px; }
+.eq-gap { display: inline-block; width: 34px; }
+.eq-implies, .eq-where { color: var(--muted); margin: 0 10px; }
+.eq-where { font-size: .74em; }
+.eq-hero { font-size: clamp(28px, 3.4vw, 40px); line-height: 1; padding: 30px; }
+.eq-answer { color: var(--text-good); }
+
+.frac {
+  display: inline-flex; flex-direction: column; align-items: center;
+  line-height: 1.15; vertical-align: middle;
+}
+.frac .num { padding: 0 8px 3px; }
+.frac .den { border-top: 1px solid currentColor; padding: 3px 8px 0; }
+
+/* A tall delimiter around a fraction: stretching the glyph beats guessing at a
+   font size, and it stays centred on the fraction it wraps. */
+.paren {
+  display: inline-block; vertical-align: middle;
+  transform: scaleY(2.1); color: var(--muted);
+}
+/* An exponent on a stretched delimiter belongs at the top of the line, not on
+   the baseline halfway down it. */
+.eq .pow { vertical-align: top; font-size: .46em; }
+
+.sum { display: inline-block; text-align: center; vertical-align: middle; line-height: 1; }
+.sum .sigma { display: block; font-size: 1.5em; line-height: .9; }
+.sum .lim { display: block; font-size: .42em; }
+
+/* The indicator function keeps its upright 1. */
+.ind { font-weight: 600; }
+
+/* ── The eight-factor diagram ───────────────────────────── */
+.factor-panel {
+  margin: 34px 0 0; margin-inline-end: calc(-1 * (var(--gap) + var(--margin-col)));
+  padding: 30px 30px 24px;
+  background: var(--s1); border-radius: var(--r-panel); box-shadow: var(--sh-1);
+}
+.factor-row {
+  display: grid; grid-template-columns: auto repeat(8, minmax(0, 1fr));
+  align-items: stretch;
+  direction: ltr;   /* it is a product, so it reads like one, in every locale */
+}
+.factor-lead {
+  align-self: center; padding-inline-end: 22px;
+  font-family: var(--display); font-size: 26px; line-height: 1; white-space: nowrap;
+}
+.factor-lead .mtx { font-size: .78em; }
+.factor {
+  padding: 4px 8px 0;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.factor + .factor, .factor-lead + .factor { border-inline-start: 1px solid var(--line-soft); }
+.factor .times { font-family: var(--display); font-size: 15px; color: var(--muted); }
+.factor .sym { font-family: var(--display); font-size: 26px; line-height: 1; margin-top: 8px; }
+.factor .sym sub { font-size: .52em; }
+.factor.need .sym { color: var(--text-moderate); }
+.factor .cap {
+  font-family: var(--mono); font-size: 9px; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--muted); margin-top: 10px; line-height: 1.5;
+}
+.factor-key {
+  display: flex; gap: 26px; flex-wrap: wrap; margin: 24px 0 0; padding-top: 18px;
+  box-shadow: inset 0 1px 0 var(--line-soft); letter-spacing: .1em;
+}
+.factor-key span { display: inline-flex; align-items: center; gap: 8px; }
+.factor-key .swatch { width: 10px; height: 10px; border-radius: 2px; background: var(--line); }
+.factor-key .swatch.need { background: var(--teal); }
+
+/* ── Hard gates ─────────────────────────────────────────── */
+.gates { margin-top: 52px; }
+.sci-sec .gates-head {
+  font-family: var(--mono); font-size: var(--t-label); letter-spacing: .15em;
+  text-transform: uppercase; color: var(--text-high); margin: 0; line-height: 1.6;
+}
+.gate-grid {
+  margin-top: 20px; margin-inline-end: calc(-1 * (var(--gap) + var(--margin-col)));
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  box-shadow: inset 0 1px 0 var(--line);
+}
+.gate {
+  padding: 26px; box-shadow: inset 0 -1px 0 var(--line-soft);
+  border-inline-start: 1px solid var(--line-soft);
+}
+.gate:first-child { padding-inline-start: 0; border-inline-start: 0; }
+.gate .gate-title {
+  font-family: var(--display); font-size: 21px; line-height: 1.2; color: var(--ink); margin: 0;
+}
+.gate .gate-note { font-size: var(--t-small); line-height: 1.6; color: var(--muted); margin: 10px 0 0; }
+
+/* ── The two observation feeds ──────────────────────────── */
+.feeds {
+  margin-top: 40px; margin-inline-end: calc(-1 * (var(--gap) + var(--margin-col)));
+  display: grid; grid-template-columns: 1fr 1fr;
+  box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line);
+}
+.feed { padding: 30px 0; padding-inline-end: 34px; }
+.feed + .feed {
+  padding-inline: 34px 0; border-inline-start: 1px solid var(--line-soft);
+}
+.feed-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+  margin: 0;
+}
+/* The spectral accents are graphic colours: they are tuned to read as arcs and
+   rules, not as 10px uppercase type. On light paper --amber came to 2.26:1 and
+   --teal to 2.93:1. The --text-* ramp exists precisely for small text on paper,
+   carries the same hues, and clears AA on both temperatures. */
+.feed-label.amber { color: var(--text-good); }
+.feed-label.teal { color: var(--text-moderate); }
+.feed p:not(.feed-label) { font-size: 16px; line-height: 1.65; color: var(--muted); margin: 14px 0 0; max-width: 46ch; }
+
+/* ── Limits ─────────────────────────────────────────────── */
+.limits { margin: 34px 0 0; margin-inline-end: calc(-1 * (var(--gap) + var(--margin-col))); }
+.limit {
+  display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: var(--gap);
+  padding: 26px 0; box-shadow: inset 0 -1px 0 var(--line-soft);
+}
+.limit-title {
+  font-family: var(--display); font-size: 25px; line-height: 1.18;
+  color: var(--ink); margin: 0; text-wrap: pretty;
+}
+.limit-body { font-size: 16px; line-height: 1.65; color: var(--muted); margin: 0; max-width: 58ch; }
+
+/* ── Figures ────────────────────────────────────────────── */
+.sci-fig {
+  margin: 52px 0 0; margin-inline-end: calc(-1 * (var(--gap) + var(--margin-col)));
+}
+.fig-panel {
+  background: var(--s1); border-radius: var(--r-panel); box-shadow: var(--sh-1);
+  padding: 26px 30px;
+}
+/* Every figure label is English or numeric, and an axis reads left to right in
+   any locale, so the drawings stay LTR even inside the Arabic copy: otherwise
+   text-anchor flips and "138 degrees at i = 59.4" gets bidi-reordered. */
+.fig-panel svg { width: 100%; height: auto; display: block; direction: ltr; }
+/* SVG type. The figures are drawn by science.js and inherit these, so a chart
+   never carries its own font stack. */
+.fig-label {
+  font-family: var(--mono); font-size: calc(13px * var(--fig-scale)); letter-spacing: .1em;
+  text-transform: uppercase; fill: var(--muted);
+}
+/* SVG text lives in user units, so a wide viewBox shrunk into a narrow column
+   shrinks its labels with it. --fig-scale lets the wide figures bump their own
+   type back to a readable size on a phone. */
+.fig-label, .fig-tick, .fig-mini, .fig-axis, .fig-annot, .fig-value, .fig-name { --fig-scale: 1; }
+.fig-tick {
+  font-family: var(--mono); font-size: calc(12px * var(--fig-scale));
+  fill: var(--muted); font-variant-numeric: tabular-nums;
+}
+.fig-mini {
+  font-family: var(--mono); font-size: calc(9.5px * var(--fig-scale));
+  fill: var(--muted); font-variant-numeric: tabular-nums;
+}
+.fig-axis {
+  font-family: var(--mono); font-size: calc(11px * var(--fig-scale));
+  letter-spacing: .13em; text-transform: uppercase; fill: var(--muted);
+}
+.fig-annot {
+  font-family: var(--mono); font-size: calc(12.5px * var(--fig-scale));
+  letter-spacing: .08em; fill: var(--muted);
+}
+.fig-value {
+  font-family: var(--display); font-size: calc(22px * var(--fig-scale));
+  fill: var(--ink); font-variant-numeric: tabular-nums;
+}
+.fig-name { font-family: var(--display); font-size: calc(27px * var(--fig-scale)); fill: var(--ink); }
+.sci-fig figcaption {
+  font-size: var(--t-small); line-height: 1.6; color: var(--muted);
+  margin-top: 14px; max-width: 62ch;
+}
+
+.fig-split { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 34px; align-items: center; }
+.fig-control .panel-label { margin: 0; }
+.control-value { font-family: var(--display); font-size: 54px; line-height: 1; margin-top: 8px; }
+/* The one control on the page you drag rather than tap, so the grab area is
+   the thing that matters. The track still draws thin; the height is hit area,
+   and the margin gives back what it takes so the figure keeps its spacing. */
+.fig-control input[type="range"] {
+  width: 100%; margin: 12px 0 -10px; accent-color: var(--amber); height: 44px;
+}
+.control-scale { display: flex; justify-content: space-between; letter-spacing: .06em; margin-top: 2px; }
+.fig-note { font-size: 14.5px; line-height: 1.6; color: var(--muted); margin: 20px 0 0; min-height: 4.8em; }
+.fig-note.gone { color: var(--text-high); }
+
+.fig-two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
+.fig-two-up .panel-label { margin: 0 0 14px; letter-spacing: .15em; }
+.curve-note { font-size: 12.5px; line-height: 1.5; color: var(--muted); margin: 8px 0 0; }
+
+/* ── Close ──────────────────────────────────────────────── */
+.sci-close {
+  margin-top: 96px; padding: 56px 0 0; box-shadow: inset 0 1px 0 var(--line);
+}
+.sci-close h2 { font-size: clamp(34px, 4.6vw, 62px); line-height: 1.04; margin: 0; }
+.sci-close p { max-width: 62ch; color: var(--muted); margin: 20px 0 0; }
+.sci-cta { display: flex; gap: 14px; flex-wrap: wrap; margin: 32px 0 0; }
+.sci-cta a {
+  border-radius: var(--r-chip); padding: 15px 26px; font-size: 15px; font-weight: 500;
+  min-height: 44px; display: inline-flex; align-items: center; text-decoration: none;
+  color: var(--ink);
+}
+.cta-primary { background: var(--s3); box-shadow: var(--sh-1); }
+.cta-ghost { box-shadow: inset 0 0 0 1px var(--line); }
+.sci-cta a:hover { color: var(--ink); box-shadow: inset 0 0 0 1px var(--accent); }
+.sci-colophon { max-width: 74ch; font-size: var(--t-small); line-height: 1.65; margin-top: 40px; }
+.sci-close a {
+  color: var(--text-low); text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-low) 35%, transparent);
+}
+.sci-close .sci-cta a { color: var(--ink); border-bottom: 0; }
+
+/* Reveal on scroll: the figure settles in rather than snapping. */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* ── One column ─────────────────────────────────────────────
+   The design bundle has no responsive pass for this surface, so this is a
+   judgement call: below the three-column width the rail becomes a scrollable
+   strip of chips under the chrome, the constants panel joins the flow, and
+   nothing breaks out of the measure any more. */
+@media (max-width: 1179px) {
+  :root { --pad: 24px; }
+
+  .sci-doc { grid-template-columns: minmax(0, 720px); justify-content: center; }
+  .sci-doc > .sci-sec, .sci-doc > .sci-close { grid-column: 1; }
+
+  .sci-rail {
+    grid-column: 1; grid-row: auto;
+    position: sticky; top: 0; z-index: 10;
+    margin: 0 calc(-1 * var(--pad)) 32px; padding: 10px var(--pad);
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter: saturate(1.1) blur(8px);
+    box-shadow: inset 0 -1px 0 var(--line-soft);
+  }
+  .rail-label { display: none; }
+  .rail-list { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+  .rail-list::-webkit-scrollbar { display: none; }
+  .rail-list li { flex: 0 0 auto; }
+  /* The narrow-screen table of contents is a scrolling chip row, and it is the
+     only way to move between sections on a phone. 38px was the one target on
+     this page still short of the 44 the product asks for. */
+  .rail-list a {
+    padding: 9px 12px; box-shadow: none; border-radius: var(--r-chip);
+    background: var(--s2); white-space: nowrap; min-height: 44px; align-items: center;
+  }
+  .rail-list a.here { box-shadow: inset 0 0 0 1px var(--accent); }
+
+  .sci-constants { grid-column: 1; grid-row: auto; margin-bottom: 8px; }
+
+  .sci-fig, .gate-grid, .feeds, .limits, .factor-panel { margin-inline-end: 0; }
+  .gate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  :root { --t-body: 16px; --pad: 18px; }
+
+  .sci-hero { padding-top: 52px; }
+  .spectral-rule { margin-top: 44px; }
+  .sci-doc { margin-top: 34px; }
+  #s-prob, #s-validation, #s-nowcast, #s-limits { padding-top: 60px; }
+  .sci-sec h3 { margin-top: 34px; }
+
+  .fig-panel { padding: 18px 16px; }
+  #fig-drop *, #fig-deviation *, #fig-dni *, #fig-london * { --fig-scale: 2.4; }
+  #fig-cone svg * { --fig-scale: 1.7; }
+  .fig-split, .fig-two-up { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .fig-note { min-height: 0; }
+  .control-value { font-size: 40px; }
+
+  .gate-grid { grid-template-columns: minmax(0, 1fr); box-shadow: none; }
+  .gate, .gate:first-child { padding: 20px 0; box-shadow: inset 0 -1px 0 var(--line-soft); border-inline-start: 0; }
+
+  .feeds { grid-template-columns: minmax(0, 1fr); }
+  .feed, .feed + .feed {
+    padding: 24px 0; padding-inline: 0; box-shadow: inset 0 -1px 0 var(--line-soft);
+    border-inline-start: 0;
+  }
+  .feed p:not(.feed-label) { max-width: none; }
+
+  .limit { grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 22px 0; }
+  .limit-title { font-size: 22px; }
+
+  /* Eight columns cannot survive a phone: the product becomes a two-column
+     list, each factor reading across as "times, symbol, what it means". */
+  .factor-panel { padding: 22px 18px 18px; }
+  .factor-row { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 18px; }
+  .factor-lead { grid-column: 1 / -1; padding: 0 0 6px; font-size: 22px; }
+  .factor {
+    flex-direction: row; align-items: baseline; justify-content: flex-start;
+    gap: 7px; text-align: left; padding: 9px 0;
+  }
+  .factor, .factor + .factor, .factor-lead + .factor {
+    box-shadow: inset 0 -1px 0 var(--line-soft);
+  }
+  .factor .sym { font-size: 21px; margin-top: 0; }
+  .factor .cap { margin-top: 0; }
+  /* The legend brings its own rule, so the bottom row does not need one. */
+  .factor:nth-last-child(1), .factor:nth-last-child(2) { box-shadow: none; }
+
+  .eq { padding: 20px 16px; gap: 12px; }
+  .sci-close { margin-top: 60px; padding-top: 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}

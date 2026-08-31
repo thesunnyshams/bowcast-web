@@ -1,0 +1,453 @@
+/* Bowcast content pages: same field-almanac language as the app. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --font: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: "Instrument Serif", Georgia, serif;
+  --paper: #f5f2ea; --paper-2: #ece7db; --plaque: #fbf9f4; --line: #d8d2c4;
+  --ink: #232a35; --muted: #5d6675; --accent: #6f5bd6;
+  --violet: #7a68d9; --teal: #2f9e8f; --amber: #dd9f2e; --coral: #d95f52;
+  --red: #d1495b;
+  --shadow-sm: 0 1px 3px rgba(35, 42, 53, .12), 0 1px 2px rgba(35, 42, 53, .06);
+
+  /* The level ramps. theme.css only swaps these for dark, so a page that omits
+     them here has them undefined in light: every var(--color-*) stroke then
+     resolves to `none` and the gauge paints nothing, and every var(--text-*)
+     falls back to plain ink. Same omission that once blanked the wordmark's
+     bow in styles.css. Values are the light temperature, matching styles.css. */
+  --color-none:     #a9a294;
+  --color-low:      #7a68d9;
+  --color-moderate: #2f9e8f;
+  --color-good:     #dd9f2e;
+  --color-high:     #d95f52;
+
+  --text-none:     #69645a;
+  --text-low:      #5b48c2;
+  --text-moderate: #1f6d63;
+  --text-good:     #8a6008;
+  --text-high:     #b0392e;
+}
+
+/* A class that sets `display` outclasses the user agent's `[hidden]` rule, so
+   every flex or grid box on this page would ignore the attribute the script
+   uses to hold it back. Stated once here rather than remembered per component. */
+[hidden] { display: none !important; }
+
+body {
+  font-family: var(--font);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.65;
+}
+
+/* The page is an instrument first and an article second: the hero, the facts
+   row, the window calendar and the city grid all want the wide measure, so the
+   container is the design's 1180 and the prose keeps its own measure below. */
+.wrap { max-width: 1180px; margin: 0 auto; padding: 8px clamp(20px, 3.4vw, 40px) 96px; }
+
+/* Site header */
+.site-head {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 22px 0 14px; margin-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+.site-head a { text-decoration: none; color: var(--ink); }
+/* Negative margins hand the padding back to the layout, so the wordmark stays
+   optically flush with the rule beneath it while the target reaches 44px. */
+.site-brand {
+  font-family: var(--display); font-size: 1.3rem; display: flex; align-items: center; gap: 8px;
+  padding: 11px 10px; margin: -11px -10px;
+}
+.site-brand img { width: 24px; height: 18px; object-fit: contain; }
+/* The gap gives back what the links' padding takes, so the header keeps the
+   16px rhythm it was drawn with. */
+.site-nav { margin-inline-start: auto; display: flex; gap: 2px; font-size: 0.85rem; align-items: center; }
+.site-nav a {
+  color: var(--muted);
+  min-height: 44px; display: inline-flex; align-items: center; padding-inline: 7px;
+}
+.site-nav a:hover { color: var(--ink); }
+.cta {
+  color: var(--plaque) !important; background: var(--ink);
+  padding: 4px 12px; border-radius: 999px;
+  min-height: 44px; display: inline-flex; align-items: center;
+}
+
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(2.3rem, 5.4vw, 4.25rem); line-height: 1.05; margin-bottom: 12px; }
+.lede { font-size: 1.1rem; color: var(--muted); margin: 22px 0 36px; line-height: 1.6; max-width: 46ch; }
+h2 { font-family: var(--display); font-weight: 400; font-size: clamp(1.85rem, 3.4vw, 2.55rem); line-height: 1.06; margin: 76px 0 16px; }
+h3 { font-size: 1.18rem; margin: 28px 0 8px; }
+p, li { font-size: 1.08rem; margin-bottom: 16px; }
+/* Prose keeps the measure it always had; only the instruments use the full
+   width. Scoped to <main>'s own children, which is where the generated pages
+   put their body copy, so the hero and the panels are untouched. */
+.wrap main > p { max-width: 68ch; }
+ul, ol { padding-inline-start: 26px; margin-bottom: 16px; }
+li { margin-bottom: 8px; }
+a { color: var(--accent); }
+strong { font-weight: 600; }
+
+.note {
+  background: var(--plaque); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 18px; margin: 20px 0; font-size: 0.9rem;
+}
+
+.gear {
+  background: var(--plaque); border: 1px solid var(--line); border-radius: 12px;
+  padding: 16px 18px; margin: 20px 0;
+}
+.gear h3 { margin-top: 0; }
+.gear p:last-child, .gear ul:last-child { margin-bottom: 0; }
+
+/* ── The city page's reading ──────────────────────────────────
+   The gauge is the anchor of the whole system, so on this page it sits at the
+   top at variant `l` rather than inside a bordered card, and the three facts a
+   visitor actually came for (when, which way, how high) get equal weight in a
+   rule-bounded row under it. Everything here is written by the page's script;
+   the markup ships empty rather than at zero, because a zero dial is a reading.
+
+   Breadcrumb first: the page is one of 66 and says so. */
+.crumbs {
+  /* The gap lives on the items rather than the row, so the two links can carry
+     a 44px target while the words keep the 10px rhythm between them. */
+  display: flex; align-items: center; gap: 0; flex-wrap: wrap;
+  font-family: var(--mono); font-size: 10px; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 14px;
+}
+.crumbs > * { padding-inline: 5px; }
+.crumbs > :first-child { padding-inline-start: 0; }
+.crumbs a {
+  color: var(--muted); text-decoration: none;
+  min-height: 44px; display: inline-flex; align-items: center;
+}
+.crumbs a:hover { color: var(--ink); }
+.crumbs span[aria-hidden] { opacity: .5; }
+.crumbs [aria-current] { color: var(--ink); }
+
+.city-hero {
+  display: flex; gap: clamp(32px, 5vw, 64px); align-items: flex-start; flex-wrap: wrap;
+}
+.city-intro { flex: 1.1 1 420px; min-width: 0; }
+.city-intro .lede { margin-bottom: 0; }
+.city-meta {
+  display: flex; align-items: center; gap: 9px; margin: 26px 0 0;
+  font-family: var(--mono); font-size: 10px; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--muted);
+}
+.city-reading { flex: 0 0 400px; max-width: 100%; }
+.city-reading-k {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted); margin: 0 0 10px;
+}
+/* The dial arrives from JS. Holding its height in advance keeps the facts row
+   and everything under it from jumping when it does. */
+.city-gauge { aspect-ratio: 200 / 128; }
+.city-read { display: flex; align-items: baseline; gap: 12px; margin: 2px 0 0; }
+.city-num {
+  font-family: var(--display); font-size: 60px; line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.city-band { font-family: var(--display); font-size: 26px; line-height: 1; }
+
+/* The status line only speaks before the facts land, or instead of them. */
+.live-sub { color: var(--muted); font-size: 0.95rem; margin: 28px 0 0; }
+
+/* Provenance for the reading. These pages fall back to computing in the
+   browser, and the shared API is edge-cached up to half an hour, so the number
+   alone cannot say how current it is. Set in the same quiet mono as the
+   coordinates line: this is a stamp, not a headline. */
+.city-freshness {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--muted); margin: 16px 0 0;
+}
+.city-freshness[hidden] { display: none; }
+.city-freshness.caution { color: var(--text-moderate); }
+
+.city-facts { margin-top: 40px; }
+.fact {
+  display: flex; gap: 18px; align-items: flex-start;
+  padding: 22px 0;
+  box-shadow: inset 0 -1px 0 var(--line-soft);
+}
+.city-facts .fact:first-child { box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line-soft); }
+.fact-art { flex: none; }
+.fact-body { min-width: 0; }
+.fact-k {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--muted);
+}
+.fact-v {
+  font-family: var(--display); font-size: clamp(27px, 3.4vw, 34px); line-height: 1.1;
+  margin-top: 8px;
+}
+.fact-n { font-size: 0.86rem; color: var(--muted); line-height: 1.55; margin: 7px 0 0; }
+
+/* The week strip: today raised, the rest quiet, each carrying its own band. */
+.live-week { display: flex; gap: 3px; margin-top: 34px; }
+.wk-day {
+  flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center;
+  padding: 14px 4px 13px; border-radius: 8px;
+  background: var(--s1); color: var(--muted);
+}
+.wk-today { background: var(--s2); box-shadow: var(--sh-1); }
+.wk-k {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em;
+  text-transform: uppercase; opacity: .8;
+}
+.wk-v {
+  font-family: var(--display); font-size: clamp(17px, 2.3vw, 27px); line-height: 1;
+  margin-top: 8px; font-variant-numeric: tabular-nums;
+}
+.wk-w {
+  font-family: var(--mono); font-size: 9px; letter-spacing: .11em;
+  text-transform: uppercase; margin-top: 6px;
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis;
+}
+.live-cta {
+  display: inline-flex; align-items: center; min-height: 44px; margin-top: 30px;
+  background: var(--ink); color: var(--plaque); text-decoration: none;
+  padding: 12px 24px; border-radius: 999px; font-size: 0.95rem; font-weight: 500;
+}
+.lv-none { color: var(--text-none); } .lv-low { color: var(--text-low); } .lv-moderate { color: var(--text-moderate); }
+.lv-good { color: var(--text-good); } .lv-high { color: var(--text-high); }
+
+/* The directory's own head. The lede keeps the hero's 46ch measure so the page
+   opens like a city page rather than like a list with a paragraph on top. */
+.dir-head { max-width: 720px; }
+.dir-count {
+  display: flex; align-items: center; gap: 9px; margin: 0;
+  font-family: var(--mono); font-size: 10px; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+/* FAQ. The question is set in the display face and given its own column at
+   width, so the pair reads as a spread rather than as a definition list. */
+.faq { margin-top: 30px; }
+.faq dt {
+  font-family: var(--display); font-weight: 400; font-size: 1.4rem; line-height: 1.16;
+  margin-top: 26px; text-wrap: pretty;
+}
+.faq dd { margin: 8px 0 0; color: var(--muted); line-height: 1.68; max-width: 62ch; }
+
+/* Link grids: the sibling cities on a city page and the whole directory on the
+   index. Each cell draws its own right and bottom rule into the 1px gap, so the
+   construction never has to know the column count, and an incomplete last row
+   leaves bare page rather than a slab of rule colour where cells would be. The
+   container clips, so the outermost of those rules do not escape it. */
+.linkgrid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
+  gap: 1px; margin: 30px 0 0; padding: 0; list-style: none;
+  overflow: hidden;
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.linkgrid li { margin: 0; }
+.linkgrid a {
+  display: flex; flex-direction: column; justify-content: center; min-height: 104px;
+  padding: 22px 26px; text-decoration: none; color: var(--ink);
+  background: var(--paper); transition: background 0.15s;
+  box-shadow: 1px 0 0 var(--line-soft), 0 1px 0 var(--line-soft);
+}
+.linkgrid a:hover { background: var(--s1); }
+.linkgrid a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+/* The city name is a bare text node in the anchor, so the anchor carries the
+   display face and .sub opts back out of it. */
+.linkgrid a { font-family: var(--display); font-size: 1.6rem; line-height: 1.1; }
+.linkgrid .sub {
+  display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--muted); margin-top: 9px; line-height: 1.5;
+}
+
+.foot {
+  margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line);
+  font-size: 0.8rem; color: var(--muted);
+}
+.foot a { color: var(--muted); }
+/* The footer's first row is three destinations, not prose, so each one carries
+   the 44px target. Inline-flex boxes keep their baseline, so the middots between
+   them stay where they were and the row simply grows; nothing overlaps, which a
+   negative-margin trick could not promise against the credit line below. */
+.foot-links a {
+  min-height: 44px; display: inline-flex; align-items: center; padding-inline: 4px;
+}
+.foot-links a:first-child { padding-inline-start: 0; }
+
+/* ── View switch (Map / Now segmented slider) ─────────── */
+.view-switch {
+  position: relative;
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--plaque);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-inline-start: auto;
+}
+
+.view-switch::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: calc(100% / 2);
+  background: var(--ink);
+  border-radius: 999px;
+  transition: transform 0.2s ease;
+  z-index: 0;
+}
+
+.view-switch[data-active="now"]::before {
+  transform: translateX(100%);
+}
+
+.view-switch .seg {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 0;
+  min-width: 56px;
+  /* Matches styles.css: the label centres on the box so min-height can carry
+     the target to 44px without shifting it. */
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 13px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+.view-switch .seg:hover {
+  color: var(--ink);
+}
+
+.view-switch .seg:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 999px;
+}
+
+.view-switch .seg[aria-current="page"] {
+  color: var(--paper);
+  cursor: default;
+}
+
+.view-switch .seg[aria-current="page"]:hover {
+  color: var(--paper);
+}
+
+/* Smooth cross-fade when switching between the Learn pages and the map
+   (progressive enhancement: ignored where the View Transitions API is absent). */
+@view-transition {
+  navigation: auto;
+}
+
+
+/* ── The rainbow window calendar (city pages) ─────────────────
+   A year by hour grid, months down and local solar hours across, rendered at
+   build time from the city's own latitude. Its caption and season figures come
+   from the same computation as the cells (public/core/window-calendar.js), so
+   the graphic and the prose cannot disagree. */
+.wc { margin: 28px 0 34px; }
+.wc-grid {
+  display: flex; flex-direction: column; gap: 2px;
+  background: var(--s1); border-radius: 8px; box-shadow: var(--sh-1);
+  padding: 12px 14px 10px;
+  overflow-x: auto;
+}
+.wc-row { display: flex; gap: 2px; align-items: center; }
+.wc-month {
+  flex: none; width: 30px;
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--muted);
+}
+.wc-cell {
+  flex: 1 1 0; min-width: 9px; height: 13px; border-radius: 2px;
+  background: var(--s1);
+}
+/* Cells get their teal inline (opacity varies with the sun's height), but the
+   key's swatch needs the colour from CSS. */
+.wc-window { background: var(--teal); }
+.wc-night { background: var(--s1); box-shadow: inset 0 0 0 1px var(--line-soft); }
+.wc-above { background: var(--amber); opacity: .85; }
+.wc-axis { margin-bottom: 2px; }
+.wc-hour {
+  flex: 1 1 0; min-width: 9px;
+  font-family: var(--mono); font-size: 8.5px; color: var(--muted);
+  text-align: left;
+}
+.wc-key {
+  display: flex; gap: 18px; flex-wrap: wrap; margin-top: 12px;
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted);
+}
+.wc-key-item { display: inline-flex; align-items: center; gap: 6px; }
+.wc-key-item .wc-cell { flex: none; width: 14px; min-width: 14px; height: 10px; }
+.wc figcaption {
+  margin-top: 14px; color: var(--muted);
+  font-size: 0.92rem; line-height: 1.6; max-width: 68ch;
+}
+.wc-seasons { margin-top: 20px; padding-top: 16px; box-shadow: inset 0 1px 0 var(--line-soft); }
+.wc-seasons-k {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted);
+}
+.wc-seasons-row { display: flex; gap: 0; flex-wrap: wrap; margin-top: 12px; }
+.wc-season { flex: 1 1 120px; min-width: 0; padding: 0 18px; }
+.wc-season:first-child { padding-left: 0; }
+.wc-season + .wc-season { border-left: 1px solid var(--line-soft); }
+.wc-season-k {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted);
+}
+.wc-season-v {
+  font-family: var(--display); font-size: 27px; line-height: 1;
+  margin-top: 7px; font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 560px) {
+  .wc-cell { min-width: 7px; height: 11px; }
+  .wc-month { width: 24px; font-size: 8.5px; }
+  .wc-season { flex-basis: 45%; padding: 0 12px; }
+
+  /* One column here, so the cells are rows in a list rather than cells in a
+     table: they lose the inset that separated them from their neighbours and
+     line up with the page's own text, and 66 of them do not need 104px each. */
+  .linkgrid a { min-height: 76px; padding: 16px 0; }
+}
+
+/* ── The wide layout ───────────────────────────────────────
+   Below this the page is a single column and the facts stack, which is the
+   honest narrow reading of a row that is three separate answers. Above it the
+   design's three-up row and two-column FAQ apply. The vertical hairlines only
+   exist here, because a wrapped cell carrying a left rule reads as a mistake. */
+@media (min-width: 900px) {
+  .city-facts {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+    box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line);
+  }
+  .fact { padding: 26px 34px; box-shadow: inset 1px 0 0 var(--line-soft); }
+  .city-facts .fact:first-child { padding-left: 0; box-shadow: none; }
+  .city-facts .fact:last-child { padding-right: 0; }
+
+  .faq { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); column-gap: 56px; }
+  .faq dt, .faq dd {
+    margin: 0; padding: 28px 0;
+    box-shadow: inset 0 -1px 0 var(--line-soft);
+  }
+  .faq dt { font-size: 1.7rem; }
+  .faq dd { font-size: 1rem; }
+
+  /* The calendar was drawn for a 760px measure, where 13px cells were nearly
+     square. At the full width each cell is four times as wide, so the grid read
+     as a wall of bricks until the rows grew with it. */
+  .wc-cell { height: 24px; }
+  .wc-month { width: 38px; font-size: 10px; }
+  .wc-key-item .wc-cell { height: 11px; }
+}

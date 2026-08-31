@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manchester rainbow forecast · Bowcast</title>
+  <meta name="description" content="Predict rainbows in Manchester: today's strongest forecast, the best viewing interval, and a 7-day outlook, using ensemble guidance when available." />
+  <link rel="canonical" href="https://bowcast.app/rainbow-forecast/manchester.html" />
+  <meta property="og:title" content="Manchester rainbow forecast · Bowcast" />
+  <meta property="og:description" content="Predict rainbows in Manchester: today's strongest forecast, the best viewing interval, and a 7-day outlook, using ensemble guidance when available." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bowcast.app/rainbow-forecast/manchester.html" />
+  <meta property="og:site_name" content="Bowcast" />
+  <meta property="og:image" content="https://bowcast.app/icons/bowcast-social-1200x630.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Bowcast rainbow forecast" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="../icon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="../manifest.json" />
+  <script>(function(){try{var t=localStorage.getItem('bowcast-theme');if(t!=='dark'&&t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <link rel="preload" href="../fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="../fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="../fonts/fonts.css" />
+  <link rel="stylesheet" href="../content.css" />
+  <link rel="stylesheet" href="../theme.css?v=20" />
+  <script src="/install-prompt.js" defer></script>
+  <script src="/analytics.js" defer></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"When do rainbows appear in Manchester?","acceptedAnswer":{"@type":"Answer","text":"Rainbows need sunlit rain with the sun lower than about 42 degrees, so in Manchester useful windows often occur after sunrise or before sunset on showery days. A study in ZhaoSu, China found that about nine in ten observed rainbows occurred during the hour after rainfall. Bowcast uses that regional finding as research guidance, not a universal rate."}},{"@type":"Question","name":"Where should I look for a rainbow in Manchester?","acceptedAnswer":{"@type":"Answer","text":"Always directly opposite the sun: put the sun at your back and look toward the retreating rain. In the evening that means looking east; in the morning, west."}},{"@type":"Question","name":"What is today's rainbow forecast in Manchester?","acceptedAnswer":{"@type":"Answer","text":"Bowcast checks sunlit-rain ingredients around Manchester, hour by hour, for the next 7 days. When ensemble guidance is available, it shows an Estimated chance from about 40 model members, not a probability calibrated against observed rainbow frequencies. When ensemble guidance is unavailable, it shows a Conditions score /100 instead. This page shows the strongest actionable interval; the Now board shows the interval containing the current time."}},{"@type":"Question","name":"Can you predict a rainbow in Manchester?","acceptedAnswer":{"@type":"Answer","text":"Not with certainty, but you can forecast the odds. Bowcast works as a rainbow predictor for Manchester: it reads about 40 ensemble weather members for sunlit rain, checks that the sun sits lower than 42 degrees, and works out which way to face. Read it as an informed estimate of the chance, not a promise that a bow will appear."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Manchester rainbow forecast · Bowcast","url":"https://bowcast.app/rainbow-forecast/manchester.html","description":"Predict rainbows in Manchester: today's strongest forecast, the best viewing interval, and a 7-day outlook, using ensemble guidance when available.","dateModified":"2026-08-25","isPartOf":{"@id":"https://bowcast.app/#website"},"about":{"@type":"Place","name":"Manchester, England, United Kingdom","geo":{"@type":"GeoCoordinates","latitude":53.48,"longitude":-2.24}},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bowcast","item":"https://bowcast.app/"},{"@type":"ListItem","position":2,"name":"City forecasts","item":"https://bowcast.app/rainbow-forecast/"},{"@type":"ListItem","position":3,"name":"Manchester","item":"https://bowcast.app/rainbow-forecast/manchester.html"}]}}</script>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-head">
+    <a class="site-brand" href="/">
+      <img src="../icons/bowcast-mark.png" alt="" aria-hidden="true" />
+      Bowcast
+    </a>
+    <nav class="site-nav">
+      <a href="../now/">Now</a>
+      <a class="cta" href="../map/">Live map</a>
+    </nav>
+    <button class="theme-mini" type="button" title="Toggle dark mode"></button>
+  </header>
+  <main>
+
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="../">Bowcast</a>
+    <span aria-hidden="true">/</span>
+    <a href="index.html">City forecasts</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">Manchester</span>
+  </nav>
+
+  <div class="city-hero">
+    <div class="city-intro">
+      <h1>Rainbow forecast for Manchester</h1>
+      <p class="lede">Manchester, England, United Kingdom: today's strongest rainbow forecast, the best interval to look up, and the week ahead.</p>
+      <p class="city-meta"><span class="live-dot" aria-hidden="true"></span>53.48°N 2.24°W · about 40 ensemble members · 12 km radius</p>
+    </div>
+    <!-- The reading. Everything in here is written by the page's script once
+         the forecast lands: until then the dial is absent rather than drawn at
+         zero, because a zero dial is a reading and "not known yet" is not. -->
+    <div class="city-reading">
+      <p class="city-reading-k" id="live-word">Today's peak · estimated chance</p>
+      <div class="city-gauge" id="live-gauge"></div>
+      <p class="city-read">
+        <span class="city-num" id="live-num">&hellip;</span>
+        <span class="city-band" id="live-band"></span>
+      </p>
+    </div>
+  </div>
+
+  <p class="live-sub" id="live-sub">Checking about 40 forecast ensemble members for sunlit rain near Manchester…</p>
+
+  <!-- Written once the reading lands: how old it is, and whether it came from
+       the shared forecast or was computed here. Absent until then, because an
+       age is a claim and there is nothing yet to make it about. -->
+  <p class="city-freshness" id="live-freshness" hidden></p>
+
+  <!-- The three facts a visitor came for, given equal weight. The two diagram
+       cells are hidden until the geometry is known, since an interval with no
+       bow geometry has no direction and no sun angle to report. -->
+  <div class="city-facts" id="live-facts" hidden>
+    <div class="fact">
+      <div class="fact-body">
+        <div class="fact-k">Best window</div>
+        <div class="fact-v" id="fact-window"></div>
+        <p class="fact-n" id="fact-window-note"></p>
+      </div>
+    </div>
+    <div class="fact" id="fact-look-cell" hidden>
+      <div class="fact-art" id="fact-look-art"></div>
+      <div class="fact-body">
+        <div class="fact-k">Look</div>
+        <div class="fact-v" id="fact-look"></div>
+        <p class="fact-n">Sun at your back, facing the retreating rain.</p>
+      </div>
+    </div>
+    <div class="fact" id="fact-sun-cell" hidden>
+      <div class="fact-art" id="fact-sun-art"></div>
+      <div class="fact-body">
+        <div class="fact-k">Sun</div>
+        <div class="fact-v" id="fact-sun"></div>
+        <p class="fact-n" id="fact-sun-note"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="live-week" id="live-week"></div>
+  <a class="live-cta" href="../map/?lat=53.48&lon=-2.24&label=Manchester">Open the live map for Manchester</a>
+
+  <h2>Rainbow weather in Manchester</h2>
+  <p>Manchester lives under the North Atlantic conveyor: fast-moving showers with bright spells between them, at a latitude where the sun stays low for much of the day. Low sun means tall bows, and "sunshine and showers" is practically the regional forecast. Spring and autumn, when shower trains are busiest, are the best seasons.</p>
+  <p>At 53.5° north, Manchester's useful viewing window shifts with the seasons. Local winter brings longer periods of low sun, while summer usually concentrates the geometry near sunrise and sunset.</p>
+  <p>Wherever you are, the geometry is the same: a primary rainbow forms opposite the sun while the sun is less than about 42 degrees above the horizon. Bowcast's research-informed heuristics give extra weight to clearing showers. The gauge above applies them to ensemble forecasts to predict the rainbow chance for the 12 km around Manchester.</p>
+
+  <h2>The rainbow window through the year</h2>
+  <figure class="wc">
+    <div class="wc-grid" role="img" aria-label="Rainbow window for Manchester: months down, local solar hours across. At 53.48 degrees north the 42 degree ceiling is never reached from Sep through Mar, so the whole of those days is usable. Jun closes for 7 hours around solar noon.">
+      <div class="wc-row wc-axis"><div class="wc-month"></div><div class="wc-hour">00</div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour">06</div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour">12</div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour">18</div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour"></div><div class="wc-hour"></div></div>
+<div class="wc-row"><div class="wc-month">Jan</div><div class="wc-cell wc-night" title="Jan, 00:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 01:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 02:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 03:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 04:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 05:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 06:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 07:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 08:00 solar: sun below the horizon"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.92" title="Jan, 09:00 solar: sun 6°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.86" title="Jan, 10:00 solar: sun 11°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.81" title="Jan, 11:00 solar: sun 14°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.80" title="Jan, 12:00 solar: sun 15°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.81" title="Jan, 13:00 solar: sun 14°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.86" title="Jan, 14:00 solar: sun 11°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.92" title="Jan, 15:00 solar: sun 6°, in the window"></div><div class="wc-cell wc-night" title="Jan, 16:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 17:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 18:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 19:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 20:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 21:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 22:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jan, 23:00 solar: sun below the horizon"></div></div>
+<div class="wc-row"><div class="wc-month">Feb</div><div class="wc-cell wc-night" title="Feb, 00:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Feb, 01:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Feb, 02:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Feb, 03:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Feb, 04:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Feb, 05:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Feb, 06:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Feb, 07:00 solar: sun below the horizon"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.92" title="Feb, 08:00 solar: sun 6°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.83" title="Feb, 09:00 solar: sun 13°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.76" title="Feb, 10:00 solar: sun 18°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.71" title="Feb, 11:00 solar: sun 22°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.70" title="Feb, 12:00 solar: sun 23°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.71" title="Feb, 13:00 solar: sun 22°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.76" title="Feb, 14:00 solar: sun 18°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.83" title="Feb, 15:00 solar: sun 13°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.92" title="Feb, 16:00 solar: sun 6°, in the window"></div><div class="wc-cell wc-night" title="Feb, 17:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Feb, 18:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Feb, 19:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Feb, 20:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Feb, 21:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Feb, 22:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Feb, 23:00 solar: sun below the horizon"></div></div>
+<div class="wc-row"><div class="wc-month">Mar</div><div class="wc-cell wc-night" title="Mar, 00:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Mar, 01:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Mar, 02:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Mar, 03:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Mar, 04:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Mar, 05:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Mar, 06:00 solar: sun below the horizon"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.91" title="Mar, 07:00 solar: sun 7°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.80" title="Mar, 08:00 solar: sun 15°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.71" title="Mar, 09:00 solar: sun 22°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.63" title="Mar, 10:00 solar: sun 28°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.58" title="Mar, 11:00 solar: sun 32°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.56" title="Mar, 12:00 solar: sun 34°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.58" title="Mar, 13:00 solar: sun 32°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.63" title="Mar, 14:00 solar: sun 28°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.71" title="Mar, 15:00 solar: sun 22°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.80" title="Mar, 16:00 solar: sun 15°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.91" title="Mar, 17:00 solar: sun 7°, in the window"></div><div class="wc-cell wc-night" title="Mar, 18:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Mar, 19:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Mar, 20:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Mar, 21:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Mar, 22:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Mar, 23:00 solar: sun below the horizon"></div></div>
+<div class="wc-row"><div class="wc-month">Apr</div><div class="wc-cell wc-night" title="Apr, 00:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Apr, 01:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Apr, 02:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Apr, 03:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Apr, 04:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Apr, 05:00 solar: sun below the horizon"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.90" title="Apr, 06:00 solar: sun 8°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.78" title="Apr, 07:00 solar: sun 16°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.67" title="Apr, 08:00 solar: sun 25°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.57" title="Apr, 09:00 solar: sun 33°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.48" title="Apr, 10:00 solar: sun 40°, in the window"></div><div class="wc-cell wc-above" title="Apr, 11:00 solar: sun 44°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Apr, 12:00 solar: sun 46°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Apr, 13:00 solar: sun 44°, above the 42° ceiling"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.48" title="Apr, 14:00 solar: sun 40°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.57" title="Apr, 15:00 solar: sun 33°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.67" title="Apr, 16:00 solar: sun 25°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.78" title="Apr, 17:00 solar: sun 16°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.90" title="Apr, 18:00 solar: sun 8°, in the window"></div><div class="wc-cell wc-night" title="Apr, 19:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Apr, 20:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Apr, 21:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Apr, 22:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Apr, 23:00 solar: sun below the horizon"></div></div>
+<div class="wc-row"><div class="wc-month">May</div><div class="wc-cell wc-night" title="May, 00:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="May, 01:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="May, 02:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="May, 03:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="May, 04:00 solar: sun below the horizon"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.92" title="May, 05:00 solar: sun 6°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.80" title="May, 06:00 solar: sun 15°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.69" title="May, 07:00 solar: sun 24°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.57" title="May, 08:00 solar: sun 33°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.46" title="May, 09:00 solar: sun 41°, in the window"></div><div class="wc-cell wc-above" title="May, 10:00 solar: sun 48°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="May, 11:00 solar: sun 53°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="May, 12:00 solar: sun 55°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="May, 13:00 solar: sun 53°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="May, 14:00 solar: sun 48°, above the 42° ceiling"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.46" title="May, 15:00 solar: sun 41°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.57" title="May, 16:00 solar: sun 33°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.69" title="May, 17:00 solar: sun 24°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.80" title="May, 18:00 solar: sun 15°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.92" title="May, 19:00 solar: sun 6°, in the window"></div><div class="wc-cell wc-night" title="May, 20:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="May, 21:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="May, 22:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="May, 23:00 solar: sun below the horizon"></div></div>
+<div class="wc-row"><div class="wc-month">Jun</div><div class="wc-cell wc-night" title="Jun, 00:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jun, 01:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jun, 02:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jun, 03:00 solar: sun below the horizon"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.97" title="Jun, 04:00 solar: sun 3°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.87" title="Jun, 05:00 solar: sun 10°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.76" title="Jun, 06:00 solar: sun 19°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.64" title="Jun, 07:00 solar: sun 27°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.53" title="Jun, 08:00 solar: sun 36°, in the window"></div><div class="wc-cell wc-above" title="Jun, 09:00 solar: sun 45°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Jun, 10:00 solar: sun 52°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Jun, 11:00 solar: sun 58°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Jun, 12:00 solar: sun 60°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Jun, 13:00 solar: sun 58°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Jun, 14:00 solar: sun 52°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Jun, 15:00 solar: sun 45°, above the 42° ceiling"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.53" title="Jun, 16:00 solar: sun 36°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.64" title="Jun, 17:00 solar: sun 27°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.76" title="Jun, 18:00 solar: sun 19°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.87" title="Jun, 19:00 solar: sun 10°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.97" title="Jun, 20:00 solar: sun 3°, in the window"></div><div class="wc-cell wc-night" title="Jun, 21:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jun, 22:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jun, 23:00 solar: sun below the horizon"></div></div>
+<div class="wc-row"><div class="wc-month">Jul</div><div class="wc-cell wc-night" title="Jul, 00:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jul, 01:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jul, 02:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jul, 03:00 solar: sun below the horizon"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.99" title="Jul, 04:00 solar: sun 1°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.89" title="Jul, 05:00 solar: sun 9°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.78" title="Jul, 06:00 solar: sun 17°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.66" title="Jul, 07:00 solar: sun 26°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.54" title="Jul, 08:00 solar: sun 35°, in the window"></div><div class="wc-cell wc-above" title="Jul, 09:00 solar: sun 43°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Jul, 10:00 solar: sun 51°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Jul, 11:00 solar: sun 56°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Jul, 12:00 solar: sun 58°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Jul, 13:00 solar: sun 56°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Jul, 14:00 solar: sun 51°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Jul, 15:00 solar: sun 43°, above the 42° ceiling"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.54" title="Jul, 16:00 solar: sun 35°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.66" title="Jul, 17:00 solar: sun 26°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.78" title="Jul, 18:00 solar: sun 17°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.89" title="Jul, 19:00 solar: sun 9°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.99" title="Jul, 20:00 solar: sun 1°, in the window"></div><div class="wc-cell wc-night" title="Jul, 21:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jul, 22:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Jul, 23:00 solar: sun below the horizon"></div></div>
+<div class="wc-row"><div class="wc-month">Aug</div><div class="wc-cell wc-night" title="Aug, 00:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Aug, 01:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Aug, 02:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Aug, 03:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Aug, 04:00 solar: sun below the horizon"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.97" title="Aug, 05:00 solar: sun 2°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.86" title="Aug, 06:00 solar: sun 11°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.74" title="Aug, 07:00 solar: sun 20°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.62" title="Aug, 08:00 solar: sun 29°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.52" title="Aug, 09:00 solar: sun 37°, in the window"></div><div class="wc-cell wc-above" title="Aug, 10:00 solar: sun 44°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Aug, 11:00 solar: sun 49°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Aug, 12:00 solar: sun 50°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Aug, 13:00 solar: sun 49°, above the 42° ceiling"></div><div class="wc-cell wc-above" title="Aug, 14:00 solar: sun 44°, above the 42° ceiling"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.52" title="Aug, 15:00 solar: sun 37°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.62" title="Aug, 16:00 solar: sun 29°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.74" title="Aug, 17:00 solar: sun 20°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.86" title="Aug, 18:00 solar: sun 11°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.97" title="Aug, 19:00 solar: sun 2°, in the window"></div><div class="wc-cell wc-night" title="Aug, 20:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Aug, 21:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Aug, 22:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Aug, 23:00 solar: sun below the horizon"></div></div>
+<div class="wc-row"><div class="wc-month">Sep</div><div class="wc-cell wc-night" title="Sep, 00:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Sep, 01:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Sep, 02:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Sep, 03:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Sep, 04:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Sep, 05:00 solar: sun below the horizon"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.98" title="Sep, 06:00 solar: sun 2°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.86" title="Sep, 07:00 solar: sun 11°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.75" title="Sep, 08:00 solar: sun 19°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.65" title="Sep, 09:00 solar: sun 27°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.57" title="Sep, 10:00 solar: sun 33°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.51" title="Sep, 11:00 solar: sun 37°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.49" title="Sep, 12:00 solar: sun 39°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.51" title="Sep, 13:00 solar: sun 37°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.57" title="Sep, 14:00 solar: sun 33°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.65" title="Sep, 15:00 solar: sun 27°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.75" title="Sep, 16:00 solar: sun 19°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.86" title="Sep, 17:00 solar: sun 11°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.98" title="Sep, 18:00 solar: sun 2°, in the window"></div><div class="wc-cell wc-night" title="Sep, 19:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Sep, 20:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Sep, 21:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Sep, 22:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Sep, 23:00 solar: sun below the horizon"></div></div>
+<div class="wc-row"><div class="wc-month">Oct</div><div class="wc-cell wc-night" title="Oct, 00:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Oct, 01:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Oct, 02:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Oct, 03:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Oct, 04:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Oct, 05:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Oct, 06:00 solar: sun below the horizon"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.99" title="Oct, 07:00 solar: sun 1°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.88" title="Oct, 08:00 solar: sun 9°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.79" title="Oct, 09:00 solar: sun 16°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.71" title="Oct, 10:00 solar: sun 22°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.66" title="Oct, 11:00 solar: sun 26°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.65" title="Oct, 12:00 solar: sun 27°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.66" title="Oct, 13:00 solar: sun 26°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.71" title="Oct, 14:00 solar: sun 22°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.79" title="Oct, 15:00 solar: sun 16°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.88" title="Oct, 16:00 solar: sun 9°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.99" title="Oct, 17:00 solar: sun 1°, in the window"></div><div class="wc-cell wc-night" title="Oct, 18:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Oct, 19:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Oct, 20:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Oct, 21:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Oct, 22:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Oct, 23:00 solar: sun below the horizon"></div></div>
+<div class="wc-row"><div class="wc-month">Nov</div><div class="wc-cell wc-night" title="Nov, 00:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Nov, 01:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Nov, 02:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Nov, 03:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Nov, 04:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Nov, 05:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Nov, 06:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Nov, 07:00 solar: sun below the horizon"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.99" title="Nov, 08:00 solar: sun 1°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.90" title="Nov, 09:00 solar: sun 8°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.83" title="Nov, 10:00 solar: sun 13°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.79" title="Nov, 11:00 solar: sun 16°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.77" title="Nov, 12:00 solar: sun 17°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.79" title="Nov, 13:00 solar: sun 16°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.83" title="Nov, 14:00 solar: sun 13°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.90" title="Nov, 15:00 solar: sun 8°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.99" title="Nov, 16:00 solar: sun 1°, in the window"></div><div class="wc-cell wc-night" title="Nov, 17:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Nov, 18:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Nov, 19:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Nov, 20:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Nov, 21:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Nov, 22:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Nov, 23:00 solar: sun below the horizon"></div></div>
+<div class="wc-row"><div class="wc-month">Dec</div><div class="wc-cell wc-night" title="Dec, 00:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 01:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 02:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 03:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 04:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 05:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 06:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 07:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 08:00 solar: sun below the horizon"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.95" title="Dec, 09:00 solar: sun 4°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.88" title="Dec, 10:00 solar: sun 9°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.84" title="Dec, 11:00 solar: sun 12°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.83" title="Dec, 12:00 solar: sun 13°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.84" title="Dec, 13:00 solar: sun 12°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.88" title="Dec, 14:00 solar: sun 9°, in the window"></div><div class="wc-cell wc-window" style="background:var(--teal);opacity:0.95" title="Dec, 15:00 solar: sun 4°, in the window"></div><div class="wc-cell wc-night" title="Dec, 16:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 17:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 18:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 19:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 20:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 21:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 22:00 solar: sun below the horizon"></div><div class="wc-cell wc-night" title="Dec, 23:00 solar: sun below the horizon"></div></div>
+    </div>
+    <div class="wc-key">
+      <span class="wc-key-item"><span class="wc-cell wc-window" style="opacity:.85"></span>in the window</span>
+      <span class="wc-key-item"><span class="wc-cell wc-above"></span>sun above 42&deg;</span>
+      <span class="wc-key-item"><span class="wc-cell wc-night"></span>below the horizon</span>
+    </div>
+    <figcaption>At 53.48 degrees north the 42 degree ceiling is never reached from Sep through Mar, so the whole of those days is usable. Jun closes for 7 hours around solar noon.</figcaption>
+    <div class="wc-seasons">
+      <div class="wc-seasons-k">Share of daylight inside the window</div>
+      <div class="wc-seasons-row">
+<div class="wc-season">
+        <div class="wc-season-k">Spring</div>
+        <div class="wc-season-v">79%</div>
+      </div>
+<div class="wc-season">
+        <div class="wc-season-k">Summer</div>
+        <div class="wc-season-v">61%</div>
+      </div>
+<div class="wc-season">
+        <div class="wc-season-k">Autumn</div>
+        <div class="wc-season-v">100%</div>
+      </div>
+<div class="wc-season">
+        <div class="wc-season-k">Winter</div>
+        <div class="wc-season-v">100%</div>
+      </div>
+      </div>
+    </div>
+  </figure>
+
+  <h2>Rainbow questions, answered</h2>
+  <dl class="faq">
+    <dt>When do rainbows appear in Manchester?</dt>
+    <dd>Rainbows need sunlit rain with the sun lower than about 42 degrees, so in Manchester useful windows often occur after sunrise or before sunset on showery days. A study in ZhaoSu, China found that about nine in ten observed rainbows occurred during the hour after rainfall. Bowcast uses that regional finding as research guidance, not a universal rate.</dd>
+    <dt>Where should I look for a rainbow in Manchester?</dt>
+    <dd>Always directly opposite the sun: put the sun at your back and look toward the retreating rain. In the evening that means looking east; in the morning, west.</dd>
+    <dt>What is today's rainbow forecast in Manchester?</dt>
+    <dd>Bowcast checks sunlit-rain ingredients around Manchester, hour by hour, for the next 7 days. When ensemble guidance is available, it shows an Estimated chance from about 40 model members, not a probability calibrated against observed rainbow frequencies. When ensemble guidance is unavailable, it shows a Conditions score /100 instead. This page shows the strongest actionable interval; the Now board shows the interval containing the current time.</dd>
+    <dt>Can you predict a rainbow in Manchester?</dt>
+    <dd>Not with certainty, but you can forecast the odds. Bowcast works as a rainbow predictor for Manchester: it reads about 40 ensemble weather members for sunlit rain, checks that the sun sits lower than 42 degrees, and works out which way to face. Read it as an informed estimate of the chance, not a promise that a bow will appear.</dd>
+  </dl>
+
+  <h2>More rainbow forecasts</h2>
+  <ul class="linkgrid">
+    <li><a href="tofino.html">Tofino <span class="sub">Canada</span></a></li>
+    <li><a href="auckland.html">Auckland <span class="sub">New Zealand</span></a></li>
+    <li><a href="singapore.html">Singapore <span class="sub">Singapore</span></a></li>
+    <li><a href="cairns.html">Cairns <span class="sub">Australia</span></a></li>
+    <li><a href="panama-city.html">Panama City <span class="sub">Panama</span></a></li>
+    <li><a href="salzburg.html">Salzburg <span class="sub">Austria</span></a></li>
+  </ul>
+  </main>
+  <footer class="foot">
+    <span class="foot-links"><a href="../map/">Bowcast live map</a> · <a href="/science/">The science</a> · <a href="index.html">All cities</a> · <a href="../privacy.html">Privacy</a></span><br />
+    Forecast data: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>; estimates modified by Bowcast
+  </footer>
+</div>
+
+<script type="module">
+  import { computeLikelihood } from '../core/likelihood.js';
+  import { pointsAround } from '../core/points.js';
+  import { FORECAST_INTERVAL_SCHEMA_VERSION } from '../core/forecast-time.js';
+  import { selectBestForecast } from '../core/presentation.js';
+  import { keepLandPoints } from '../core/land.js';
+  import { bowGaugeSVG } from '../bowgauge.js';
+  import { sunDiagram, compassDiagram, BOW_CEILING_DEG } from '../diagrams.js';
+  const WORD = { none: 'unlikely', low: 'slim', moderate: 'fair', good: 'good', high: 'strong' };
+  const set = (id, text) => { document.getElementById(id).textContent = text; };
+  // The same 30 minutes the map and the app call stale. The shared API is
+  // edge-cached with stale-while-revalidate=1800, so a response genuinely can
+  // arrive that old, and the number on its own does not say so.
+  const STALE_AFTER_MS = 30 * 60 * 1000;
+  const agoLabel = (ms) => {
+    const mins = Math.round(ms / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return mins + (mins === 1 ? ' minute ago' : ' minutes ago');
+    const hours = Math.round(mins / 60);
+    return hours + (hours === 1 ? ' hour ago' : ' hours ago');
+  };
+  try {
+    let data;
+    // Where the reading came from. A browser-computed forecast is a different
+    // claim from the shared one, and a reader cannot tell them apart by eye.
+    let source = 'shared';
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      try {
+        const response = await fetch('../api/likelihood?lat=53.48&lon=-2.24&compact=1', {
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error('Cached forecast request failed');
+        data = await response.json();
+        if (!Array.isArray(data.locations) || data.locations.length === 0) {
+          throw new Error('Cached forecast response was incomplete');
+        }
+        if (data.intervalSchemaVersion !== FORECAST_INTERVAL_SCHEMA_VERSION) {
+          throw new Error('Cached forecast used an old interval schema');
+        }
+      } finally {
+        clearTimeout(timeout);
+      }
+    } catch (apiError) {
+      console.warn('Cached forecast unavailable, using the local forecast core.', apiError);
+      data = await computeLikelihood(pointsAround(53.48, -2.24));
+      source = 'device';
+    }
+    // Same ring the map draws: ring points over open water are labelled in the
+    // payload and dropped here, so this page cannot headline a reading from a
+    // point the map has hidden.
+    const points = keepLandPoints(data.locations);
+    const best = selectBestForecast(points);
+    if (!best) throw new Error('Forecast response had no usable values');
+    // Today's peak is retrospective: when its interval has already ended,
+    // qualify it as such (validTo bound is in the payload; compute now here).
+    const nowSec = Date.now() / 1000;
+    const peaked = best.bestIntervalEndEpoch != null && best.bestIntervalEndEpoch <= nowSec;
+    const forward = peaked ? selectBestForecast(points.map((location) =>
+      location.nextPeak ? { ...location.nextPeak, name: location.name } : null)) : null;
+    const display = forward || best;
+    const hasEstimate = display.probability != null;
+    const value = hasEstimate ? display.probability : display.score;
+
+    // The dial. Drawn from the reading rather than animated into it: bowgauge
+    // renders the settled value and theme.css sweeps to it, so this markup is
+    // correct the instant it lands.
+    document.getElementById('live-gauge').innerHTML = bowGaugeSVG({
+      value,
+      display: hasEstimate ? 'chance' : 'score',
+      variant: 'l',
+      delay: 120,
+    });
+
+    const num = document.getElementById('live-num');
+    num.textContent = hasEstimate ? display.probability + '%' : display.score + '/100';
+    num.className = 'city-num lv-' + display.level;
+    const band = document.getElementById('live-band');
+    band.textContent = WORD[display.level] || display.level;
+    band.className = 'city-band lv-' + display.level;
+    const word = document.getElementById('live-word');
+    word.textContent = (forward ? 'next window' : "today's peak")
+      + ' · ' + (hasEstimate ? 'estimated chance' : 'conditions score')
+      + (!forward && peaked ? ' · peaked earlier' : '');
+
+    // The reason already leads with "Best during 5-6 PM:", and the trailing
+    // conditions score would repeat the headline number right above it.
+    let subText = forward
+      ? 'Next useful window during ' + (forward.interval || 'the interval shown') + '.'
+      : (best.reason || '').replace(/\s*\(conditions score \d+\/100\)\.?$/, '.');
+    if (display.name && display.name !== 'Your spot') subText = 'Best nearby at ' + display.name + '. ' + subText;
+
+    // Cell one: the interval, with the sentence that was the old status line as
+    // its note. The status line itself only speaks when the facts cannot.
+    const interval = (forward ? forward.interval : best.bestInterval) || null;
+    set('fact-window', interval || 'not today');
+    set('fact-window-note', subText);
+    document.getElementById('live-sub').hidden = true;
+    document.getElementById('live-facts').hidden = false;
+
+    const bow = display.bow;
+    if (bow) {
+      // Cells two and three: the same geometry the map draws, at this hour.
+      document.getElementById('fact-look-art').innerHTML =
+        compassDiagram(bow.lookAzimuth ?? 0, { width: 96, height: 52 });
+      set('fact-look', bow.look);
+      document.getElementById('fact-look-cell').hidden = false;
+
+      document.getElementById('fact-sun-art').innerHTML =
+        sunDiagram(bow.sunElevation, { width: 116, height: 62 });
+      set('fact-sun', bow.sunElevation + '° up');
+      const headroom = BOW_CEILING_DEG - bow.sunElevation;
+      set('fact-sun-note', headroom >= 20
+        ? 'Well under the ' + BOW_CEILING_DEG + ' degree ceiling, so the bow stands tall.'
+        : 'Under the ' + BOW_CEILING_DEG + ' degree ceiling by ' + headroom + ' degrees, so the arc sits low.');
+      document.getElementById('fact-sun-cell').hidden = false;
+    }
+
+    document.getElementById('live-week').innerHTML = best.days.map((d, i) =>
+      '<div class="wk-day' + (i === 0 ? ' wk-today' : '') + '">'
+      + '<span class="wk-k">' + (i === 0 ? 'Today' : d.weekday) + '</span>'
+      + '<span class="wk-v lv-' + d.level + '">'
+      + (d.probability != null ? d.probability + '%' : d.score + '/100') + '</span>'
+      + '<span class="wk-w lv-' + d.level + '">' + (WORD[d.level] || d.level) + '</span>'
+      + '</div>').join('');
+
+    // How old the reading is, and where it came from. This page has no refresh
+    // control on purpose: it falls back to computing in the browser, so it is
+    // almost never empty, and the honest thing it lacks is not a button but a
+    // line saying how current the number above actually is.
+    const ageMs = Date.now() - Date.parse(data.generatedAt);
+    const aged = !Number.isFinite(ageMs) || ageMs > STALE_AFTER_MS;
+    const freshnessEl = document.getElementById('live-freshness');
+    freshnessEl.textContent = source === 'device'
+      ? 'Computed in this browser just now, because the shared forecast did not answer'
+      : aged
+        ? 'Last updated ' + agoLabel(ageMs) + '. Open the map for a current reading'
+        : 'Updated ' + agoLabel(ageMs);
+    freshnessEl.classList.toggle('caution', aged && source !== 'device');
+    freshnessEl.hidden = false;
+  } catch (err) {
+    // Nothing to read, so the reading column goes rather than standing there as
+    // an empty frame around an eyebrow. One honest sentence is the whole state.
+    // Offline is named as offline: "loading slowly" describes a wait that will
+    // end on its own, and with no connection this one will not.
+    document.querySelector('.city-reading').hidden = true;
+    document.getElementById('live-sub').textContent = navigator.onLine === false
+      ? 'This device is offline, so the sky could not be read. The forecast returns with the connection.'
+      : "Today's peak forecast is loading slowly. Open the map for the current forecast.";
+    console.warn(err);
+  }
+</script>
+<script type="module">import { initThemeToggles } from '../theme.js'; initThemeToggles();</script>
+</body>
+</html>

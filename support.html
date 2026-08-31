@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#12151b" />
+  <title>Support · Bowcast</title>
+  <meta name="description" content="Bowcast support for forecasts, location, alerts, account-free reports, privacy, troubleshooting, and contact information." />
+  <link rel="canonical" href="https://bowcast.app/support.html" />
+  <meta property="og:title" content="Support · Bowcast" />
+  <meta property="og:description" content="Help with Bowcast forecasts, location, alerts, reports, privacy, and troubleshooting." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bowcast.app/support.html" />
+  <meta property="og:site_name" content="Bowcast" />
+  <meta property="og:image" content="https://bowcast.app/icons/bowcast-social-1200x630.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Bowcast rainbow forecast" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="preload" href="fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="fonts/fonts.css" />
+  <script>(function(){try{var t=localStorage.getItem('bowcast-theme');if(t!=='dark'&&t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --paper: #f5f2ea; --line: #d8d2c4; --ink: #232a35;
+      --muted: #5d6675; --text-low: #5b48c2;
+    }
+    body {
+      font-family: "Instrument Sans", system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      padding: 48px 20px 80px;
+    }
+    main { max-width: 620px; margin: 0 auto; }
+    h1, h2 { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; }
+    h1 { font-size: 2.2rem; margin-bottom: 4px; }
+    h2 { font-size: 1.35rem; margin: 28px 0 8px; }
+    p, li { font-size: 0.95rem; color: var(--ink); }
+    /* The reset zeroes every margin, which was invisible while each section was
+       a single paragraph. The answers below run to three. */
+    p + p { margin-top: 12px; }
+    ul + p { margin-top: 12px; }
+    ul { padding-left: 22px; margin: 8px 0; }
+    a { color: var(--text-low); }
+    .intro { color: var(--muted); margin-bottom: 28px; }
+    .rule { border: none; border-top: 1px solid var(--line); margin: 32px 0; }
+  </style>
+  <link rel="stylesheet" href="theme.css?v=12" />
+</head>
+<body>
+  <main>
+    <h1>Bowcast support</h1>
+    <p class="intro">Help with forecasts, location, alerts, reports, and privacy.</p>
+
+    <h2>It said 25% and I saw nothing</h2>
+    <p>That is the ordinary case, not a fault. 25% is a weighted average across
+    about forty forecast members, each scored on how well rain and sunlight line
+    up in the same sky at the same time. A member scoring high is a model
+    finding the ingredients, not a rainbow anyone saw.</p>
+    <p>Two more things sit between the number and the sky. The reading belongs
+    to a place and to an interval, so a shower that arrives twenty minutes late,
+    or five kilometres east, is a miss even when the forecast was sound. And a
+    rainbow is only visible if you are looking away from a low sun, which is why
+    Bowcast gives you a direction and a window rather than only a number.</p>
+    <p>The honest part: these percentages are not yet calibrated against real
+    sightings. They are labelled <strong>Estimated chance</strong> rather than
+    probability precisely because nobody has yet measured how often a Bowcast
+    25% becomes a rainbow. Telling us what you saw, or did not see, is the only
+    thing that fixes that.</p>
+
+    <h2>Why have I never received an alert?</h2>
+    <ul>
+      <li>Qualifying windows are genuinely rare in most places. Long quiet
+      stretches are the normal case, not a fault.</li>
+      <li>Alerts fire at your chosen threshold. The app defaults to 25% and lets
+      you set anything from 5% to 95%.</li>
+      <li>Only a fresh Estimated chance qualifies. A Conditions score /100, a
+      saved forecast and a stale forecast never trigger an alert.</li>
+      <li>Confirm notifications are allowed for Bowcast in device settings.</li>
+      <li>Open Bowcast online now and then so the push token can refresh.</li>
+    </ul>
+
+    <h2>Why a percentage sometimes and a score out of 100 other times?</h2>
+    <p>They are two different measurements, and the label tells you which one
+    you are reading.</p>
+    <p><strong>Estimated chance</strong> is a weighted average across about
+    forty ensemble members, each scored on how well sunlit rain lines up.
+    <strong>Conditions score /100</strong> is
+    the fallback, used when the ensemble does not answer. It ranks how favourable
+    conditions look, it is not a chance, and it never carries a percent sign. If
+    you are seeing a score out of 100, the ensemble was unavailable for that
+    place at that moment.</p>
+
+    <h2>Why does it want my location?</h2>
+    <p>To know which sky to read. Bowcast rounds your position to about a
+    kilometre before it asks for a forecast, so what leaves your phone is an
+    area rather than an address. It travels with no name, no account and no
+    advertising identifier.</p>
+    <p>Access is foreground only. Bowcast never asks for background location.
+    You can skip the permission entirely and search for a place instead. There
+    is deliberately no default city: a confident forecast for somewhere you are
+    not is worse than no forecast.</p>
+
+    <h2>How do I delete my data?</h2>
+    <ul>
+      <li>Turning alerts off requests deletion of your registration from the
+      server.</li>
+      <li>Removing the app deletes saved forecasts, preferences and any unsent
+      reports held on the device.</li>
+      <li>Seen and Not seen reports are account-free and carry no direct account
+      or device identifier. Each one has a random report ID. If you kept that
+      ID, email it and we will delete that report, and it will be excluded when
+      the model is next trained.</li>
+    </ul>
+    <p>The <a href="privacy.html">privacy policy</a> is the full account of what
+    is stored and for how long.</p>
+
+    <h2>Forecast will not load</h2>
+    <p>Check your network connection, then try again. After one successful
+    request, the app can show its last saved forecast with an explicit saved,
+    offline, or stale label rather than a blank screen.</p>
+
+    <h2>Contact</h2>
+    <p>Email <a href="mailto:i@shamseddin.net">i@shamseddin.net</a>. Include
+    the app version, device model, and a short description of what happened.
+    Do not include an exact location or push token.</p>
+
+    <hr class="rule" />
+    <p><a href="./">Back to Bowcast</a></p>
+  </main>
+</body>
+</html>

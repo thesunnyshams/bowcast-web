@@ -1,0 +1,22 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": null,
+  "functions": {
+    "api/push/check.js": { "maxDuration": 300 }
+  },
+  "crons": [
+    { "path": "/api/push/check", "schedule": "*/15 * * * *" }
+  ],
+  "redirects": [
+    { "source": "/ar", "destination": "/", "permanent": true },
+    { "source": "/es", "destination": "/", "permanent": true },
+    { "source": "/fr", "destination": "/", "permanent": true },
+    { "source": "/de", "destination": "/", "permanent": true },
+    { "source": "/ar/:path(.*)", "destination": "/:path", "permanent": true },
+    { "source": "/es/:path(.*)", "destination": "/:path", "permanent": true },
+    { "source": "/fr/:path(.*)", "destination": "/:path", "permanent": true },
+    { "source": "/de/:path(.*)", "destination": "/:path", "permanent": true },
+    { "source": "/learn/:path(.*)", "destination": "/science/", "permanent": false }
+  ]
+}

@@ -1,0 +1,263 @@
+{
+  "_generatedAt": "2026-07-08T17:31:40.714Z",
+  "honolulu": {
+    "id": 1744118622,
+    "title": "Honolulu: Park shore"
+  },
+  "hilo": {
+    "id": 1359482860,
+    "title": "Mountain View CDP: Kīlauea volcano Puʻu ʻŌʻō east flank"
+  },
+  "lihue": {
+    "id": 1401526406,
+    "title": "Niumalu › South: Kalapaki Beach - Kuki'i Point Lighthouse - Nawiliwili Bay"
+  },
+  "kahului": {
+    "id": 1667920475,
+    "title": "Kihei"
+  },
+  "san-juan": {
+    "id": 1745668688,
+    "title": "Río Piedras › East"
+  },
+  "papeete": {
+    "id": 1548244732,
+    "title": "Hitiaa O Te Ra › North: Fa'a'ā International Airport"
+  },
+  "dublin": {
+    "id": 1613986305,
+    "title": "Dublin › West: GPO Museum"
+  },
+  "galway": {
+    "id": 1607328816,
+    "title": "Galway"
+  },
+  "cork": {
+    "id": 1793907995,
+    "title": "Ballincollig - Carrigaline › South-east: Ringaskiddy Ferry Terminal"
+  },
+  "belfast": {
+    "id": 1676709389,
+    "title": "Dundonald"
+  },
+  "glasgow": {
+    "id": 1616032183,
+    "title": "Glasgow › South: University of Glasgow Library - University of Glasgow"
+  },
+  "edinburgh": {
+    "id": 1695732973,
+    "title": "Piraeus: Viking Cruises - Saturn"
+  },
+  "fort-william": {
+    "id": 1611053945,
+    "title": "Fort William › East"
+  },
+  "cardiff": {
+    "id": 1793900761,
+    "title": "Penarth: Cardiff Bay"
+  },
+  "manchester": {
+    "id": 1659198642,
+    "title": "Salford › North: Manchester Barton Aerodrome"
+  },
+  "london": {
+    "id": 1508413740,
+    "title": "London: Charing Cross Rd/Cranbourne St"
+  },
+  "bergen": {
+    "id": 1224459622,
+    "title": "Bergen › North: Den blå steinen - Wild Wild West - Torgallmenningen"
+  },
+  "stavanger": {
+    "id": 1700607968,
+    "title": "Valand: Kiellandsmyra"
+  },
+  "torshavn": {
+    "id": 1614500121,
+    "title": "Tórshavn › North-east: Tórshavn Yacht Harbor"
+  },
+  "victoria-bc": {
+    "id": 1649931129,
+    "title": "Victoria: Victoria Harbour"
+  },
+  "vancouver": {
+    "id": 1512058107,
+    "title": "Vancouver › South: Georgia Street at Chilco, looking south"
+  },
+  "tofino": {
+    "id": 1673897463,
+    "title": "Area C › South: Highway 4 at Ucluelet-Tofino Highway junction, looking south towards Ucluelet"
+  },
+  "seattle": {
+    "id": 1459258150,
+    "title": "Seattle: I-5 at MP 165.7: University St Ramp"
+  },
+  "portland": {
+    "id": 1746048039,
+    "title": "Portland: Downtown: I-405 at SW Alder"
+  },
+  "ponta-delgada": {
+    "id": 1566429407,
+    "title": "Vila do Porto › South: Clube Naval Santa Maria: Marina de"
+  },
+  "funchal": {
+    "id": 1277987702,
+    "title": "Santa Luzia › South-west: Madeira Webcam"
+  },
+  "las-palmas": {
+    "id": 1687952153,
+    "title": "Las Palmas de Gran Canaria › North: La Cícer (Playa de Las Canteras) - El Burro"
+  },
+  "reykjavik": {
+    "id": 1545635591,
+    "title": "Reykjavik: Harbour - Miðbakki"
+  },
+  "auckland": {
+    "id": 1793906973,
+    "title": "Waitematā: Viaduct Harbour"
+  },
+  "wellington": {
+    "id": 1699476647,
+    "title": "Wellington Central › South: SH1 Clifton Terrace"
+  },
+  "christchurch": {
+    "id": 1475827765,
+    "title": "Christchurch › South: SH76 Burlington St"
+  },
+  "queenstown": {
+    "id": 1475827902,
+    "title": "Jacks Point › East: SH6A Queenstown Nth"
+  },
+  "victoria-falls": {
+    "id": 1793904690,
+    "title": "Kasane › North: Chobe River"
+  },
+  "iguazu-falls": {
+    "id": 1746323357,
+    "title": "Presidente Franco › North-east"
+  },
+  "niagara-falls": {
+    "id": 1761335903,
+    "title": "Niagara Falls › West: Highway 420 at Stanley Avenue, Looking West"
+  },
+  "singapore": {
+    "id": 1369190454,
+    "title": "Singapore: Midview City CCTV Live View"
+  },
+  "kuala-lumpur": {
+    "id": 1793882188,
+    "title": "Petaling Jaya"
+  },
+  "bangkok": {
+    "id": 1720601882,
+    "title": "Wachira Phayaban Subdistrict: Saphan Krung Thon (Sang Hee)"
+  },
+  "manila": {
+    "id": 1697445488,
+    "title": "Navotas › South: Paco - Obando"
+  },
+  "mumbai": {
+    "id": 1662455177,
+    "title": "Kopra Village › South"
+  },
+  "hong-kong": {
+    "id": 1597161742,
+    "title": "Hong Kong › North"
+  },
+  "taipei": {
+    "id": 1793901187,
+    "title": "Taipei › South"
+  },
+  "cairns": {
+    "id": 1315553584,
+    "title": "Cairns › South: Woree"
+  },
+  "brisbane": {
+    "id": 1301134779,
+    "title": "Brisbane City › North-west: Woolloongabba"
+  },
+  "miami": {
+    "id": 1793903458,
+    "title": "Miami"
+  },
+  "new-orleans": {
+    "id": 1604839172,
+    "title": "New Orleans: French Quarter: US 90 at Claiborne Ramp"
+  },
+  "rio-de-janeiro": {
+    "id": 1662981874,
+    "title": "Mangaratiba › South"
+  },
+  "bogota": {
+    "id": 1793906875,
+    "title": "Localidad Teusaquillo › South"
+  },
+  "san-jose-cr": {
+    "id": 1743807194,
+    "title": "Oriental › North: Cartago"
+  },
+  "panama-city": {
+    "id": 1631913277,
+    "title": "Arraijan › South-west: Cocolí Locks (Panama Canal expansion)"
+  },
+  "nairobi": {
+    "id": 1723730357,
+    "title": "Nairobi › East: Wilson Airport"
+  },
+  "tokyo": {
+    "id": 1793907416,
+    "title": "Shinjuku"
+  },
+  "sydney": {
+    "id": 1380813004,
+    "title": "Sydney: Australia, New South Wales - William St"
+  },
+  "cape-town": {
+    "id": 1696337816,
+    "title": "Cape Town Ward 77: Table Mountain"
+  },
+  "zurich": {
+    "id": 1697040352,
+    "title": "Zurich: Lindenhof: Zürich Stadthaus"
+  },
+  "munich": {
+    "id": 1621036369,
+    "title": "Munich: Marienplatz - Altes Rathaus"
+  },
+  "salzburg": {
+    "id": 1437748774,
+    "title": "Salzburg: Schloss Mirabell, Untersberg"
+  },
+  "amsterdam": {
+    "id": 1508623861,
+    "title": "Amsterdam: harbour, Netherlands"
+  },
+  "paris": {
+    "id": 1515017464,
+    "title": "Paris: Quartier Saint-Merri › North-west: Chapelle de Saint Symphorien - Eiffel Tower"
+  },
+  "new-york": {
+    "id": 1793878181,
+    "title": "New York"
+  },
+  "chicago": {
+    "id": 1624255665,
+    "title": "Chicago › North: South Rose Garden - Lake Michigan - South Loop - Magma by Mark di Suvero - Clarence F. Buckingham Memorial Fountain"
+  },
+  "denver": {
+    "id": 1640910086,
+    "title": "Denver: Downtown Denver"
+  },
+  "san-francisco": {
+    "id": 1596825674,
+    "title": "San Francisco › South: TV303 - US-101 : S101 at S Van Ness Av"
+  },
+  "toronto": {
+    "id": 1731956255,
+    "title": "Old Toronto: South Core: Lake Shore Boulevard near Yonge Street"
+  },
+  "montreal": {
+    "id": 1754416472,
+    "title": "Montreal: Port of Montreal Tower"
+  }
+}
