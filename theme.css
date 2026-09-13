@@ -1,0 +1,254 @@
+/*
+ * Bowcast theme layer: dark-mode token overrides.
+ *
+ * The light tokens live in each page's base stylesheet (styles.css /
+ * landing.css). This file only swaps their VALUES when data-theme="dark" is set
+ * on <html> (by the inline theme-init script, before first paint). Same
+ * variable names, two temperatures: light is the paper almanac, dark is the
+ * dusk instrument, checked when rainbows actually happen.
+ *
+ * Load this AFTER the page's base stylesheet so the overrides win.
+ */
+
+/*
+ * Shared tokens introduced by the redesign. These names are new, so defining
+ * them here (loaded after styles.css / landing.css) adds to the base palettes
+ * rather than overriding them. Values below are the light temperature; the dark
+ * block that follows swaps them.
+ *
+ * The elevation ladder replaces outlined cards: one light source, above, so a
+ * surface separates by a tonal step plus an inset top highlight, never a border.
+ */
+:root {
+  --sans: "Instrument Sans", system-ui, -apple-system, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --line-soft: #e6e0d3;
+
+  --s0: #ece7db;  /* recessed: page chrome, footers, the watch band */
+  --s1: #fbf9f4;  /* raised once: figure panels, quiet blocks */
+  --s2: #fbf9f4;  /* raised twice: plaques, pills, controls */
+  --s3: #ffffff;  /* raised three times: instrument panels, bar tracks */
+  --hair: rgba(35, 42, 53, .12);
+
+  --sh-1: inset 0 1px 0 rgba(255, 255, 255, .9), 0 8px 18px -12px rgba(35, 42, 53, .35);
+  --sh-2: inset 0 1px 0 rgba(255, 255, 255, .9), 0 22px 44px -24px rgba(35, 42, 53, .4);
+  --sh-3: inset 0 1px 0 rgba(255, 255, 255, .9), 0 40px 80px -34px rgba(35, 42, 53, .45);
+  --sh-in: inset 0 2px 6px rgba(35, 42, 53, .18);
+
+  --r-panel: 12px;
+  --r-chip: 999px;
+
+  /* The live map's OSM raster tiles, filtered into the palette. Swapping this
+     token reskins the basemap without refetching a single tile. */
+  --tiles: grayscale(.6) sepia(.2) brightness(1.03) contrast(.9) saturate(.72);
+  --scrim: linear-gradient(90deg, rgba(236, 231, 219, .97) 0%, rgba(236, 231, 219, .92) 62%, rgba(236, 231, 219, 0) 100%);
+
+  /* One easing for the whole system. */
+  --ease: cubic-bezier(.22, .86, .24, 1);
+}
+
+:root[data-theme="dark"] {
+  --paper:   #12151b;
+  --paper-2: #191d26;
+  --plaque:  #1d222d;
+  --line:    #2f3644;
+  --line-soft: #262c37;
+  --ink:     #ece7db;
+  --ink-soft: #cfc9bd;
+  --muted:   #98a1b2;
+  --coral:   #ec7d6f;
+
+  --color-none:     #8b8578;
+  --color-low:      #9585ee;
+  --color-moderate: #46b8a6;
+  --color-good:     #edb350;
+  --color-high:     #ec7d6f;
+
+  --text-none:     #b3ac9d;
+  --text-low:      #b3a6f5;
+  --text-moderate: #67cbba;
+  --text-good:     #f2c06e;
+  --text-high:     #f2948a;
+
+  --chip-none:     #292a29;
+  --chip-low:      #29263b;
+  --chip-moderate: #213632;
+  --chip-good:     #3b3220;
+  --chip-high:     #3c2727;
+
+  --violet: #9585ee;
+  --teal:   #46b8a6;
+  --amber:  #edb350;
+  --red:    #ec7d6f;
+  --accent: #9585ee;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, .45), 0 1px 2px rgba(0, 0, 0, .35);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, .55);
+
+  --tiles: invert(1) hue-rotate(192deg) brightness(.9) contrast(.84) saturate(.3) sepia(.14);
+  --scrim: linear-gradient(90deg, rgba(13, 16, 21, .96) 0%, rgba(13, 16, 21, .9) 62%, rgba(13, 16, 21, 0) 100%);
+
+  --s0: #0d1015;
+  --s1: #171b23;
+  --s2: #1d222d;
+  --s3: #232936;
+  --hair: rgba(236, 231, 219, .07);
+
+  --sh-1: inset 0 1px 0 rgba(236, 231, 219, .05), 0 10px 22px -14px rgba(0, 0, 0, .75);
+  --sh-2: inset 0 1px 0 rgba(236, 231, 219, .07), 0 26px 50px -24px rgba(0, 0, 0, .85);
+  --sh-3: inset 0 1px 0 rgba(236, 231, 219, .09), 0 44px 90px -32px rgba(0, 0, 0, .95);
+  --sh-in: inset 0 2px 6px rgba(0, 0, 0, .55);
+}
+
+/* The page background follows the theme with a gentle cross-fade. */
+html { background: var(--paper); transition: background .4s ease; }
+
+::selection { background: color-mix(in srgb, var(--accent) 30%, transparent); }
+
+/* ── Theme toggle switch ─────────────────────────────────── */
+.theme-toggle {
+  position: relative; width: 62px; height: 34px; flex-shrink: 0;
+  border-radius: 999px; border: 1px solid var(--line); background: var(--paper-2);
+  cursor: pointer; padding: 0;
+}
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* The switch is drawn at 34px because that is the size the pill wants to be.
+   This overlay carries the target out to 44px without touching the drawing. */
+.theme-toggle::after { content: ""; position: absolute; inset: -6px; }
+.theme-toggle .tt-icon {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  color: var(--muted); display: flex;
+}
+.theme-toggle .tt-sun { left: 9px; }
+.theme-toggle .tt-moon { right: 9px; }
+.theme-toggle .tt-knob {
+  position: absolute; top: 3px; left: 3px; width: 26px; height: 26px;
+  border-radius: 50%; background: var(--plaque); box-shadow: var(--shadow-sm);
+  display: flex; align-items: center; justify-content: center; color: var(--accent);
+  /* Was `transition: left`, which puts the knob's travel through layout on
+     every frame. Same 30px of movement (3px to 33px), composited instead. */
+  transition: transform .26s cubic-bezier(.22, .61, .36, 1);
+}
+:root[data-theme="dark"] .theme-toggle .tt-knob { transform: translateX(30px); }
+
+/* Compact icon variant for dense headers (map, content pages). */
+.theme-mini {
+  background: transparent; border: 1px solid var(--line); border-radius: 9px;
+  cursor: pointer; color: var(--ink); line-height: 1;
+  min-width: 44px; min-height: 44px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.theme-mini:hover { background: var(--paper-2); }
+.theme-mini:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── The live dot ────────────────────────────────────────────
+   Shared by the landing, the map panel and the Now watch band. It breathes
+   while a feed is live and goes quiet by dropping the animation. */
+.live-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+  flex-shrink: 0;
+  animation: bc-live 3.6s ease-in-out infinite;
+}
+.live-dot.quiet { animation: none; background: var(--line); box-shadow: none; }
+@keyframes bc-live {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .45; transform: scale(.82); }
+}
+
+/* ── BowGauge ────────────────────────────────────────────────
+   Markup comes from bowgauge.js. Each animated element is rendered at its FINAL
+   value and animated from zero, so the markup is inert and correct whenever the
+   sweep does not run: reduced motion, print, a stylesheet that failed to load,
+   or a tab that was opened in the background. That last case is why the sweep
+   hangs off .motion-ready below rather than applying unconditionally.
+   --bg-delay staggers instances; --bg-angle is the needle's settled rotation. */
+.bg {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Stated rather than inferred. `height: auto` on a replaced SVG leans on the
+     viewBox for an intrinsic ratio, and WebKit has long resolved that to zero
+     for an inline SVG sized from its container, which collapses the dial to an
+     invisible 0px band that reads as an image that failed to load. The ratio is
+     the viewBox's own 200x128, so declaring it costs nothing and removes the
+     dependency on that inference. */
+  aspect-ratio: 200 / 128;
+  overflow: visible;
+  --bg-delay: 0ms;
+}
+.bg[width] { width: auto; }
+.bg-numerals {
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: .06em;
+}
+/* The spectral halo carries more opacity on light paper, where it has less
+   contrast to work with. */
+.bg-halo { opacity: .8; }
+:root[data-theme="dark"] .bg-halo { opacity: .55; }
+.bg-arm {
+  transform: rotate(var(--bg-angle, 0deg));
+  transform-box: view-box;
+  transform-origin: 100px 102px;
+}
+/* The sweep is attached only once theme.js confirms the page has painted a
+   frame (see armLoadSweeps). `both` renders the `from` keyframe before the
+   animation starts, so on a page that never gets a frame, an unconditional
+   rule leaves every dial empty rather than merely un-animated. Gating on the
+   class is what makes the markup genuinely inert: no class, no animation, and
+   the settled reading in the markup is what paints. */
+.motion-ready .bg-arm {
+  animation: bg-sweep-arm 1150ms var(--ease) calc(90ms + var(--bg-delay)) both;
+}
+.motion-ready .bg-fill {
+  animation: bg-sweep-fill 1000ms var(--ease) calc(90ms + var(--bg-delay)) both;
+}
+/* No `to` frame: the animation resolves to each element's own computed
+   value, which is the settled reading. */
+@keyframes bg-sweep-fill {
+  from { stroke-dashoffset: 251.33; }
+}
+@keyframes bg-sweep-arm {
+  from { transform: rotate(0deg); }
+}
+
+/* The optional printed reading below the dial. */
+.bg-readout {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 8px;
+  font-family: var(--font, var(--sans));
+}
+.bg-readout-text { text-align: center; line-height: 1; }
+.bg-value {
+  font-family: var(--display); font-size: 30px; letter-spacing: -.01em;
+  font-variant-numeric: tabular-nums;
+}
+.bg-caption {
+  font-size: 11px; color: var(--muted); margin-top: 5px;
+  letter-spacing: .06em; text-transform: uppercase;
+}
+
+/* ── Reduced motion ────────────────────────────────────────
+   This lives in theme.css because theme.css is the one stylesheet every page
+   loads. Naming individual selectors is how the gap appeared in the first
+   place: landing.css, science.css and this file each honoured the preference
+   while styles.css, carrying the map's 17 transitions and both indefinite
+   spinners, honoured none of it. A blanket rule cannot be forgotten by the next
+   page or the next component.
+
+   Durations collapse rather than being removed, so anything waiting on
+   transitionend still hears it (install-prompt.js does, with its own 400ms
+   fallback). The delay collapses too: the gauges animate from an empty arc with
+   fill-mode `both`, so a surviving delay would leave the dial blank for its
+   duration instead of showing the reading straight away. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

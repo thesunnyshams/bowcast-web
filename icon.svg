@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Bowcast">
+  <defs>
+    <clipPath id="sky"><rect x="0" y="0" width="256" height="167"/></clipPath>
+  </defs>
+  <rect x="0" y="0" width="256" height="256" fill="#242a36"/>
+  <g clip-path="url(#sky)" fill="none" stroke-width="12">
+    <circle cx="128" cy="155" r="77.5" stroke="#7366cf"/>
+    <circle cx="128" cy="155" r="54.5" stroke="#309487"/>
+    <circle cx="128" cy="155" r="31.5" stroke="#da9c2b"/>
+  </g>
+  <rect x="35" y="167" width="186" height="11" fill="#f5f1e8"/>
+</svg>
