@@ -1,4 +1,7 @@
 {
   "type": "module",
-  "dependencies": { "firebase-admin": "^14.1.0" }
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0",
+    "firebase-admin": "^14.1.0"
+  }
 }
