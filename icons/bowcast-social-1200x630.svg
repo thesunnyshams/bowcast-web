@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Bowcast worldwide rainbow forecast</title>
+  <desc id="desc">Know when the light will bend. A dark card carrying Bowcast's bow gauge at an example reading of 38 percent estimated chance, spread 22 to 54.</desc>
+
+  <!--
+    Source for icons/bowcast-social-1200x630.png, the Open Graph and Twitter card.
+    The dial is the markup bowGaugeSVG({ value: 38, display: 'chance', variant: 'l',
+    spreadLow: 22, spreadHigh: 54 }) emits, pasted verbatim, so the card cannot
+    drift from the instrument the site actually draws. The tokens below are the
+    dark theme's, copied from theme.css, because a standalone file has no
+    :root[data-theme] to inherit from.
+
+    The fonts are referenced relatively so this file renders correctly when opened
+    from the site. The PNG is produced by embedding those same faces as data URIs
+    (an SVG loaded as an image cannot fetch external resources) and drawing the
+    result to a canvas at 1200x630.
+  -->
+
+  <style>
+    @font-face { font-family: 'Instrument Serif'; font-style: normal; font-weight: 400; src: url('../fonts/instrument-serif-latin.woff2') format('woff2'); }
+    @font-face { font-family: 'Instrument Serif'; font-style: italic; font-weight: 400; src: url('../fonts/instrument-serif-italic-latin.woff2') format('woff2'); }
+    @font-face { font-family: 'Instrument Sans'; font-style: normal; font-weight: 400 700; src: url('../fonts/instrument-sans-latin.woff2') format('woff2'); }
+
+    svg {
+      --paper: #12151b; --line: #2f3644; --ink: #ece7db; --muted: #98a1b2;
+      --color-good: #edb350; --text-good: #f2c06e;
+      --violet: #9585ee; --teal: #46b8a6; --amber: #edb350; --red: #ec7d6f;
+      color: #ece7db;
+    }
+    .sans { font-family: 'Instrument Sans', system-ui, sans-serif; }
+    .serif { font-family: 'Instrument Serif', Georgia, serif; }
+    .micro { font-size: 14px; font-weight: 600; letter-spacing: 1.9px; }
+    .h1 { font-size: 86px; letter-spacing: -2px; fill: #ece7db; }
+    .lede { font-size: 21px; fill: #98a1b2; }
+    .stat { font-size: 40px; fill: #ece7db; }
+    .cap { font-size: 13px; letter-spacing: 1.8px; fill: #98a1b2; }
+
+    /* From theme.css: the dial's numerals, and the arm's settled rotation. The
+       load sweep is gated behind .motion-ready, so the static markup already
+       carries the reading. */
+    .bg-numerals { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 8px; letter-spacing: .06em; }
+    .bg-halo { opacity: .55; }
+    .bg-arm { transform: rotate(var(--bg-angle, 0deg)); transform-box: view-box; transform-origin: 100px 102px; }
+  </style>
+
+  <defs>
+    <!-- The spectral rule, and the one typographic use of the spectrum. Both are
+         userSpaceOnUse: the gradient has to span the word, not the text element
+         that contains it. -->
+    <linearGradient id="horizon" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="0">
+      <stop offset="0" stop-color="#9585ee" stop-opacity="0"/>
+      <stop offset="0.14" stop-color="#9585ee"/>
+      <stop offset="0.42" stop-color="#46b8a6"/>
+      <stop offset="0.68" stop-color="#edb350"/>
+      <stop offset="0.88" stop-color="#ec7d6f"/>
+      <stop offset="1" stop-color="#ec7d6f" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="spectrum" gradientUnits="userSpaceOnUse" x1="327" y1="380" x2="488" y2="366">
+      <stop offset="0.06" stop-color="#ec7d6f"/>
+      <stop offset="0.32" stop-color="#edb350"/>
+      <stop offset="0.62" stop-color="#46b8a6"/>
+      <stop offset="0.94" stop-color="#9585ee"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#12151b"/>
+  <rect y="470" width="1200" height="160" fill="#0d1015"/>
+
+  <!-- HEADER -->
+  <g transform="translate(76 62)">
+    <path d="M2 33H70" stroke="#ece7db" stroke-width="3"/>
+    <path d="M6 33A30 30 0 0 1 66 33" fill="none" stroke="#9585ee" stroke-width="7"/>
+    <path d="M14 33A22 22 0 0 1 58 33" fill="none" stroke="#46b8a6" stroke-width="7"/>
+    <path d="M22 33A14 14 0 0 1 50 33" fill="none" stroke="#edb350" stroke-width="7"/>
+  </g>
+  <text class="serif" x="164" y="96" fill="#ece7db" font-size="36">Bowcast</text>
+  <text class="sans" x="1124" y="95" text-anchor="end" fill="#9585ee" font-size="20" font-weight="600">bowcast.app</text>
+
+  <!-- HEADLINE -->
+  <line x1="76" y1="190" x2="104" y2="190" stroke="#9585ee" stroke-width="2"/>
+  <text class="sans micro" x="118" y="196" fill="#9585ee">WORLDWIDE RAINBOW FORECAST</text>
+  <text class="serif h1" x="76" y="290">Know when the</text>
+  <text class="serif h1" x="76" y="372">light will <tspan id="spectral-word" font-style="italic" fill="url(#spectrum)">bend.</tspan></text>
+  <text class="sans lede" x="76" y="424">Hourly estimated chances of a rainbow,</text>
+  <text class="sans lede" x="76" y="452">seven days out, anywhere on Earth.</text>
+
+  <!-- EXAMPLE READING. The dial's own baseline lands on the horizon rule, which
+       is how the site uses it: the instrument rests on the page's horizon. -->
+  <text class="sans micro" x="700" y="236" fill="#98a1b2">EXAMPLE READING</text>
+  <rect x="1048" y="214" width="76" height="30" rx="15" fill="#3b3220"/>
+  <text class="sans micro" x="1086" y="234" text-anchor="middle" fill="#f2c06e">GOOD</text>
+
+  <!-- overflow="visible" is what theme.css gives .bg: the 10 and 45 numerals sit
+       just outside the 200x128 viewBox and a nested viewport would clip them. -->
+  <svg class="bg bg-l" x="700" y="255.8" width="420" height="268.8" viewBox="0 0 200 128" overflow="visible" role="img" aria-label="Estimated chance: 38%, good">
+    <defs><linearGradient id="bg-halo-1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="var(--violet, #8574e4)"></stop><stop offset="0.34" stop-color="var(--teal, #3aab9d)"></stop><stop offset="0.66" stop-color="var(--amber, #e5a93f)"></stop><stop offset="1" stop-color="var(--red, #de6363)"></stop></linearGradient></defs>
+    <line x1="12" y1="102" x2="188" y2="102" stroke="var(--ink, currentColor)" stroke-width="1" opacity="0.3"></line>
+    <path class="bg-halo" d="M 11 102 A 89 89 0 0 1 189 102" fill="none" stroke="url(#bg-halo-1)" stroke-width="1.5"></path>
+    <path d="M 20 102 A 80 80 0 0 1 180 102" fill="none" stroke="var(--line, #84898f)" stroke-width="13" stroke-linecap="butt" opacity="0.85"></path>
+    <path d="M 20 102 A 80 80 0 0 1 180 102" fill="none" stroke="var(--color-good, #e5a93f)" stroke-width="22" stroke-linecap="butt" opacity="0.2" stroke-dasharray="80.43 251.33" stroke-dashoffset="-55.29"></path>
+    <path class="bg-fill" d="M 20 102 A 80 80 0 0 1 180 102" fill="none" stroke="var(--color-good, #e5a93f)" stroke-width="13" stroke-linecap="butt" stroke-dasharray="251.33" stroke-dashoffset="155.82"></path>
+    <g stroke="var(--bg-tick, var(--paper, #84898f))" stroke-width="2" opacity="0.9"><line x1="32.47" y1="80.06" x2="15.36" y2="74.5"></line><line x1="49.8" y1="51.8" x2="37.07" y2="39.07"></line><line x1="88.89" y1="31.87" x2="86.08" y2="14.1"></line></g>
+    <g class="bg-numerals"><text x="2" y="113" text-anchor="start" fill="var(--muted, #84898f)">0</text><text x="1.09" y="72.86" text-anchor="middle" fill="var(--muted, #84898f)">10</text><text x="26.46" y="31.46" text-anchor="middle" fill="var(--muted, #84898f)">25</text><text x="83.73" y="2.28" text-anchor="middle" fill="var(--muted, #84898f)">45</text><text x="198" y="113" text-anchor="end" fill="var(--muted, #84898f)">100</text></g>
+    <g class="bg-arm" style="--bg-angle:68.4deg">
+      <line x1="102" y1="102" x2="26" y2="102" stroke="var(--ink, currentColor)" stroke-width="2.6" stroke-linecap="round"></line>
+      <circle cx="26" cy="102" r="6.5" fill="var(--color-good, #e5a93f)" stroke="var(--paper, #84898f)" stroke-width="1.2"></circle>
+    </g>
+    <circle cx="100" cy="102" r="7" fill="var(--paper, #84898f)" stroke="var(--ink, currentColor)" stroke-width="1.4"></circle>
+    <circle cx="100" cy="102" r="2.6" fill="var(--ink, currentColor)"></circle>
+  </svg>
+
+  <!-- THE HORIZON -->
+  <rect x="0" y="469" width="1200" height="2" fill="url(#horizon)"/>
+
+  <!-- BELOW THE HORIZON: what the site counts, and what the dial reads. -->
+  <text class="serif stat" x="76" y="548">66</text>
+  <text class="sans cap" x="76" y="575">CITIES TRACKED LIVE</text>
+  <text class="serif stat" x="316" y="548">7 days</text>
+  <text class="sans cap" x="316" y="575">HOURLY OUTLOOK</text>
+  <text class="serif stat" x="556" y="548">0</text>
+  <text class="sans cap" x="556" y="575">TRACKERS, ACCOUNTS</text>
+
+  <text class="serif" x="826" y="566" fill="#f2c06e" font-size="78">38<tspan font-size="38" dy="-16">%</tspan></text>
+  <text class="sans cap" x="1124" y="548" text-anchor="end">ESTIMATED CHANCE</text>
+  <text class="sans" x="1124" y="575" text-anchor="end" fill="#f2c06e" font-size="18">22&#8211;54</text>
+</svg>
